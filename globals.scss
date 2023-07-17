@@ -1,0 +1,39 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+/* make page width and height 100% */
+@layer base {
+  html,
+  body,
+  #__next {
+    @apply h-full w-full;
+  }
+}
+
+/* Works on Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: hsla(0, 0%, 100%, 0.3) #171717;
+}
+
+/* Works on Chrome, Edge, and Safari */
+*::-webkit-scrollbar {
+  width: 1rem;
+}
+
+*::-webkit-scrollbar-track {
+  background: #171717;
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: hsla(0, 0%, 100%, 0.3);
+  border: 3px solid #171717;
+}
+
+//  audio player styling
+$rhap_theme-color: #f2e9e4 !default;
+$rhap_bar-color: #2563eb !default;
+$rhap_background-color: #333C4A !default;
+@import 'react-h5-audio-player/src/styles.scss';
