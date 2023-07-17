@@ -44,8 +44,8 @@ function Step1() {
   };
 
   return (
-    <main className="col-start-3 col-end-13 row-start-1 row-end-7 flex flex-col items-center justify-center rounded-2xl bg-gradient-to-r from-gray-700 via-gray-900 to-black">
-      <h2 className="text-2xl font-semibold text-blue-500 py-4">
+    <main className="col-start-3 col-end-13 row-start-1 row-end-7 flex flex-col items-center justify-center bg-slate-900">
+      <h2 className="text-2xl font-semibold text-indigo-500 py-4">
         Cover picture
       </h2>
       <p className="text-center pt-4">
@@ -54,7 +54,7 @@ function Step1() {
           UPLOAD
         </span>{" "}
         button or hit the{" "}
-        <span className="underline underline-offset-2 text-blue-500 font-semibold">
+        <span className="underline underline-offset-2 text-indigo-500 font-semibold">
           NEXT
         </span>{" "}
         button to skip
@@ -67,7 +67,7 @@ function Step1() {
         onSubmit={handleSubmit(formSubmit)}
       >
         <div className="flex items-center justify-evenly gap-5">
-          <div className="flex gap-5 items-center border-[0.5px] border-gray-500 px-5 py-3 rounded-full">
+          <div className="flex gap-5 items-center border-[0.5px] border-indigo-500 px-5 py-3 rounded-full">
             <p className="text-2xl">Upload image</p>
             <FontAwesomeIcon icon={icons.upload} size="xl" />
             <CloudUpload
@@ -78,7 +78,7 @@ function Step1() {
             />
           </div>
         </div>
-        <div className="w-300 h-300 border-2 border-dotted border-gray-500 flex gap-6 relative">
+        <div className="w-300 h-300 border-2 border-dotted border-indigo-500 flex gap-6 relative">
           <CldImage
             width={300}
             height={300}
@@ -87,7 +87,7 @@ function Step1() {
             alt="vinyl cover"
           />
           {uploadSatus.status === "success" && (
-            <div className="flex items-center justify-center gap-4 border-[0.5px] border-blue-500 px-5 py-3 absolute w-full bg-black text-blue-500">
+            <div className="flex items-center justify-center gap-4 border-[0.5px] border-indigo-500 px-5 py-3 absolute w-full bg-black text-indigo-500">
               <p className="font-semibold">{uploadSatus.text}</p>
               <FontAwesomeIcon
                 icon={uploadSatus.icon}
@@ -108,7 +108,7 @@ function Step1() {
           )}
         </div>
         <button
-          className="px-8 py-2 bg-blue-500 rounded-full text-sm font-semibold hover:bg-blue-600 hover:text-black ring-2 ring-gray-700"
+          className="px-8 py-2 bg-indigo-500 rounded-full text-sm font-semibold hover:bg-indigo-400 hover:text-black ring-2 ring-gray-700"
           type="submit"
         >
           Next

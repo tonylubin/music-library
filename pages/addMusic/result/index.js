@@ -48,64 +48,60 @@ function Result() {
   };
 
   return (
-    <div className="col-start-3 col-end-13 row-start-1 row-end-7 flex flex-col items-center justify-center bg-gradient-to-r from-gray-700 via-gray-900 to-black">
-      <h2 className="text-2xl font-semibold text-blue-500 py-4">Result</h2>
-      <div className="border-[0.5px] border-gray-500 border-dotted w-10/12 rounded-2xl">
+    <div className="col-start-3 col-end-13 row-start-1 row-end-7 flex flex-col items-center justify-center bg-slate-900">
+      <h2 className="text-2xl font-semibold text-indigo-500 py-4">Result</h2>
+      <div className="border-[0.5px] border-indigo-500 border-dotted w-10/12 rounded-2xl">
         <form
           className="flex flex-wrap w-full"
           onSubmit={handleSubmit(formSubmit)}
         >
           <div className="flex flex-col w-7/12 items-center justify-center p-10">
-            <div className="flex flex-col w-5/6 h-full">
-              <label className="block" htmlFor="title">
-                <span className="text-lg text-blue-500">Title</span>
+            <div className="flex flex-col w-5/6 h-full gap-4">
+              <label className="flex flex-col gap-1" htmlFor="title">
+                <span className="text-lg px-3 text-slate-500">Title</span>
                 <input
-                  className="mt-0 block w-full px-0.5 border-0 border-b-2 border-gray-800
-                    focus:ring-0 focus:border-blue-500 bg-gray-600"
+                  className="mt-0 block w-full px-3 border-0 border-b-[0.5px] border-indigo-500
+                    focus:ring-0 bg-transparent"
                   id="title"
                   type="text"
                   disabled
                   {...register("title")}
                 />
               </label>
-              <label className="block" htmlFor="artist">
-                <span className="text-lg text-blue-500">Artist</span>
+              <label className="flex flex-col" htmlFor="artist">
+                <span className="text-lg px-3 text-slate-500">Artist</span>
                 <input
-                  className="mt-0 block w-full px-0.5 border-0 border-b-2 border-gray-800
-                    focus:ring-0 focus:border-blue-500 bg-gray-600"
+                  className="mt-0 block w-full px-3 border-0 border-b-[0.5px] border-indigo-500 text-neutral-50 focus:ring-0 bg-transparent"
                   id="artist"
                   type="text"
                   disabled
                   {...register("artist")}
                 />
               </label>
-              <label className="block" htmlFor="album">
-                <span className="text-lg text-blue-500">Album</span>
+              <label className="flex flex-col" htmlFor="album">
+                <span className="text-lg px-3 text-slate-500">Album</span>
                 <input
-                  className="mt-0 block w-full px-0.5 border-0 border-b-2 border-gray-800
-                    focus:ring-0 focus:border-blue-500 bg-gray-600"
+                  className="mt-0 block w-full px-3 border-0 border-b-[0.5px] border-indigo-500 text-neutral-50 focus:ring-0 bg-transparent"
                   id="album"
                   type="text"
                   disabled
                   {...register("album")}
                 />
               </label>
-              <label className="block" htmlFor="year">
-                <span className="text-lg text-blue-500">Year</span>
+              <label className="flex flex-col" htmlFor="year">
+                <span className="text-lg px-3 text-slate-500">Year</span>
                 <input
-                  className="mt-0 block w-full px-0.5 border-0 border-b-2 border-gray-800
-                    focus:ring-0 focus:border-blue-500 bg-gray-600"
+                  className="mt-0 block w-full px-3 border-0 border-b-[0.5px] border-indigo-500 text-neutral-50 focus:ring-0 bg-transparent"
                   id="year"
                   type="text"
                   disabled
                   {...register("year")}
                 />
               </label>
-              <label className="block" htmlFor="genre">
-                <span className="text-lg text-blue-500">Genre</span>
+              <label className="flex flex-col" htmlFor="genre">
+                <span className="text-lg px-3 text-slate-500">Genre</span>
                 <input
-                  className="mt-0 block w-full px-0.5 border-0 border-b-2 border-gray-800
-                    focus:ring-0 focus:border-blue-500 bg-gray-600"
+                  className="mt-0 block w-full px-3 border-0 border-b-[0.5px] border-indigo-500 text-neutral-50 focus:ring-0 bg-transparent"
                   id="genre"
                   type="text"
                   disabled
@@ -116,18 +112,17 @@ function Result() {
           </div>
           <div className="flex flex-col w-5/12 items-center p-10">
             <div className="flex flex-col justify-between w-5/6 h-full">
-              <label className="block" htmlFor="genre">
-                <span className="text-lg text-blue-500">Image</span>
+              <label className="flex flex-col" htmlFor="genre">
+                <span className="text-lg px-3 text-slate-500">Image & Url</span>
                 <input
-                  className="mt-0 block w-full px-0.5 border-0 border-b-2 border-gray-800
-                      focus:ring-0 focus:border-blue-500 bg-gray-600"
+                  className="mt-0 block w-full px-3 border-0 border-b-[0.5px] border-indigo-500 focus:ring-0 bg-transparent text-neutral-50"
                   id="genre"
                   type="text"
                   disabled
                   {...register("imageUrl")}
                 />
               </label>
-              <div className="w-250 h-250 border border-dotted border-gray-500 self-center">
+              <div className="w-250 h-250 border-2 border-dotted border-indigo-500 self-center">
                 <CldImage
                   width={250}
                   height={250}
@@ -139,7 +134,7 @@ function Result() {
             </div>
           </div>
           <div className="flex w-1/2 items-center justify-center pb-6">
-            <button className="rounded-full bg-blue-600 py-2 px-8 w-fit text-black font-semibold hover:bg-blue-500 hover:text-inherit ring-2 ring-gray-700">
+            <button className="rounded-full bg-indigo-500 py-2 px-8 w-fit text-black font-semibold hover:bg-indigo-400 hover:text-inherit ring-2 ring-gray-700">
               Submit
             </button>
           </div>

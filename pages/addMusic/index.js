@@ -1,10 +1,9 @@
 import React, { useContext } from "react";
 import { useRouter } from "next/router";
 import { useForm } from "react-hook-form";
-import { yupResolver } from '@hookform/resolvers/yup';
+import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { GlobalContext } from "../_app";
-
 
 // form validation - yup
 const schema = yup
@@ -12,6 +11,7 @@ const schema = yup
     title: yup.string().required("Please enter the track title!"),
     artist: yup.string().required("Please enter the artist's name!"),
     album: yup.string(),
+    duration: yup.string().required("Please enter track time length"),
     year: yup
       .number()
       .typeError("Please enter a year!")
@@ -23,9 +23,7 @@ const schema = yup
   })
   .required();
 
-
 function AddMusic() {
-
   const { setFormData } = useContext(GlobalContext);
 
   const router = useRouter();
@@ -36,7 +34,7 @@ function AddMusic() {
     reset,
     formState: { errors },
   } = useForm({
-    resolver: yupResolver(schema)
+    resolver: yupResolver(schema),
   });
 
   const formSubmit = async (data, e) => {
@@ -48,77 +46,91 @@ function AddMusic() {
   };
 
   return (
-    <main className="col-start-3 col-end-13 row-start-1 row-end-7 flex items-center justify-center bg-gradient-to-r from-gray-700 via-gray-900 to-black">
+    <main className="col-start-3 col-end-13 row-start-1 row-end-7 flex items-center justify-center bg-slate-900">
       <div className="flex w-4/5 justify-center rounded-2xl">
         <div className="flex flex-col items-center w-3/5">
-          <h2 className="text-2xl font-semibold text-blue-600 py-4">
+          <h2 className="text-2xl font-semibold text-neutral-50 pb-4">
             Track Details
           </h2>
           <form
             className="flex flex-col w-3/4 gap-4"
             onSubmit={handleSubmit(formSubmit)}
           >
-            <label className="block" htmlFor="title">
+            <label className="flex flex-col gap-1" htmlFor="title">
               <span className="text-lg font-medium">Title</span>
               <span className="text-red-900 float-right">
                 {errors.title && errors.title.message}
               </span>
               <input
-                className="mt-0 block w-full p-2.5 border-gray-500
-                focus:ring-0 focus:border-blue-500 bg-gray-600 rounded-lg placeholder-gray-400 text-sm"
+                className="mt-0 block w-full p-2.5 border-[0.1px] border-gray-500
+                 focus:ring-offset-indigo-500 focus:border-indigo-500 focus:ring-indigo-500 bg-inputBg rounded-lg placeholder-gray-400 text-sm"
                 id="title"
                 type="text"
                 placeholder="Enter title..."
                 {...register("title")}
               />
             </label>
-            <label className="block" htmlFor="artist">
+            <label className="flex flex-col gap-1" htmlFor="artist">
               <span className="text-lg font-medium">Artist</span>
               <span className="text-red-900 float-right">
-            {errors.artist && errors.artist.message}
-          </span>
+                {errors.artist && errors.artist.message}
+              </span>
               <input
-                className="mt-0 block w-full p-2.5 border-gray-500
-                focus:ring-0 focus:border-blue-500 bg-gray-600 rounded-lg placeholder-gray-400 text-sm"
+                className="mt-0 block w-full p-2.5 border-gray-500 border-[0.1px]
+                focus:ring-offset-indigo-500 focus:border-indigo-500 focus:ring-indigo-500 bg-inputBg rounded-lg placeholder-gray-400 text-sm"
                 id="artist"
                 type="text"
                 placeholder="Enter artist..."
                 {...register("artist")}
               />
             </label>
-            <label className="block" htmlFor="album">
+            <label className="flex flex-col gap-1" htmlFor="album">
               <span className="text-lg font-medium">Album</span>
               <span className="text-red-900 float-right">
-            {errors.album && errors.album.message}
-          </span>
+                {errors.album && errors.album.message}
+              </span>
               <input
-                className="mt-0 block w-full p-2.5 border-gray-500
-                focus:ring-0 focus:border-blue-500 bg-gray-600 rounded-lg placeholder-gray-400 text-sm"
+                className="mt-0 block w-full p-2.5 border-gray-500 border-[0.1px]
+                focus:ring-offset-indigo-500 focus:border-indigo-500 focus:ring-indigo-500 bg-inputBg rounded-lg placeholder-gray-400 text-sm"
                 id="album"
                 type="text"
                 defaultValue={"N/A"}
                 {...register("album")}
               />
             </label>
-            <label className="block" htmlFor="year">
+            <label className="flex flex-col gap-1" htmlFor="year">
               <span className="text-lg font-medium">Year</span>
               <span className="text-red-900 float-right">
-            {errors.year && errors.year.message}
-          </span>
+                {errors.year && errors.year.message}
+              </span>
               <input
-                className="mt-0 block w-full p-2.5 border-gray-500
-                focus:ring-0 focus:border-blue-500 bg-gray-600 rounded-lg placeholder-gray-400 text-sm"
+                className="mt-0 block w-full p-2.5 border-gray-500 border-[0.1px]
+                focus:ring-offset-indigo-500 focus:border-indigo-500 focus:ring-indigo-500 bg-inputBg rounded-lg placeholder-gray-400 text-sm"
                 id="year"
                 type="text"
                 placeholder="Year must be in a XXXX format...e.g.1998"
                 {...register("year")}
               />
             </label>
-            <label className="block" htmlFor="genre">
+            <label className="flex flex-col gap-1" htmlFor="title">
+              <span className="text-lg font-medium">Duration</span>
+              <span className="text-red-900 float-right">
+                {errors.duration && errors.duration.message}
+              </span>
+              <input
+                className="mt-0 block w-full p-2.5 border-gray-500 border-[0.1px]
+                focus:ring-offset-indigo-500 focus:border-indigo-500 focus:ring-indigo-500 bg-inputBg rounded-lg placeholder-gray-400 text-sm"
+                id="duration"
+                type="time"
+                placeholder="Enter track time...format e.g. 03:33"
+                {...register("duration")}
+              />
+            </label>
+            <label className="flex flex-col gap-1" htmlFor="genre">
               <span className="text-lg font-medium">Genre</span>
               <select
-                className="mt-0 block w-full p-2.5 border-gray-500
-                focus:ring-0 focus:border-blue-500 bg-gray-600 rounded-lg placeholder-gray-400 text-sm"
+                className="mt-0 block w-full p-2.5 border-gray-500 border-[0.1px]
+                focus:ring-offset-indigo-500 focus:border-indigo-500 focus:ring-indigo-500 bg-inputBg rounded-lg placeholder-gray-400 text-sm"
                 id="genre"
                 type="text"
                 {...register("genre")}
@@ -131,7 +143,7 @@ function AddMusic() {
                 <option value="pop">POP</option>
               </select>
             </label>
-            <button className="font-medium rounded-lg text-sm px-5 py-2.5 w-full mt-4 self-center hover:text-black bg-blue-600 hover:bg-blue-700 focus:ring-blue-800">
+            <button className="font-medium rounded-lg text-sm px-5 py-2.5 w-full mt-4 self-center hover:text-black bg-indigo-500 hover:bg-indigo-400">
               Next
             </button>
           </form>

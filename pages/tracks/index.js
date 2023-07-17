@@ -16,7 +16,7 @@ function Tracks({ data }) {
   ));
   
   return (
-    <main className="col-start-3 col-end-13 row-start-1 row-end-7 grid grid-cols-4 gap-x-12 gap-y-24 py-24 px-12 overflow-auto bg-gradient-to-t from-gray-700 via-gray-900 to-black z-0">
+    <main className="col-start-3 col-end-13 row-start-1 row-end-7 grid grid-cols-5 auto-rows-max gap-x-12 gap-y-24 py-24 px-12 overflow-auto bg-mainBg">
       {cardTracks}
     </main>
   )

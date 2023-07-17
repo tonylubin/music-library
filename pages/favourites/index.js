@@ -16,7 +16,7 @@ function Favourites({ data }) {
   ));
   
   return (
-    <main className="col-start-3 col-end-13 row-start-1 row-end-7 grid grid-cols-4 gap-x-12 gap-y-24 py-24 px-12 overflow-auto bg-gradient-to-b from-gray-900 to-gray-600 z-0">
+    <main className="col-start-3 col-end-13 row-start-1 row-end-7 grid grid-cols-5 auto-rows-max gap-x-12 gap-y-24 py-24 px-12 overflow-auto bg-space z-0">
       {cardTracks}
     </main>
   )
