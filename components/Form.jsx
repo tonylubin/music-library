@@ -2,7 +2,7 @@ import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 
-function Form({ closeModal }) {
+function Form() {
   const [playlistCreated, setPlaylistCreated] = useState({
     status: false,
     message: "",
@@ -39,6 +39,11 @@ function Form({ closeModal }) {
     }
   };
 
+  // refresh server side props - to show update
+  const refreshData = () => {
+    router.replace(router.asPath);
+  };
+
   useEffect(() => {
     if(formState.isSubmitSuccessful) {
       reset();
@@ -51,7 +56,7 @@ function Form({ closeModal }) {
         <input
           type="text"
           id="floating_name"
-          className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-gray-400 focus:outline-none focus:ring-0 peer"
+          className="block py-2.5 px-0 w-full text-sm text-white bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:border-slate-500 focus:outline-none focus:ring-0 peer"
           placeholder=" "
           {...register("name", { required: true })}
         />
@@ -66,7 +71,7 @@ function Form({ closeModal }) {
         {!playlistCreated.status ? (
           <button
             type="submit"
-            className="inline-flex justify-center rounded-md border border-transparent bg-indigo-500 px-4 py-2 text-sm font-medium dark:text-white hover:bg-indigo-600 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
+            className="inline-flex justify-center rounded-md border border-transparent bg-indigo-500 px-4 py-2 text-sm font-medium dark:text-white hover:bg-indigo-400 focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2"
           >
             Create
           </button>
@@ -75,8 +80,7 @@ function Form({ closeModal }) {
             type="button"
             className="inline-flex justify-center rounded-md border border-transparent bg-emerald-500 px-4 py-2 text-sm font-medium dark:text-white hover:bg-emerald-600 focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:ring-offset-2"
             onClick={() => {
-              closeModal();
-              router.reload();
+              refreshData();
             }}
           >
             Close

@@ -1,11 +1,12 @@
 import React from 'react'
-import Modal from './Modal';
+import CreateDialog from './CreateDialog';
+
 
 const PlaylistCardHolder = () => {
   return (
-    <article className='flex flex-col items-center justify-center gap-6 rounded-lg bg-cardBG shadow-cardShadow border border-dashed border-white aspect-square h-full'>
+    <article className='flex flex-col items-center justify-center gap-6 rounded-lg  shadow-cardShadow border border-dashed border-indigo-500 aspect-square h-full'>
       <p className='font-bold text-xl'>Create a playlist</p>
-      <Modal />
+      <CreateDialog />
     </article>
   )
 }

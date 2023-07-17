@@ -8,7 +8,7 @@ const MainCard = (props) => {
 
   return (
     <Link href={`/track/${trackId}`} className="w-full">
-      <article className="w-11/12 flex flex-col rounded-lg bg-cardBG shadow-cardShadow relative hover:scale-110 duration-300 ease-in-out hover:transition hover:duration-300 z-10">
+      <article className="w-11/12 flex flex-col rounded-lg shadow-cardShadow relative hover:scale-110 duration-300 ease-in-out hover:transition hover:duration-300 z-10">
         <div className=" flex justify-center items-center aspect-square rounded-lg overflow-hidden">
           <CldImage
             alt="vinyl record cover"
@@ -18,9 +18,9 @@ const MainCard = (props) => {
             height={600}
           />
         </div>
-        <div className="w-full absolute bottom-0 backdrop-blur-3xl rounded-b-lg tracking-wide">
-          <h3 className="font-bold text-zinc-50 truncate pl-5 pt-2">{artist}</h3>
-          <h3 className="text-sm text-neutral-50 truncate pl-5 pb-3">{title}</h3>
+        <div className="w-full absolute bottom-0 backdrop-blur-3xl rounded-b-lg tracking-wide capitalize">
+          <h3 className="text-sm font-bold text-zinc-50 truncate px-3 pt-2">{artist}</h3>
+          <h3 className="text-xs text-neutral-50 truncate px-3 pb-2">{title}</h3>
         </div>
       </article>    
     </Link>
