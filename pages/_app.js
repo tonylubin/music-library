@@ -1,4 +1,4 @@
-import "@/styles/globals.scss";
+import "@/globals.scss";
 import { BioRhyme, Kanit } from "next/font/google";
 import { config } from "@fortawesome/fontawesome-svg-core";
 import "@fortawesome/fontawesome-svg-core/styles.css";
@@ -33,7 +33,7 @@ export default function App({ Component, pageProps }) {
 
   return (
     <div
-      className={`h-full w-full overflow-hidden text-primaryTextColor ${bioRhyme.variable} ${kanit.variable}`}
+      className={`h-full w-full overflow-hidden ${bioRhyme.variable} ${kanit.variable} text-neutral-100`}
     >
       <GlobalContext.Provider value={{ formData, setFormData }}>
         {/* conditional for shared layout for app & not for landing page */}

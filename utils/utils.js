@@ -18,8 +18,22 @@ export const capitaliseEachWord = (string, callback) => {
 export const serializeErrorFunc = (data) => JSON.parse(JSON.stringify(data));
 
 // Toastify alert
-export const toastNotification = (message) => {
+export const successNotification = (message) => {
   return toast.success(message, {
+    position: "top-right",
+    autoClose: 3000,
+    hideProgressBar: false,
+    closeOnClick: true,
+    pauseOnHover: true,
+    draggable: true,
+    progress: undefined,
+    theme: "dark",
+  },
+  )
+};
+
+export const destroyNotification = (message) => {
+  return toast.error(message, {
     position: "top-right",
     autoClose: 3000,
     hideProgressBar: false,
@@ -35,6 +49,7 @@ export const toastNotification = (message) => {
 // Toastify close action
 export const toastClose = (callbackFunction) => {
   return toast.onChange((payload) => {
+    // when notification disappears
     if(payload.status === "removed") {
       callbackFunction();
     }

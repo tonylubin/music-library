@@ -1,3 +1,5 @@
+// NOTE: to remove quotes from json object string use mysql.raw(string)
+
 const mysql = require("mysql2");
 
 // creating connection to database
@@ -103,7 +105,14 @@ const createPlaylist = async (name) => {
   await db.query(queryString);
 };
 
-//  get table(s)
+//  delete playlist
+const deletePlaylist = async (name) => {
+  let tableName = mysql.raw(name);
+  const query = "DROP TABLE ?";
+  await db.query(query, [tableName]);
+};
+
+//  get tables - playlists
 const getTables = async () => {
   const queryString = `SELECT DISTINCT table_name
   FROM information_schema.columns
@@ -111,6 +120,37 @@ const getTables = async () => {
   `;
   let [ rows ] = await db.query(queryString);
   return rows;
+};
+
+//  get playlist tracks
+const getPlaylistTable = async (name) => {
+  const playlistCol = mysql.raw(`${name}.trackNumber`);
+  const foreignKeyName = mysql.raw(`${name}.trackId`);
+  const playlistName = mysql.raw(name);
+  const query = `
+  SELECT music.*, ?
+  FROM music
+  JOIN ?
+  ON music.trackId = ?
+  `;
+  let queryString = mysql.format(query, [playlistCol, playlistName, foreignKeyName]);
+  let [ rows ] = await db.query(queryString,[playlistCol, playlistName, foreignKeyName]);
+  return rows;
+};
+
+// add to playlist
+const addToPlaylist = async (name, trackNum) => {
+  let trackName = mysql.raw(name);
+  const query = "INSERT INTO ? (trackId) VALUES (?)";
+  let queryString = mysql.format(query,[trackName,trackNum])
+  await db.query(queryString, [trackName, trackNum]);
+};
+
+//  remove from playlist
+const removeFromPlaylist = async (name, id) => {
+  let trackName = mysql.raw(name);
+  const queryString = "DELETE FROM ? WHERE trackId = ?";
+  await db.query(queryString, [trackName, id]);
 };
 
 // Testing connection
@@ -135,5 +175,20 @@ module.exports = {
   addFavouriteTrack,
   removeFavouriteTrack,
   createPlaylist,
+  deletePlaylist,
   getTables,
+  getPlaylistTable,
+  addToPlaylist,
+  removeFromPlaylist
 };
+
+
+// NOTE - resetting auto increment
+
+// To find the highest number
+// query --> SELECT MAX( `column` ) FROM `table`;
+// Replace ‘column’ with the name of the auto incrementing column. Replace table with the   name of the table. 
+
+// Reset the auto increment field
+// query --> ALTER TABLE `table` AUTO_INCREMENT = 'number';
+// Replacing ‘number’ with the result of the previous command plus one and replacing table with the table name.

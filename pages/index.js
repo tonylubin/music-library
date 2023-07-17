@@ -5,7 +5,7 @@ import landingPagePic from '../public/images/blocks-T3mKJXfdims-unsplash.jpg';
 
 function Home() {
   return (
-    <div className="flex flex-col items-end gap-y-8 h-full font-bioRhyme text-primaryTextColor">
+    <div className="flex flex-col items-end gap-y-8 h-full font-bioRhyme">
       <Image
         alt="vinyl and headphones on shelf"
         src={landingPagePic}
