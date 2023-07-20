@@ -60,8 +60,8 @@ function Playlist({ data }) {
         </div>
       </div>
       <div className="flex justify-center h-full w-full bg-space">
-        <div className="grid grid-cols-playlistHeader w-11/12 auto-rows-[4rem] items-center">
-          <div className="col-span-full grid grid-cols-playlistHeader w-full h-full text-lg border-b border-slate-700 text-gray-500 content-center">
+        <div className="grid grid-cols-playlistHeader w-11/12 auto-rows-[4rem] items-center ">
+          <div className="col-span-full grid grid-cols-playlistHeader w-full h-4/6 text-lg border-b border-slate-700 text-gray-300 content-center bg-orca rounded-tl-lg rounded-tr-lg">
             <div className="justify-self-center">#</div>
             <div>Title</div>
             <div>Artist</div>

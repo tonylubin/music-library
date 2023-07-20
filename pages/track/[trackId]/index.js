@@ -40,14 +40,14 @@ function Track({ trackData, playlistData }) {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ name, trackNum }),
     };
-    let res = await fetch("/api/playlists", requestOptions);
+    let res = await fetch("/api/playlists/playlist", requestOptions);
     let { msg } = await res.json();
     successNotification(msg);
   };
 
   //  remove from playlist
   const removeFromPlaylist = async (name, id) => {
-    let res = await fetch(`/api/playlists?name=${name}&id=${id}`, { method: "DELETE" });
+    let res = await fetch(`/api/playlists/playlist?name=${name}&id=${id}`, { method: "DELETE" });
     let { msg } = await res.json();
     destroyNotification(msg);
   };
