@@ -46,10 +46,12 @@ module.exports = {
         'mainBg': 'linear-gradient(to top, rgb(55, 65, 81), rgb(17, 24, 39), rgb(0, 0, 0))',
         'space': 'linear-gradient(rgb(17, 24, 39), rgb(75, 85, 99))',
         'gunmetal': 'linear-gradient(to right top, rgb(229, 231, 235), rgb(156, 163, 175), rgb(75, 85, 99))',
-        '': '',
+        'orca': 'linear-gradient(to bottom, #44a08d, #093637)',
+        'royal': 'linear-gradient(to bottom, #141e30, #243b55)',
       },
       gridTemplateColumns: {
         'playlistHeader': '4rem 3fr 3fr 1fr 6rem',
+        'homepage': 'repeat(auto-fill,minmax(300px,1fr))',
       },
     },
   },
