@@ -13,7 +13,7 @@ function Home() {
       />
       <h1 className="text-7xl font-extrabold mt-20 mr-10 z-10">My Vinyl Library</h1>
       <Link
-        href={"/tracks"}
+        href={"/home"}
         className="text-2xl underline z-10 underline-offset-2 decoration-2 mr-10"
       >
         Enter the Library

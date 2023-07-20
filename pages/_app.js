@@ -17,7 +17,7 @@ const bioRhyme = BioRhyme({
   variable: "--font-bioRhyme",
 });
 const kanit = Kanit({
-  weight: ["700", "600", "400"],
+  weight: ["700", "600","500", "400"],
   style: ["normal"],
   subsets: ["latin"],
   variable: "--font-kanit"
