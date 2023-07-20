@@ -1,6 +1,7 @@
 // NOTE: to remove quotes from json object string use mysql.raw(string)
 
-const mysql = require("mysql2");
+import { addBackTicks } from "@/utils/utils";
+const mysql = require('mysql2');
 
 // creating connection to database
 const connectionPool = mysql.createPool({
@@ -91,15 +92,17 @@ const removeFavouriteTrack = async (id) => {
 
 //  Create Playlist
 const createPlaylist = async (name) => {
+  // to allow for spaces in string add backticks
+  let allowedStrName = addBackTicks(name);
   // make sql string e.g: removes quotes from string that query method adds
-  let playlistName = mysql.raw(name);
+  let playlistName = mysql.raw(allowedStrName);
   const query = `CREATE TABLE ? (
-      trackNumber INT AUTO_INCREMENT,
-      trackId INT,
-      playlist BOOLEAN DEFAULT TRUE, 
-      created TIMESTAMP NOT NULL DEFAULT NOW(),
-      PRIMARY KEY (trackNumber),
-      FOREIGN KEY (trackId) REFERENCES music(trackId)
+    trackNumber INT AUTO_INCREMENT,
+    trackId INT,
+    playlist BOOLEAN DEFAULT TRUE, 
+    created TIMESTAMP NOT NULL DEFAULT NOW(),
+    PRIMARY KEY (trackNumber),
+    FOREIGN KEY (trackId) REFERENCES music(trackId)
     )`;
   let queryString = mysql.format(query, [playlistName]);
   await db.query(queryString);
@@ -107,9 +110,11 @@ const createPlaylist = async (name) => {
 
 //  delete playlist
 const deletePlaylist = async (name) => {
-  let tableName = mysql.raw(name);
+  let allowedStrName = addBackTicks(name);
+  let tableName = mysql.raw(allowedStrName);
   const query = "DROP TABLE ?";
-  await db.query(query, [tableName]);
+  let queryString = mysql.format(query, [tableName]);
+  await db.query(queryString);
 };
 
 //  get tables - playlists
@@ -124,9 +129,10 @@ const getTables = async () => {
 
 //  get playlist tracks
 const getPlaylistTable = async (name) => {
-  const playlistCol = mysql.raw(`${name}.trackNumber`);
-  const foreignKeyName = mysql.raw(`${name}.trackId`);
-  const playlistName = mysql.raw(name);
+  let allowedStrName = addBackTicks(name)
+  const playlistCol = mysql.raw(`${allowedStrName}.trackNumber`);
+  const foreignKeyName = mysql.raw(`${allowedStrName}.trackId`);
+  const playlistName = mysql.raw(allowedStrName);
   const query = `
   SELECT music.*, ?
   FROM music
@@ -140,7 +146,8 @@ const getPlaylistTable = async (name) => {
 
 // add to playlist
 const addToPlaylist = async (name, trackNum) => {
-  let trackName = mysql.raw(name);
+  let allowedStrName = addBackTicks(name);
+  let trackName = mysql.raw(allowedStrName);
   const query = "INSERT INTO ? (trackId) VALUES (?)";
   let queryString = mysql.format(query,[trackName,trackNum])
   await db.query(queryString, [trackName, trackNum]);
@@ -148,22 +155,29 @@ const addToPlaylist = async (name, trackNum) => {
 
 //  remove from playlist
 const removeFromPlaylist = async (name, id) => {
-  let trackName = mysql.raw(name);
+  let allowedStrName = addBackTicks(name);
+  let trackName = mysql.raw(allowedStrName);
   const queryString = "DELETE FROM ? WHERE trackId = ?";
   await db.query(queryString, [trackName, id]);
 };
 
+// get genre tracks
+const getGenreLib = async (genre) => {
+  const queryString = "SELECT * FROM music WHERE genre = ?";
+  const [ rows ] = await db.query(queryString, [genre])
+  return rows;
+};
+
 // Testing connection
-connectionPool.getConnection((err, connection) => {
+connectionPool.getConnection((err) => {
   if (err) {
     console.log(`Error connecting to database: ${err.code}: ${err.message}`);
   } else {
     console.log("\x1b[34m", "Successfull database connection!");
-    connection.release();
   }
 });
 
-module.exports = {
+export {
   db,
   getTrack,
   getTracks,
@@ -179,7 +193,8 @@ module.exports = {
   getTables,
   getPlaylistTable,
   addToPlaylist,
-  removeFromPlaylist
+  removeFromPlaylist,
+  getGenreLib, 
 };
 
 

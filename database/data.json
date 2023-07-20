@@ -1,0 +1,11 @@
+{
+  "genreImgPath" : [
+    {"house": "/images/house-genre.jpg"},
+    {"ukg": "/images/ukg-genre.jpg"},
+    {"garage": "/images/garage-genre.jpg"},
+    {"pop": "/images/pop-genre.jpg"},
+    {"indie": "/images/indie-genre.jpg"},
+    {"randb": "/images/randb-genre.jpg"},
+    {"hip-hop": "/images/hiphop-genre.jpg"}
+  ]
+}
