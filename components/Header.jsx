@@ -7,7 +7,7 @@ function Header() {
   const [searchQuery, setSearchQuery] = useState("");
 
   return (
-    <div className="col-start-1 col-end-13 row-start-1 row-end-2 z-10 flex flex-col justify-center gap-4 bg-darkGreen">
+    <div className="col-start-1 col-end-13 row-start-1 row-end-2 z-10 flex flex-col justify-center gap-4 bg-darkGreen border-b-[0.5px] border-b-gray-300/30">
       <div className="flex gap-6 items-center justify-center pt-8 text-neutral-200 w-full">
         <FontAwesomeIcon icon={faMagnifyingGlass} size="2xl" />
         <SearchBar searchQuery={searchQuery} setSearchQuery={setSearchQuery} />

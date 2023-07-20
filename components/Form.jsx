@@ -1,3 +1,5 @@
+import * as yup from "yup";
+import { yupResolver } from "@hookform/resolvers/yup";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
@@ -13,12 +15,17 @@ function Form() {
     message: "",
   });
 
+  const schema = yup.object().shape({
+    name: yup.string().required("Please enter a valid name")
+  }).required();
+
   const {
     register,
     handleSubmit,
     reset,
     formState,
-  } = useForm();
+    formState: { errors }
+  } = useForm({ resolver: yupResolver(schema), criteriaMode: "all" });
 
   const router = useRouter();
 
@@ -48,7 +55,7 @@ function Form() {
     if(formState.isSubmitSuccessful) {
       reset();
     }
-  },[formState, reset]);
+  },[formState.isSubmitSuccessful, reset]);
 
   return (
     <form className="mt-6" onSubmit={handleSubmit(onSubmit)}>
@@ -58,7 +65,7 @@ function Form() {
           id="floating_name"
           className="block py-2.5 px-0 w-full text-sm text-white bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:border-slate-500 focus:outline-none focus:ring-0 peer"
           placeholder=" "
-          {...register("name", { required: true })}
+          {...register("name")}
         />
         <label
           htmlFor="floating_name"
@@ -93,6 +100,9 @@ function Form() {
           <p className="text-sm mt-3 text-emerald-500">
             {playlistCreated.message}
           </p>
+        )}
+        {errors.name && (
+          <p className="text-red-500 text-sm mt-3">{errors.name.message}</p>
         )}
       </div>
     </form>

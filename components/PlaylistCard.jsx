@@ -1,13 +1,12 @@
 import Link from "next/link";
 import React from "react";
-import cardImg from "../public/images/Free_Vinyl_Mockup_5.jpg";
+import cardImg from "../public/images/high-view-old-fashioned-cassette-tapes.jpg";
 import Image from "next/image";
 import DeleteDialog from "./DeleteDialog";
 import { destroyNotification, toastClose } from "@/utils/utils";
 import { useRouter } from "next/router";
 
 const PlaylistCard = ({ playlistName }) => {
-
   const router = useRouter();
 
   // refresh server side props - to show update & callback function for toast
@@ -23,26 +22,31 @@ const PlaylistCard = ({ playlistName }) => {
   };
 
   return (
-    <article className="flex flex-col items-center justify-start gap-6 rounded-lg  shadow-cardShadow aspect-square h-full relative">
-      <div className="absolute z-20 -top-2 -right-2">
-        <DeleteDialog
-          playlistName={playlistName}
-          removePlaylist={removePlaylist}
-        />
-      </div>
-      <p className="text-navyBlue text-xl font-bold capitalize z-10 pt-2">
-        {playlistName}
-      </p>
-      <Link href={`/playlists/${playlistName}`}>
-        <Image
-          alt="record player"
-          sizes="100vw"
-          src={cardImg}
-          fill
-          className="object-cover "
-        />
-      </Link>
-    </article>
+      <article className="flex flex-col rounded-lg shadow-cardShadow aspect-square relative">
+        <div className="absolute z-20 -top-2 -right-2">
+          <DeleteDialog
+            playlistName={playlistName}
+            removePlaylist={removePlaylist}
+          />
+        </div>
+        <Link href={`/playlists/${playlistName}`} className="h-full w-full">
+          <div className="w-full h-full overflow-hidden relative flex items-end rounded-lg">
+            <Image
+              alt="record player"
+              sizes="100vw"
+              src={cardImg}
+              fill
+              className="object-cover rounded-lg hover:scale-125 transition duration-500"
+            />
+            <div className="bg-white opacity-70 z-20 shadow-2xl rounded-b-md flex items-center w-full">
+              <p className="text-black font-bold capitalize z-10 px-4 py-1">
+                Playlist
+              </p>
+            </div>  
+          </div>
+        </Link>
+        <p className="font-light text-lg font-kanit capitalize px-4 py-2">{playlistName}</p>
+      </article>  
   );
 };
 
