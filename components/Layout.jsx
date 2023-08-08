@@ -1,14 +1,14 @@
 import React from "react";
-import Heading from "@/components/Heading";
-import SideBar from "@/components/SideBar";
+import SideNav from "./SideNav";
+import Heading from "./Heading";
 
 
 function Layout({ children }) {
 
   return (
-    <div className="grid grid-cols-12 grid-rows-6 h-full w-full">
+    <div className="grid grid-cols-12 grid-rows-6 h-full w-full font-bioRhyme">
       <Heading />
-      <SideBar />
+      <SideNav />
       {children}
     </div>
   );

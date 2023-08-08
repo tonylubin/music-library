@@ -1,15 +1,19 @@
-import React from 'react';
-import Logo from './Logo';
+import Image from "next/image";
+import React from "react";
 
-function Header() {
+const Heading = () => {
   return (
-    <header className='flex justify-between col-start-1 col-end-3 row-start-1 row-end-2 bg-black'>
-      <div className='flex items-center gap-4 px-4'>
-        <Logo />
-        <h1 className='text-2xl font-extrabold font-bioRhyme text-primaryTextColor'>My Vinyl Library</h1>
+    <header className="col-start-1 col-end-3 row-start-1 row-end-2 bg-blackShade relative">
+      <div className="w-2/3 h-full mx-auto relative">
+        <Image alt="music eq" fill src={"/images/eq.jpg"} className="absolute"/>
+      </div>
+      <div className="flex justify-center absolute bottom-0 inset-x-0 m-auto">
+        <h1 className="text-2xl text-primaryRed font-extrabold font-bioRhyme z-10">
+        The Vinyl Lib.
+        </h1>
       </div>
     </header>
-  )
-}
+  );
+};
 
-export default Header;
+export default Heading;
