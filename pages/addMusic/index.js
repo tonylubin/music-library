@@ -46,14 +46,14 @@ function AddMusic() {
   };
 
   return (
-    <main className="col-start-3 col-end-13 row-start-1 row-end-7 flex items-center justify-center bg-slate-900">
+    <main className="col-start-3 col-end-13 row-start-1 row-end-7 flex items-center justify-center bg-primaryBgAlt">
       <div className="flex w-4/5 justify-center rounded-2xl">
         <div className="flex flex-col items-center w-3/5">
           <h2 className="text-2xl font-semibold text-neutral-50 pb-4">
             Track Details
           </h2>
           <form
-            className="flex flex-col w-3/4 gap-4"
+            className="flex flex-col w-3/4 gap-4 font-kanit"
             onSubmit={handleSubmit(formSubmit)}
           >
             <label className="flex flex-col gap-1" htmlFor="title">
@@ -62,8 +62,8 @@ function AddMusic() {
                 {errors.title && errors.title.message}
               </span>
               <input
-                className="mt-0 block w-full p-2.5 border-[0.1px] border-gray-500
-                 focus:ring-offset-indigo-500 focus:border-indigo-500 focus:ring-indigo-500 bg-inputBg rounded-lg placeholder-gray-400 text-sm"
+                className="mt-0 block w-full p-2.5 border border-brownShade
+                 focus:ring-offset-brownHover focus:border-brownHover focus:ring-brownHover bg-brownShadeAlt rounded-lg placeholder-gray-400 text-sm"
                 id="title"
                 type="text"
                 placeholder="Enter title..."
@@ -76,8 +76,8 @@ function AddMusic() {
                 {errors.artist && errors.artist.message}
               </span>
               <input
-                className="mt-0 block w-full p-2.5 border-gray-500 border-[0.1px]
-                focus:ring-offset-indigo-500 focus:border-indigo-500 focus:ring-indigo-500 bg-inputBg rounded-lg placeholder-gray-400 text-sm"
+                className="mt-0 block w-full p-2.5 border-brownShade border
+                focus:ring-offset-brownHover focus:border-brownHover focus:ring-brownHover bg-brownShadeAlt rounded-lg placeholder-gray-400 text-sm"
                 id="artist"
                 type="text"
                 placeholder="Enter artist..."
@@ -90,8 +90,8 @@ function AddMusic() {
                 {errors.album && errors.album.message}
               </span>
               <input
-                className="mt-0 block w-full p-2.5 border-gray-500 border-[0.1px]
-                focus:ring-offset-indigo-500 focus:border-indigo-500 focus:ring-indigo-500 bg-inputBg rounded-lg placeholder-gray-400 text-sm"
+                className="mt-0 block w-full p-2.5 border-brownShade border
+                focus:ring-offset-brownHover focus:border-brownHover focus:ring-brownHover bg-brownShadeAlt rounded-lg placeholder-gray-400 text-sm"
                 id="album"
                 type="text"
                 defaultValue={"N/A"}
@@ -104,8 +104,8 @@ function AddMusic() {
                 {errors.year && errors.year.message}
               </span>
               <input
-                className="mt-0 block w-full p-2.5 border-gray-500 border-[0.1px]
-                focus:ring-offset-indigo-500 focus:border-indigo-500 focus:ring-indigo-500 bg-inputBg rounded-lg placeholder-gray-400 text-sm"
+                className="mt-0 block w-full p-2.5 border-brownShade border
+                focus:ring-offset-brownHover focus:border-brownHover focus:ring-brownHover bg-brownShadeAlt rounded-lg placeholder-gray-400 text-sm"
                 id="year"
                 type="text"
                 placeholder="Year must be in a XXXX format...e.g.1998"
@@ -118,8 +118,8 @@ function AddMusic() {
                 {errors.duration && errors.duration.message}
               </span>
               <input
-                className="mt-0 block w-full p-2.5 border-gray-500 border-[0.1px]
-                focus:ring-offset-indigo-500 focus:border-indigo-500 focus:ring-indigo-500 bg-inputBg rounded-lg placeholder-gray-400 text-sm"
+                className="mt-0 block w-full p-2.5 border-brownShade border
+                focus:ring-offset-brownHover focus:border-brownHover focus:ring-brownHover bg-brownShadeAlt rounded-lg placeholder-gray-400 text-sm"
                 id="duration"
                 type="time"
                 placeholder="Enter track time...format e.g. 03:33"
@@ -129,8 +129,8 @@ function AddMusic() {
             <label className="flex flex-col gap-1" htmlFor="genre">
               <span className="text-lg font-medium">Genre</span>
               <select
-                className="mt-0 block w-full p-2.5 border-gray-500 border-[0.1px]
-                focus:ring-offset-indigo-500 focus:border-indigo-500 focus:ring-indigo-500 bg-inputBg rounded-lg placeholder-gray-400 text-sm"
+                className="mt-0 block w-full p-2.5 border-brownShade border
+                focus:ring-offset-brownHover focus:border-brownHover focus:ring-brownHover bg-brownShadeAlt rounded-lg placeholder-gray-400 text-sm"
                 id="genre"
                 type="text"
                 {...register("genre")}
@@ -143,7 +143,7 @@ function AddMusic() {
                 <option value="pop">POP</option>
               </select>
             </label>
-            <button className="font-medium rounded-lg text-sm px-5 py-2.5 w-full mt-4 self-center hover:text-black bg-indigo-500 hover:bg-indigo-400">
+            <button className="font-medium font-bioRhyme rounded-lg text-md px-5 py-2.5 w-full mt-4 self-center hover:text-black bg-primaryRed hover:bg-redHover">
               Next
             </button>
           </form>
