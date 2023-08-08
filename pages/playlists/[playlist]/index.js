@@ -6,15 +6,19 @@ import { getPlaylistTable } from "@/database/musicLibrary";
 import { serializeErrorFunc } from "@/utils/utils";
 import { CldImage } from "next-cloudinary";
 import Link from "next/link";
+import { Tooltip } from "react-tooltip";
 
 function Playlist({ data }) {
   const router = useRouter();
   const name = router.query.playlist;
 
+  // added modulo function for odd/even colour scheme
   const getPlaylistTracks = data.map((track, index) => (
     <div
       key={index}
-      className="col-span-full grid grid-cols-playlistHeader w-full h-full text-lg text-neutral-300 capitalize hover:bg-darkGrey rounded-[4px] content-center"
+      className={`col-span-full grid grid-cols-playlistHeader w-full h-full text-lg text-neutral-300 capitalize hover:bg-redHover rounded content-center ${
+        index % 2 == 0 ? "bg-brownCard" : "bg-transparent"
+      }`}
     >
       <div className="justify-self-center">{index + 1}</div>
 
@@ -28,13 +32,13 @@ function Playlist({ data }) {
             sizes="100vw"
           />
         </div>
-        <Link href={`/track/${track.trackId}`}>
+        <Link href={`/track/${track.trackId}`} id={index}>
           <div className="truncate pr-4 hover:underline" title={track.title}>
             {track.title}
           </div>
         </Link>
       </div>
-      <div className="truncate pr-4" title={track.artist}>
+      <div className="truncate pr-4 artist" title={track.artist}>
         {track.artist}
       </div>
       <div>{track.genre}</div>
@@ -43,11 +47,11 @@ function Playlist({ data }) {
   ));
 
   return (
-    <main className="col-start-3 col-end-13 row-start-1 row-end-7 font-kanit p-3 bg-neutral-900">
-      <div className="w-full h-1/3 text-3xl bg-moonlitAsteroid rounded-t-xl overflow-hidden">
+    <main className="col-start-3 col-end-13 row-start-1 row-end-7 font-kanit bg-neutral-900">
+      <div className="w-full h-1/4 bg-brownShadeAlt overflow-hidden">
         <div className="w-full h-full relative">
-          <h1 className="text-xl z-10 relative pl-16 pt-12">Playlist</h1>
-          <p className="capitalize text-8xl font-semibold pt-6 pl-16 z-10 relative">
+          <h1 className="text-xl z-10 pl-16 pt-8">Playlist</h1>
+          <p className="capitalize text-7xl font-semibold pt-6 pl-16 z-10">
             {name}
           </p>
           <Image
@@ -59,9 +63,9 @@ function Playlist({ data }) {
           />
         </div>
       </div>
-      <div className="flex justify-center h-full w-full bg-space">
+      <div className="flex justify-center h-full w-full bg-primaryBgAlt pt-8">
         <div className="grid grid-cols-playlistHeader w-11/12 auto-rows-[4rem] items-center ">
-          <div className="col-span-full grid grid-cols-playlistHeader w-full h-4/6 text-lg border-b border-slate-700 text-gray-300 content-center bg-orca rounded-tl-lg rounded-tr-lg">
+          <div className="col-span-full grid grid-cols-playlistHeader w-full h-4/6 text-lg border-b-[0.5px] border-b-zinc-400 text-zinc-400 content-center">
             <div className="justify-self-center">#</div>
             <div>Title</div>
             <div>Artist</div>

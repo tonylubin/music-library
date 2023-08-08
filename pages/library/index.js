@@ -1,4 +1,5 @@
 import MainCard from "@/components/MainCard";
+import MusicCard from "@/components/MusicCard";
 import { getTracks } from "@/database/musicLibrary";
 import { serializeErrorFunc } from "@/utils/utils";
 import React from "react";
@@ -6,7 +7,7 @@ import React from "react";
 export default function Library({ data }) {
 
   const cardTracks = data.map((track, i) => (
-    <MainCard
+    <MusicCard
       key={i}
       title={track.title}
       artist={track.artist}
@@ -16,7 +17,7 @@ export default function Library({ data }) {
   ));
   
   return (
-    <main className="col-start-3 col-end-13 row-start-1 row-end-7 grid grid-cols-5 auto-rows-max gap-x-12 gap-y-24 py-24 px-12 overflow-auto bg-mainBg">
+    <main className="col-start-3 col-end-13 row-start-1 row-end-7 grid grid-cols-5 auto-rows-max gap-12 p-12 overflow-auto bg-primaryBgAlt">
       {cardTracks}
     </main>
   )

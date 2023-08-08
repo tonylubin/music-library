@@ -7,6 +7,7 @@ import React from "react";
 
 function Playlists({ data }) {
 
+  // get array of playlists in database
   let playlistTableArr = data.map((playlist, index) => (
     <PlaylistCard key={index} playlistName={playlist.TABLE_NAME} />
   ));
@@ -21,13 +22,14 @@ function Playlists({ data }) {
   }
 
   return (
-    <main className="col-start-3 col-end-13 row-start-1 row-end-7 grid grid-cols-5 auto-rows-max gap-x-12 gap-y-24 py-24 px-12 overflow-auto bg-mainBg z-0">
+    <main className="col-start-3 col-end-13 row-start-1 row-end-7 grid grid-cols-5 auto-rows-max gap-x-12 gap-y-24 py-24 px-12 overflow-auto bg-primaryBgAlt z-0">
       {getPlaylists}
     </main>
   );
 }
 
 export default Playlists;
+
 
 export const getStaticProps = async () => {
   const res = await getTables();

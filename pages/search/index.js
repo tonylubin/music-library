@@ -16,10 +16,10 @@ function Search({ searchResults }) {
   ));
 
   return (
-    <div className="col-start-3 col-end-13 row-start-1 row-end-7 bg-moonlitAsteroid grid grid-cols-5 grid-rows-6">
+    <div className="col-start-3 col-end-13 row-start-1 row-end-7 bg-blackShade grid grid-cols-5 grid-rows-6">
       <Header />
-      <main className="grid col-start-1 col-end-13 row-start-2 row-end-7 z-0 overflow-auto">
-        <section className="grid grid-cols-5 auto-rows-max gap-x-12 gap-y-24 py-12 px-12">
+      <main className="grid col-start-1 col-end-13 row-start-2 row-end-7 z-0 overflow-auto rounded-tl-lg bg-primaryBgAlt">
+        <section className="grid grid-cols-5 auto-rows-max gap-12 py-12 px-12">
           {searchQueryTracks}
         </section>
       </main>
