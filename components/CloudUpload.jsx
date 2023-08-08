@@ -79,7 +79,7 @@ const CloudUpload = ({ setUploadStatus, icons, setValue }) => {
         }
         return (
           <button
-            className="px-5 py-[6px] rounded-full bg-teal-500 text-sm font-semibold hover:bg-teal-400 hover:text-black ring-2 ring-gray-700"
+            className="px-5 py-[6px] rounded-full bg-teal-500 text-sm font-semibold hover:bg-teal-400 hover:text-black ring-2 ring-teal-500"
             onClick={handleOnClick}
           >
             Upload

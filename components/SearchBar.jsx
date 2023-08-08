@@ -14,15 +14,14 @@ const SearchBar = ({ searchQuery, setSearchQuery }) => {
     <div className="w-2/4 flex gap-4 items-center relative">
       <form onSubmit={handleSearch} className="flex gap-6 w-full">
         <input
-          className="text-black placeholder:italic placeholder:text-slate-400 block bg-white w-full border border-slate-300 rounded-full py-1 px-5 shadow-md hover:ring-neutral-400 hover:border-neutral-400 hover:ring-2 focus:outline-none focus:border-neutral-300 focus:ring-neutral-300 focus:ring-2 sm:text-sm"
+          className="text-neutral-300 placeholder:italic placeholder:text-brownText block bg-brownShadeAlt w-full border-[0.1px] border-brownShade rounded-full py-1 px-5 shadow-md focus:outline-none focus:border-brownHover focus:ring-brownHover focus:ring-1 sm:text-sm font-kanit"
           placeholder="Search artist/title..."
           type="text"
           name="search"
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
-          autoFocus
         />
-        <button className="text-black hover:text-white bg-neutral-200 hover:bg-neutral-300  font-medium rounded-lg text-sm px-5 py-2.5 text-center hover:outline">
+        <button className="text-neutral-300 hover:text-black bg-redHover hover:bg-primaryRed font-medium rounded-lg px-5 py-2.5 text-center hover:outline hover:outline-primaryRed">
           Search
         </button>
       </form>
