@@ -11,10 +11,10 @@ function Home() {
         src={landingPagePic}
         fill
       />
-      <h1 className="text-7xl font-extrabold mt-20 mr-10 z-10">My Vinyl Library</h1>
+      <h1 className="text-7xl font-extrabold mt-20 mr-10 z-10">The Vinyl Lib<span className="text-4xl">.</span></h1>
       <Link
         href={"/home"}
-        className="text-2xl underline z-10 underline-offset-2 decoration-2 mr-10"
+        className="text-2xl text-primaryRed underline z-10 underline-offset-4 decoration-[3px] mr-10"
       >
         Enter the Library
       </Link>
