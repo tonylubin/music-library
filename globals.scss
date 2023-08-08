@@ -32,8 +32,28 @@
   border: 3px solid #171717;
 }
 
-//  audio player styling
-$rhap_theme-color: #f2e9e4 !default;
-$rhap_bar-color: #2563eb !default;
-$rhap_background-color: #333C4A !default;
-@import 'react-h5-audio-player/src/styles.scss';
+// card flipping
+.cardContainer {
+  perspective: 600px;
+  width: 325px;
+  height: 325px;
+}
+
+.cardFace {
+  backface-visibility: hidden;
+}
+
+.card {
+  transform-style: preserve-3d;
+  transform-origin: center right;
+}
+
+.cardBack {
+  transform: rotateY(180deg);
+  -moz-transform: rotateY(180deg);
+}
+
+.rotated {
+  transform: translate(-100%) rotateY(-180deg);
+  -moz-transform: translate(-100%) rotateY(-180deg);  
+}

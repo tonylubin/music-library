@@ -21,7 +21,7 @@ export const serializeErrorFunc = (data) => JSON.parse(JSON.stringify(data));
 export const successNotification = (message) => {
   return toast.success(message, {
     position: "top-right",
-    autoClose: 3000,
+    autoClose: 2500,
     hideProgressBar: false,
     closeOnClick: true,
     pauseOnHover: true,
@@ -35,7 +35,7 @@ export const successNotification = (message) => {
 export const destroyNotification = (message) => {
   return toast.error(message, {
     position: "top-right",
-    autoClose: 3000,
+    autoClose: 2500,
     hideProgressBar: false,
     closeOnClick: true,
     pauseOnHover: true,
