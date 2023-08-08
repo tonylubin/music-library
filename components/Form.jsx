@@ -4,7 +4,7 @@ import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 
-function Form() {
+function Form({ closeModal }) {
   const [playlistCreated, setPlaylistCreated] = useState({
     status: false,
     message: "",
@@ -63,7 +63,7 @@ function Form() {
         <input
           type="text"
           id="floating_name"
-          className="block py-2.5 px-0 w-full text-sm text-white bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:border-slate-500 focus:outline-none focus:ring-0 peer"
+          className="block py-2.5 px-0 w-full text-sm text-white bg-transparent border-0 border-b-2 border-neutral-300 appearance-none focus:border-neutral-300 focus:outline-none focus:ring-0 peer"
           placeholder=" "
           {...register("name")}
         />
@@ -78,7 +78,7 @@ function Form() {
         {!playlistCreated.status ? (
           <button
             type="submit"
-            className="inline-flex justify-center rounded-md border border-transparent bg-indigo-500 px-4 py-2 text-sm font-medium dark:text-white hover:bg-indigo-400 focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2"
+            className="inline-flex justify-center rounded-md border border-transparent bg-redHover px-4 py-2 text-sm font-medium dark:text-white hover:bg-primaryRed focus:outline-none focus-visible:ring-2 focus-visible:ring-primaryRed focus-visible:ring-offset-2 text-neutral-300"
           >
             Create
           </button>
@@ -88,6 +88,7 @@ function Form() {
             className="inline-flex justify-center rounded-md border border-transparent bg-emerald-500 px-4 py-2 text-sm font-medium dark:text-white hover:bg-emerald-600 focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:ring-offset-2"
             onClick={() => {
               refreshData();
+              closeModal();
             }}
           >
             Close
