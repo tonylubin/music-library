@@ -1,4 +1,3 @@
-import MainCard from "@/components/MainCard";
 import MusicCard from "@/components/MusicCard";
 import { getTracks } from "@/database/musicLibrary";
 import { serializeErrorFunc } from "@/utils/utils";
