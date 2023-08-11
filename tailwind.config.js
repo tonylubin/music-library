@@ -48,6 +48,7 @@ module.exports = {
         'inputBgAlt': '#222222',
         'formBg': '#1d1e1e',
         'primaryGreen': '#1ed760',
+        'secondaryBlack': '#141010',
       },
       fontFamily: {
         'bioRhyme': 'var(--font-bioRhyme)',

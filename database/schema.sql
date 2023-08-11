@@ -6,7 +6,8 @@ CREATE TABLE music (
     title VARCHAR(255) NOT NULL,
     artist VARCHAR(255) NOT NULL,
     album VARCHAR(255),
-    duration INT, 
+    -- time format "hh:mm:ss"
+    duration TIME,  
     genre VARCHAR(255) NOT NULL,
     imageUrl VARCHAR(255),
     year INT NOT NULL,
