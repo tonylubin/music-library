@@ -3,28 +3,19 @@ import CloudUpload from "@/components/CloudUpload";
 import { useForm } from "react-hook-form";
 import { GlobalContext } from "@/pages/_app";
 import { useRouter } from "next/router";
-import { AiOutlineUpload } from 'react-icons/ai';
-import {
-  faArrowUpFromBracket,
-  faSquareCheck,
-  faSquareXmark,
-} from "@fortawesome/free-solid-svg-icons";
+import { ImCheckmark } from 'react-icons/im';
+import { MdErrorOutline } from 'react-icons/md';
+import { FaUpload } from 'react-icons/fa';
 import { CldImage } from "next-cloudinary";
 import { defaultTrackImgUrl } from "@/utils/utils";
 
 function Step1() {
-  const { formData, setFormData } = useContext(GlobalContext);
 
-  const icons = {
-    upload: faArrowUpFromBracket,
-    error: faSquareXmark,
-    success: faSquareCheck,
-  };
+  const { formData, setFormData } = useContext(GlobalContext);
 
   const [uploadSatus, setUploadStatus] = useState({
     status: null,
     text: null,
-    icon: null,
     color: null,
     imageUrl: defaultTrackImgUrl,
   });
@@ -63,17 +54,16 @@ function Step1() {
         ( the default image shown below will be added if no image is uploaded )
       </p>
       <form
-        className="flex flex-col gap-5 items-center"
+        className="flex flex-col gap-8 mt-4 items-center"
         onSubmit={handleSubmit(formSubmit)}
       >
         <div className="flex items-center justify-evenly gap-5">
-          <div className="flex gap-5 items-center border-[0.5px] border-slate-400 px-5 py-3 rounded-full font-kanit">
+          <div className="flex gap-5 items-center border-[0.5px] border-slate-400 px-6 py-4 rounded-full font-kanit">
             <p className="text-2xl">Upload image</p>
-            <AiOutlineUpload />
+            <FaUpload className="text-2xl" />
             <CloudUpload
               setUploadStatus={setUploadStatus}
               setFormData={setFormData}
-              icons={icons}
               setValue={setValue}
             />
           </div>
@@ -89,21 +79,13 @@ function Step1() {
           {uploadSatus.status === "success" && (
             <div className="flex items-center justify-center gap-4 border-[0.5px] border-teal-500 px-5 py-3 absolute w-full bg-black text-teal-500">
               <p className="font-semibold">{uploadSatus.text}</p>
-              <FontAwesomeIcon
-                icon={uploadSatus.icon}
-                className={uploadSatus.color}
-                size="2xl"
-              />
+              <ImCheckmark />
             </div>
           )}
           {uploadSatus.status === "error" && (
             <div className="flex items-center justify-center gap-4 border-[0.5px] border-red-600 px-5 py-3 absolute w-full bg-black text-red-600">
               <p className="font-semibold">{uploadSatus.text}</p>
-              <FontAwesomeIcon
-                icon={uploadSatus.icon}
-                className={uploadSatus.color}
-                size="2xl"
-              />
+              <MdErrorOutline />
             </div>
           )}
         </div>

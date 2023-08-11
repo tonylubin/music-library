@@ -1,16 +1,12 @@
 import { addTrack } from "@/database/musicLibrary";
-import { capitaliseWord } from "@/utils/utils";
 
 export default async function handler(req, res) {
   try {
-    let { title, artist, album, genre, year, imageUrl } = req.body;
+    let { title, artist, album, genre, year, imageUrl, duration } = req.body;
+  
+    await addTrack(title, artist, album, genre, year, imageUrl, duration);
 
-    await addTrack(title, artist, album, genre, year, imageUrl);
-
-    let trackTitle = capitaliseWord(title);
-    let trackArtist = capitaliseWord(artist);
-
-    res.status(200).json({ trackTitle, trackArtist });
+    res.status(200).json({ artist, title });
   } catch (err) {
     res
       .status(500)

@@ -94,7 +94,7 @@ function AddMusic() {
                 focus:ring-offset-brownHover focus:border-brownHover focus:ring-brownHover bg-brownShadeAlt rounded-lg placeholder-gray-400 text-sm"
                 id="album"
                 type="text"
-                defaultValue={"N/A"}
+                defaultValue={"n/a"}
                 {...register("album")}
               />
             </label>
@@ -112,7 +112,7 @@ function AddMusic() {
                 {...register("year")}
               />
             </label>
-            <label className="flex flex-col gap-1" htmlFor="title">
+            <label className="flex flex-col gap-1" htmlFor="duration">
               <span className="text-lg font-medium">Duration</span>
               <span className="text-red-900 float-right">
                 {errors.duration && errors.duration.message}
