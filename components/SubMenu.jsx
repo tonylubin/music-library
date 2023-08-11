@@ -45,7 +45,7 @@ const SubMenu = ({
       leave="duration-500 transition-all ease-in-out"
       leaveFrom="translate-x-0"
       leaveTo="translate-x-full"
-      className="absolute top-0 right-0 bg-blackShade h-full w-full z-20 px-8 pt-4 pb-6 flex flex-col"
+      className="absolute top-0 right-0 bg-secondaryBlack h-full w-full z-20 px-8 pt-4 pb-6 flex flex-col"
     >
       <div className="flex w-full items-center justify-center relative">
         <LuChevronLeft

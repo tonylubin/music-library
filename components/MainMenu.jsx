@@ -26,7 +26,7 @@ function MainMenu({ trackId, setSubMenu, setIsFavourite }) {
   };
 
   return (
-    <ul className="flex flex-col gap-6 p-8 pt-12 bg-blackShade h-full w-full">
+    <ul className="flex flex-col gap-6 p-8 pt-12 bg-secondaryBlack h-full w-full">
       <li
         className="flex items-center gap-4 hover:cursor-pointer pl-1 hover:text-primaryRed"
         onClick={() => addToFavourites(trackId)}

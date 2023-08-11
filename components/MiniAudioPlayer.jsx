@@ -1,18 +1,17 @@
 import React, { useState, useRef, useEffect } from "react";
 import AudioMotionAnalyzer from "audiomotion-analyzer";
 import {
-  BsPlayCircle,
-  BsPauseCircle,
-  BsSkipBackward,
-  BsSkipForward,
-} from "react-icons/bs";
-import { BiRefresh } from "react-icons/bi";
+  MdOutlineForward10,
+  MdOutlineReplay10,
+  MdOutlineCached,
+} from "react-icons/md";
 import { useRouter } from "next/router";
+import { BsPauseCircle, BsPlayCircle } from "react-icons/bs";
+import { CldImage } from "next-cloudinary";
+import { defaultTrackImgUrl } from "../utils/utils";
 
-
-const AudioPlayer = ({ trackData }) => {
-
-  const { title, artist, album, genre, year } = trackData;
+const MiniAudioPlayer = (props) => {
+  const { title, artist, simplePlay, setSimplePlay } = props;
 
   const router = useRouter();
 
@@ -27,16 +26,18 @@ const AudioPlayer = ({ trackData }) => {
   const progressBarRef = useRef();
   const animationRef = useRef();
 
-  // toggle button status - play/pause
+  // toggle button status - play/pause - for both play btns
   // smooth animation of progress bar
   const handlePlay = () => {
     if (!playing) {
       audioPlayer.current.play();
       setPlaying(true);
+      setSimplePlay(true)
       animationRef.current = requestAnimationFrame(updateProgressBar);
     } else {
       audioPlayer.current.pause();
       setPlaying(false);
+      setSimplePlay(false);
       cancelAnimationFrame(animationRef.current);
     }
   };
@@ -44,12 +45,12 @@ const AudioPlayer = ({ trackData }) => {
   // skipping feature
   const skipForward = () => {
     audioPlayer.current.currentTime += 10;
-    //animationRef.current = requestAnimationFrame(updateProgressBar);
+    //updateProgressBar();
   };
 
   const skipBackward = () => {
     audioPlayer.current.currentTime -= 10;
-    //animationRef.current = requestAnimationFrame(updateProgressBar);
+    //updateProgressBar();
   };
 
   // reset/reload track when playing ended
@@ -79,13 +80,13 @@ const AudioPlayer = ({ trackData }) => {
       ledBars: true,
       mode: 6,
       barSpace: 0.5,
-      gradient: "prism",
+      gradient: "orangered",
       showScaleX: false,
-      height: 150,
+      height: containerRef.current.offsetHeight,
       width: containerRef.current.offsetWidth,
       overlay: true,
       showBgColor: true,
-      bgAlpha: 0
+      bgAlpha: 0,
     });
   }, [audioPlayer?.current?.loadedmetadata]);
 
@@ -96,14 +97,26 @@ const AudioPlayer = ({ trackData }) => {
 
   // cancel progress bar update when navigating away - that's causing null error
   useEffect(() => {
-      const cancelAnimation = () => {
-        cancelAnimationFrame(animationRef.current)
-      }
-      router.events.on("routeChangeStart", cancelAnimation);
-      return () => {
-        router.events.off("routeChangeStart", cancelAnimation);
-      }
-  },[router.events])
+    const cancelAnimation = async () => {
+      await audioPlayer.current.pause();
+      cancelAnimationFrame(animationRef.current);
+    };
+    router.events.on("routeChangeStart", cancelAnimation);
+    return () => {
+      router.events.off("routeChangeStart", cancelAnimation);
+    };
+  }, [router.events]);
+
+  // handling outside audio play btn
+  useEffect(() => {
+    if(!simplePlay) {
+      audioPlayer.current.pause();
+      setPlaying((playing) => playing = false);
+    } else {
+      audioPlayer.current.play();
+      setPlaying((playing) => playing = true);
+    }
+  },[simplePlay]); 
 
   // progress bar
   function updateProgressBar() {
@@ -113,10 +126,10 @@ const AudioPlayer = ({ trackData }) => {
     const progressPercentage = (currentTime / duration) * 100;
     progressBar.style.width = `${progressPercentage}%`;
     animationRef.current = requestAnimationFrame(updateProgressBar);
-  };
+  }
 
   return (
-    <div className="w-80 p-8 flex flex-col gap-5 items-center font-vt323 bg-secondaryBlack">
+    <div className="w-full h-20 grid grid-cols-3 gap-4 items-center font-vt323 bg-secondaryBlack">
       <audio
         ref={audioPlayer}
         id="audio"
@@ -127,80 +140,85 @@ const AudioPlayer = ({ trackData }) => {
         }}
         onEnded={reload}
       ></audio>
-      <div className="w-full">
-        <p className="capitalize text-3xl">{title}</p>
-        <p className="capitalize text-primaryRed text-lg">{artist}</p>
-        {album !== "n/a" && <p className="text-lg capitalize">{album}</p>}
-        <div className="flex gap-2">
-          <p className="capitalize">{genre}</p>
-          <p>&#x2022; {year}</p>
+      <div className="w-full h-4/5 flex gap-8 pl-8 items-center">
+        <div className="w-10 h-10 flex">
+          <CldImage
+            alt="mini album cover"
+            src={defaultTrackImgUrl}
+            width={70}
+            height={70}
+            sizes="100vw"
+          />
+        </div>
+        <div className="flex flex-col">
+          <p className="capitalize text-lg">{title}</p>
+          <p className="capitalize text-redHover text-sm">{artist}</p>
         </div>
       </div>
-      <div ref={containerRef} id="container" className="w-full"></div>
-      <div className="w-full justify-center flex flex-col items-center gap-6">
+      <div className="w-full flex flex-col items-center">
         <div className="flex items-center gap-x-7">
           <div className="flex flex-col">
             <button
               id="backward"
               type="button"
-              className="text-3xl text-redHover hover:text-primaryRed"
+              title="rewind seek"
+              className="text-2xl text-primaryRed hover:text-redHover"
               onClick={skipBackward}
             >
-              <BsSkipBackward />
+              <MdOutlineReplay10 />
             </button>
-            <span className="text-sm">10 secs</span>
           </div>
           <div className="flex flex-col items-center justify-center">
             <button
               type="button"
-              className="text-5xl text-redHover hover:text-primaryRed"
+              title="play/pause"
+              className="text-4xl text-primaryRed hover:text-redHover"
               onClick={handlePlay}
             >
               {!playing ? <BsPlayCircle /> : <BsPauseCircle />}
             </button>
-            <span className="text-sm pt-1">{!playing ? "Play" : "Pause"}</span>
           </div>
           <div className="flex flex-col">
             <button
               id="forward"
               type="button"
-              className="text-3xl text-redHover hover:text-primaryRed"
+              title="forward seek"
+              className="text-2xl text-primaryRed hover:text-redHover"
               onClick={skipForward}
             >
-              <BsSkipForward />
+              <MdOutlineForward10 />
             </button>
-            <span className="text-sm">10 secs</span>
           </div>
           <div className="flex flex-col">
             <button
               id="reload"
               type="button"
-              className="text-3xl text-redHover hover:text-primaryRed"
+              title="reload"
+              className="text-xl text-primaryRed hover:text-redHover"
               onClick={reload}
             >
-              <BiRefresh />
+              <MdOutlineCached />
             </button>
-            <span className="text-sm">reload</span>
           </div>
         </div>
-        <div className="w-full h-[2px] bg-slate-700 rounded-lg">
-          <div
-            ref={progressBarRef}
-            className="w-0 h-full bg-redHover rounded-l-lg"
-          ></div>
-        </div>
-        <div className="w-full flex gap-6 justify-between text-lg">
-          <p>
-            Playing:{" "}
-            <span className="ml-1 text-emerald-400">{currentTime}</span>
-          </p>
-          <p>
-            Duration: <span className="ml-1 text-redHover">{duration}</span>
-          </p>
+        <div className="w-full flex gap-4 items-center justify-between text-lg">
+          <p className="text-emerald-400 text-sm">{currentTime}</p>
+          <div className="w-full h-[2px] bg-slate-700 rounded-lg">
+            <div
+              ref={progressBarRef}
+              className="w-0 h-full bg-redHover rounded-l-lg"
+            ></div>
+          </div>
+          <p className="text-primaryRed text-sm">{duration}</p>
         </div>
       </div>
+      <div
+        ref={containerRef}
+        id="container"
+        className="w-1/2 h-4/5 flex justify-self-center"
+      ></div>
     </div>
   );
 };
 
-export default AudioPlayer;
+export default MiniAudioPlayer;

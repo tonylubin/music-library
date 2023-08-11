@@ -60,7 +60,7 @@ const TrackCards = ({
       </div>
       <Tooltip
         anchorSelect="#tooltip"
-        style={{ background: "#181818" }}
+        style={{ background: "#141010" }}
         place="top"
         offset={1}
       >

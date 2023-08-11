@@ -1,7 +1,7 @@
 import React from "react";
 import { CldUploadWidget } from "next-cloudinary";
 
-const CloudUpload = ({ setUploadStatus, icons, setValue }) => {
+const CloudUpload = ({ setUploadStatus, setValue }) => {
 
   // cloudinary widget options
   const widgetUIOptions = {
@@ -48,7 +48,6 @@ const CloudUpload = ({ setUploadStatus, icons, setValue }) => {
       await setUploadStatus({
         status: 'success',
         text: "Done! Image uploaded.",
-        icon: icons.success,
         color: "text-teal-500",
         imageUrl: uploadImgUrl
       })])
@@ -60,7 +59,6 @@ const CloudUpload = ({ setUploadStatus, icons, setValue }) => {
     await setUploadStatus({
       status: 'error',
       text: "Something went wrong!",
-      icon: icons.error,
       color: "text-red-600"
     });
   };
