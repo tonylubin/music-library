@@ -1,0 +1,63 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+/* make page width and height 100% */
+@layer base {
+  html,
+  body,
+  #__next {
+    @apply h-full w-full;
+  }
+}
+
+body {
+  overflow: hidden;
+}
+
+/* Works on Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: hsla(0, 0%, 100%, 0.3) #171717;
+}
+
+/* Works on Chrome, Edge, and Safari */
+*::-webkit-scrollbar {
+  width: 1rem;
+}
+
+*::-webkit-scrollbar-track {
+  background: #171717;
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: hsla(0, 0%, 100%, 0.3);
+  border: 3px solid #171717;
+}
+
+// card flipping
+.cardContainer {
+  perspective: 600px;
+  width: 325px;
+  height: 325px;
+}
+
+.cardFace {
+  backface-visibility: hidden;
+}
+
+.card {
+  transform-style: preserve-3d;
+  transform-origin: center right;
+}
+
+.cardBack {
+  transform: rotateY(180deg);
+  -moz-transform: rotateY(180deg);
+}
+
+.rotated {
+  transform: translate(-100%) rotateY(-180deg);
+  -moz-transform: translate(-100%) rotateY(-180deg);  
+}
