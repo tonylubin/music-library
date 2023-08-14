@@ -1,4 +1,4 @@
-import "@/globals.scss";
+import "@/globals.css";
 import { BioRhyme, Kanit, VT323 } from "next/font/google";
 import { useRouter } from "next/router";
 import Layout from "@/components/Layout";
