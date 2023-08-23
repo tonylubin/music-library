@@ -1,93 +1,61 @@
-import Image from "next/image";
-import { useRouter } from "next/router";
-import React from "react";
-import bannerImage from "../../public/images/analog-turntable-spinning-retro-soundtrack-nightclub-generated-by-ai.jpg";
-import { getPlaylistTable } from "@/database/musicLibrary";
-import { serializeErrorFunc } from "@/utils/utils";
-import { CldImage } from "next-cloudinary";
-import Link from "next/link";
-import MiniAudioPlayer from "@/components/MiniAudioPlayer";
+import React, { Fragment, useState } from "react";
+import { Tab } from "@headlessui/react";
+import FormStep1 from "@/components/FormStep1";
+import FormStep2 from "@/components/FormStep2";
+import FormStep3 from "@/components/FormStep3";
+import FormStep4 from "@/components/FormStep4";
 
-function Test({ data }) {
-  const router = useRouter();
-  const name = 'example';
+const Test = () => {
+  const [selectedIndex, setSelectedIndex] = useState(0);
+  const [formData, setFormData] = useState({});
 
-  // added modulo function for odd/even colour scheme
-  const getPlaylistTracks = data.map((track, index) => (
-    <div
-      key={index}
-      className={`grid grid-cols-playlistHeader text-neutral-300 capitalize hover:bg-redHover rounded items-center ${
-        index % 2 == 0 ? "bg-brownCard" : "bg-transparent"
-      }`}
+  const handleNext = (data, e) => {
+    setFormData({ ...formData, ...data });
+    setSelectedIndex(Number(e.target.id) + 1);
+  };
+
+  const tabHeadings = ["Details", "Genre/Time", "Cover Image", "Audio"];
+  const tabsList = tabHeadings.map((tabTitle, i) => (
+    <Tab
+      key={i}
+      className="px-6 py-2 rounded-lg border border-primaryRed ui-selected:bg-redHover focus-visible:outline-none"
     >
-      <div className="justify-self-center">{index + 1}</div>
-
-      <div className="flex items-center gap-6">
-        <div className="w-10 h-10">
-          <CldImage
-            alt="vinyl record cover"
-            src={track.imageUrl}
-            width={150}
-            height={150}
-            sizes="100vw"
-          />
-        </div>
-        <Link href={`/track/${track.trackId}`} id={index}>
-          <div className="truncate pr-4 hover:underline" title={track.title}>
-            {track.title}
-          </div>
-        </Link>
-      </div>
-      <div className="truncate pr-4 artist" title={track.artist}>
-        {track.artist}
-      </div>
-      <div>{track.genre}</div>
-      <div className="justify-self-center">03:33</div>
-    </div>
+      {tabTitle}
+    </Tab>
   ));
 
   return (
-    <main className="col-start-3 col-end-13 row-start-1 row-end-7 font-kanit bg-neutral-900 flex flex-col relative">
-      <div className="w-full h-1/4 bg-brownShadeAlt overflow-hidden">
-        <div className="w-full h-full relative">
-          <h1 className="text-xl z-10 pl-16 pt-8">Playlist</h1>
-          <p className="capitalize text-7xl font-semibold pt-6 pl-16 z-10">
-            {name}
-          </p>
-          <Image
-            alt="record player"
-            sizes="100vw"
-            src={bannerImage}
-            fill
-            className="object-cover opacity-10 object-[10%_60%]"
-          />
+    <main className="col-start-3 col-end-13 row-start-1 row-end-7 grid grid-cols-10 grid-rows-6 w-full h-full">
+      <Tab.Group
+        as={Fragment}
+        selectedIndex={selectedIndex}
+        onChange={setSelectedIndex}
+      >
+        <div className="col-start-1 col-end-11 row-start-1 row-end-2 self-end">
+          <Tab.List className="grid grid-cols-4 gap-16 w-3/4 mx-auto">
+            {tabsList}
+          </Tab.List>
         </div>
-      </div>
-      <div className="h-3/4 w-full bg-primaryBgAlt pt-8 px-8 pb-28">
-        <div className="h-full w-full grid grid-flow-row auto-rows-[3rem] overflow-auto">
-          <div className="grid grid-cols-playlistHeader text-lg border-b-[0.5px] border-b-zinc-400 text-zinc-400 content-center mb-4 sticky top-0 z-10 bg-primaryBgAlt">
-            <div className="justify-self-center">#</div>
-            <div>Title</div>
-            <div>Artist</div>
-            <div>Genre</div>
-            <div className="justify-self-center">Duration</div>
-          </div>
-          {getPlaylistTracks}
+        <div className="col-start-1 col-end-11 row-start-2 row-end-7 flex items-center justify-center">
+          <Tab.Panels className="w-1/2">
+            <Tab.Panel>
+              <FormStep1 handleNext={handleNext} />
+            </Tab.Panel>
+            <Tab.Panel>
+              <FormStep2 handleNext={handleNext} />
+            </Tab.Panel>
+            <Tab.Panel>
+              <FormStep3 handleNext={handleNext}
+              />
+            </Tab.Panel>
+            <Tab.Panel>
+              <FormStep4 formData={formData} />
+            </Tab.Panel>
+          </Tab.Panels>
         </div>
-      </div>
-      <div className="absolute bottom-0 w-full">
-      <MiniAudioPlayer title='treat me right' artist='kim english' />
-      </div>
+      </Tab.Group>
     </main>
   );
-}
-
-export default Test;
-
-export const getServerSideProps = async (context) => {
-  const playlistName = 'example'
-  const res = await getPlaylistTable(playlistName);
-  const data = await serializeErrorFunc(res);
-  return { props: { data } };
 };
 
+export default Test;

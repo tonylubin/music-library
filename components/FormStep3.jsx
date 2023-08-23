@@ -1,18 +1,13 @@
-import React, { useContext, useState } from "react";
-import CloudUpload from "@/components/CloudUpload";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
-import { GlobalContext } from "@/pages/_app";
-import { useRouter } from "next/router";
-import { ImCheckmark } from 'react-icons/im';
-import { MdErrorOutline } from 'react-icons/md';
-import { FaUpload } from 'react-icons/fa';
+import { FaUpload } from "react-icons/fa";
+import CloudUpload from "./CloudUpload";
 import { CldImage } from "next-cloudinary";
+import { ImCheckmark } from "react-icons/im";
+import { MdErrorOutline } from "react-icons/md";
 import { defaultTrackImgUrl } from "@/utils/utils";
 
-function Step1() {
-
-  const { formData, setFormData } = useContext(GlobalContext);
-
+const FormStep3 = ({ handleNext }) => {
   const [uploadSatus, setUploadStatus] = useState({
     status: null,
     text: null,
@@ -20,25 +15,12 @@ function Step1() {
     uploadUrl: defaultTrackImgUrl,
   });
 
-  const { register, handleSubmit, reset, setValue } = useForm({
+  const { register, handleSubmit, setValue } = useForm({
     defaultValues: { imageUrl: uploadSatus.uploadUrl },
   });
 
-  const router = useRouter();
-
-  const formSubmit = async (data, e) => {
-    e.preventDefault();
-   
-    await setFormData({ ...formData, imageUrl: data.imageUrl });
-    router.push("/addMusic/result");
-    reset();
-  };
-
   return (
-    <main className="col-start-3 col-end-13 row-start-1 row-end-7 flex flex-col items-center justify-center bg-primaryBgAlt">
-      <h2 className="text-2xl font-semibold text-primaryRed py-4">
-        Cover picture
-      </h2>
+    <div>
       <p className="text-center pt-4 font-kanit">
         To add an image press the{" "}
         <span className="underline underline-offset-2 text-teal-500 font-semibold">
@@ -54,13 +36,14 @@ function Step1() {
         ( the default image shown below will be added if no image is uploaded )
       </p>
       <form
+        id={2}
         className="flex flex-col gap-8 mt-4 items-center"
-        onSubmit={handleSubmit(formSubmit)}
+        onSubmit={handleSubmit(handleNext)}
       >
         <div className="flex items-center justify-evenly gap-5">
           <div className="flex gap-5 items-center border-[0.5px] border-slate-400 px-6 py-4 rounded-full font-kanit">
-            <p className="text-2xl">Upload image</p>
-            <FaUpload className="text-2xl" />
+            <p className="text-xl">Upload image</p>
+            <FaUpload className="text-xl" />
             <CloudUpload
               setUploadStatus={setUploadStatus}
               setValue={setValue}
@@ -70,8 +53,8 @@ function Step1() {
         </div>
         <div className="w-300 h-300 border-2 border-dotted border-slate-400 flex gap-6 relative">
           <CldImage
-            width={300}
-            height={300}
+            width={250}
+            height={250}
             src={uploadSatus.uploadUrl}
             sizes="100vw"
             alt="vinyl cover"
@@ -90,15 +73,15 @@ function Step1() {
           )}
         </div>
         <button
-          className="px-8 py-2 bg-primaryRed rounded-full text-md font-semibold hover:bg-redHover hover:text-black hover:ring-2 hover:ring-redHover"
           type="submit"
+          className="font-medium font-bioRhyme rounded-lg text-md px-5 py-2.5 w-64 mt-6 self-center hover:text-black bg-primaryRed hover:bg-redHover hover:cursor-pointer"
         >
           Next
         </button>
         <input type="hidden" {...register("imageUrl")} />
       </form>
-    </main>
+    </div>
   );
-}
+};
 
-export default Step1;
+export default FormStep3;

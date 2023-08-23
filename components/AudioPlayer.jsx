@@ -9,21 +9,19 @@ import {
 import { BiRefresh } from "react-icons/bi";
 import { useRouter } from "next/router";
 
-
 const AudioPlayer = ({ trackData }) => {
-
-  const { title, artist, album, genre, year } = trackData;
+  const { title, artist, album, genre, year, audioUrl, duration } = trackData;
 
   const router = useRouter();
 
   // player state
   const [playing, setPlaying] = useState(false);
   const [currentTime, setCurrentTime] = useState();
-  const [duration, setDuration] = useState();
+  const [trackLength, setTrackLength] = useState(duration.substr(3));
 
   // useRef's - reference to html elements
-  const audioPlayer = useRef();
-  const containerRef = useRef();
+  const audioPlayer = useRef(null);
+  const containerRef = useRef(null);
   const progressBarRef = useRef();
   const animationRef = useRef();
 
@@ -60,7 +58,7 @@ const AudioPlayer = ({ trackData }) => {
   };
 
   // format secs/mins for double digits  - '03:03'
-  const formatTime = (time) => {
+  function formatTime(time) {
     if (isNaN(time)) {
       return "00:00";
     }
@@ -73,21 +71,29 @@ const AudioPlayer = ({ trackData }) => {
 
   // ** when browser has loaded metadata for audio it fires loadmetadata event (can then get track duration) & create audio motion element instance **
   useEffect(() => {
-    setDuration(formatTime(audioPlayer.current.duration));
-    const audioMotion = new AudioMotionAnalyzer(containerRef.current, {
-      source: audioPlayer.current,
-      ledBars: true,
-      mode: 6,
-      barSpace: 0.5,
-      gradient: "prism",
-      showScaleX: false,
-      height: 150,
-      width: containerRef.current.offsetWidth,
-      overlay: true,
-      showBgColor: true,
-      bgAlpha: 0
-    });
-  }, [audioPlayer?.current?.loadedmetadata]);
+    const createAudioAnalyzer = async () => {
+      const player = await audioPlayer.current;
+      const analyzerContainer = await containerRef.current;
+
+      const audioMotion = new AudioMotionAnalyzer(analyzerContainer, {
+        source: player,
+        ledBars: true,
+        mode: 6,
+        barSpace: 0.5,
+        gradient: "prism",
+        showScaleX: false,
+        height: 150,
+        width: analyzerContainer.offsetWidth,
+        overlay: true,
+        showBgColor: true,
+        bgAlpha: 0,
+      });
+
+      return audioMotion;
+    };
+
+    createAudioAnalyzer();
+  }, []);
 
   // update current playing time
   useEffect(() => {
@@ -96,14 +102,14 @@ const AudioPlayer = ({ trackData }) => {
 
   // cancel progress bar update when navigating away - that's causing null error
   useEffect(() => {
-      const cancelAnimation = () => {
-        cancelAnimationFrame(animationRef.current)
-      }
-      router.events.on("routeChangeStart", cancelAnimation);
-      return () => {
-        router.events.off("routeChangeStart", cancelAnimation);
-      }
-  },[router.events])
+    const cancelAnimation = () => {
+      cancelAnimationFrame(animationRef.current);
+    };
+    router.events.on("routeChangeStart", cancelAnimation);
+    return () => {
+      router.events.off("routeChangeStart", cancelAnimation);
+    };
+  }, [router.events]);
 
   // progress bar
   function updateProgressBar() {
@@ -113,19 +119,21 @@ const AudioPlayer = ({ trackData }) => {
     const progressPercentage = (currentTime / duration) * 100;
     progressBar.style.width = `${progressPercentage}%`;
     animationRef.current = requestAnimationFrame(updateProgressBar);
-  };
+  }
 
   return (
     <div className="w-80 p-8 flex flex-col gap-5 items-center font-vt323 bg-secondaryBlack">
       <audio
         ref={audioPlayer}
         id="audio"
-        src="/music/02 Treat Me Right.m4a"
+        src={audioUrl}
+        crossOrigin="anonymous"
         preload="auto"
         onTimeUpdate={(e) => {
           setCurrentTime(formatTime(e.currentTarget.currentTime));
         }}
         onEnded={reload}
+        // onLoadedMetadata={(e) => setTrackLength(formatTime(e.target.duration))}
       ></audio>
       <div className="w-full">
         <p className="capitalize text-3xl">{title}</p>
@@ -195,7 +203,7 @@ const AudioPlayer = ({ trackData }) => {
             <span className="ml-1 text-emerald-400">{currentTime}</span>
           </p>
           <p>
-            Duration: <span className="ml-1 text-redHover">{duration}</span>
+            Duration: <span className="ml-1 text-redHover">{trackLength}</span>
           </p>
         </div>
       </div>

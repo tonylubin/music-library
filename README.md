@@ -1,5 +1,8 @@
 # Music Player Library
 
+#### Getting started
+```npm run dev```
+
 ### Problem
 
 how to make vinyl analogue music collection made available to interact with, in a digital way.
@@ -40,3 +43,5 @@ Created a full stack web app music player inspired by online streaming players l
     - uploading audio
 
 7. music player - created using `<audio>` element with play, pause and seek functions. Visual progress bar song duration and using 'audioMotion-analyzer' to show eq function of playing audio
+
+
