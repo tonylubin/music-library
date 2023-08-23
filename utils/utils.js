@@ -57,7 +57,7 @@ export const toastClose = (callbackFunction) => {
 };
 
 // default image cloudinary URL
-export const defaultTrackImgUrl = "vinyl-library-app/vinyl-white-label_rus5nl";
+export const defaultTrackImgUrl = "vinyl-library-app/images/vinyl-white-label_rus5nl";
 
 // mysql function - allows string template literals
 export const addBackTicks = (str) => {

@@ -1,38 +1,47 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Music Player Library
 
-## Getting Started
+#### Getting started
+```npm run dev```
 
-First, run the development server:
+### Problem
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-```
+how to make vinyl analogue music collection made available to interact with, in a digital way.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Solution
 
-You can start editing the page by modifying `pages/index.js`. The page auto-updates as you edit the file.
+Created a full stack web app music player inspired by online streaming players like mixcloud/spotify to organise and upload music, play tracks and create playlists.
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.js`.
+## Tech
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+- Next JS (13)
+- React
+- Tailwind CSS
+- react icons
+- audiomotion-analyzer
+- React hook form
+- yup resolver - form validation
+- react toastify - toast notification
+- NextCloudinary & Cloudinary- image upload cloud server
+- SQL database - MySql
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+## Functionality
 
-## Learn More
+1. library tracks organised via music genres
 
-To learn more about Next.js, take a look at the following resources:
+2. search functionality via artist or track name using  Next router with url search query/term
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+3. navigation using NextJS  `<Link>` component and `useRouter()`
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+4. able to add tracks to a favourites lists
 
-## Deploy on Vercel
+5. make playlists - add/remove tracks
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+6. Form - add music to database library with form validation.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+    - enter track info using multi-step form
+    - upload track vinyl cover image using cloudinary upload widget
+    - uploading audio
+
+7. music player - created using `<audio>` element with play, pause and seek functions. Visual progress bar song duration and using 'audioMotion-analyzer' to show eq function of playing audio
+
+

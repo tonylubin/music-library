@@ -46,10 +46,10 @@ const searchFunc = async (searchTerm) => {
 };
 
 // ADD track (row)
-const addTrack = async (title, artist, album, genre, year, imageUrl, duration) => {
+const addTrack = async (title, artist, album, genre, year, imageUrl, duration, audioUrl) => {
   const formatedDuration = `00:${duration}`;
-  const query = `INSERT INTO music (title, artist, album, genre, year, imageUrl, duration) VALUES (?,?,?,?,?,?,?)`;
-  await db.query(query, [title, artist, album, genre, year, imageUrl, formatedDuration]);
+  const query = `INSERT INTO music (title, artist, album, genre, year, imageUrl, duration, audioUrl) VALUES (?,?,?,?,?,?,?,?)`;
+  await db.query(query, [title, artist, album, genre, year, imageUrl, formatedDuration, audioUrl]);
 };
 
 // DELETE track (row)

@@ -1,14 +1,25 @@
 import React from "react";
 import { CldUploadWidget } from "next-cloudinary";
 
-const CloudUpload = ({ setUploadStatus, setValue }) => {
+const CloudUpload = ({ setUploadStatus, setValue, uploadOption }) => {
+  const uploadFolder =
+    (uploadOption === "images")
+      ? process.env.NEXT_PUBLIC_CLOUDINARY_DB_FOLDER_IMG
+      : process.env.NEXT_PUBLIC_CLOUDINARY_DB_FOLDER_AUD;
+
+  const uploadText =
+    (uploadOption === "images")
+      ? "Done! Image uploaded."
+      : "Done! track audio uploaded.";
+
+  const uploadUrl = (uploadOption === "images") ? "imageUrl" : "audioUrl";
 
   // cloudinary widget options
   const widgetUIOptions = {
     cloudName: process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME,
     uploadPreset: process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET,
-    folder: process.env.NEXT_PUBLIC_CLOUDINARY_DB_FOLDER,
-    sources: ["url", "camera", "local", "facebook", "instagram"],
+    folder: uploadFolder,
+    sources: ["url", "camera", "local"],
     showAdvancedOptions: false,
     cropping: true,
     multiple: false,
@@ -41,25 +52,25 @@ const CloudUpload = ({ setUploadStatus, setValue }) => {
 
   // upload handling
   const handleUpload = async (result) => {
-      console.log("Image uploaded!", result.info);
-      let uploadImgUrl = result.info.public_id
-      Promise.all([
-      await setValue('imageUrl',uploadImgUrl),
+    let uploadedSrc = (uploadOption === 'images') ? result.info.public_id : result.info.url;
+    Promise.all([
+      await setValue(uploadUrl, uploadedSrc),
       await setUploadStatus({
-        status: 'success',
-        text: "Done! Image uploaded.",
+        status: "success",
+        text: uploadText,
         color: "text-teal-500",
-        imageUrl: uploadImgUrl
-      })])
+        uploadUrl: uploadedSrc,
+      }),
+    ]);
   };
 
   // error handling
   const handleError = async (error) => {
     console.log(`Something went wrong! - ${error}`);
     await setUploadStatus({
-      status: 'error',
+      status: "error",
       text: "Something went wrong!",
-      color: "text-red-600"
+      color: "text-red-600",
     });
   };
 
@@ -88,4 +99,4 @@ const CloudUpload = ({ setUploadStatus, setValue }) => {
   );
 };
 
-export default CloudUpload; 
+export default CloudUpload;
