@@ -1,7 +1,3 @@
-<<<<<<< HEAD
-import React from 'react'
-import { Tab } from '@headlessui/react'
-=======
 import React, { Fragment, useState } from "react";
 import { Tab } from "@headlessui/react";
 import FormStep1 from "@/components/FormStep1";
@@ -27,30 +23,8 @@ const Test = () => {
       {tabTitle}
     </Tab>
   ));
->>>>>>> design
 
-const Test = () => {
   return (
-<<<<<<< HEAD
-    <Tab.Group>
-      <Tab.List>
-        <Tab>Info</Tab>
-        <Tab>Image</Tab>
-        <Tab>Audio</Tab>
-        <Tab>Result</Tab>
-      </Tab.List>
-      <Tab.Panels>
-        <Tab.Panel>Info - content</Tab.Panel>
-        <Tab.Panel>Image - content</Tab.Panel>
-        <Tab.Panel>Audio - content</Tab.Panel>
-        <Tab.Panel>Result - content</Tab.Panel>
-      </Tab.Panels>
-    </Tab.Group>
-  )
-}
-
-export default Test
-=======
     <main className="col-start-3 col-end-13 row-start-1 row-end-7 grid grid-cols-10 grid-rows-6 w-full h-full">
       <Tab.Group
         as={Fragment}
@@ -85,4 +59,3 @@ export default Test
 };
 
 export default Test;
->>>>>>> design
