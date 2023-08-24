@@ -12,7 +12,8 @@ const MusicCard = ({ trackId, title, artist, imageUrl }) => {
             alt="record player"
             sizes="100vw"
             src={imageUrl}
-            fill
+            width={300}
+            height={300}
             className="object-cover rounded-lg"
           />
         </div>

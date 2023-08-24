@@ -70,7 +70,7 @@ function SideNav() {
         </div>
         <div className={`hover:text-primaryRed flex items-center gap-x-4 ${isActive.addMusic ? "text-primaryRed" : ""}`}>
           <TbVinyl />
-          <Link href={"/addMusic"}>Add Music</Link>
+          <Link href={"/addTrack"}>Add Music</Link>
         </div>
         <div className={`hover:text-primaryRed flex items-center gap-x-4 ${isActive.searching ? "text-primaryRed" : ""}`}>
           <FaSearch />
