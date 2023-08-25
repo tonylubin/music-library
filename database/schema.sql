@@ -22,5 +22,5 @@ CREATE TABLE favourites (
     trackId INT,
     created TIMESTAMP NOT NULL DEFAULT NOW(),
     PRIMARY KEY(favouriteId),
-    FOREIGN KEY (trackId) REFERENCES music(trackId),
+    FOREIGN KEY (trackId) REFERENCES music(trackId) ON DELETE CASCADE,
 );

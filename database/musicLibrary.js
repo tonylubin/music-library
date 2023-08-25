@@ -103,7 +103,7 @@ const createPlaylist = async (name) => {
     playlist BOOLEAN DEFAULT TRUE, 
     created TIMESTAMP NOT NULL DEFAULT NOW(),
     PRIMARY KEY (trackNumber),
-    FOREIGN KEY (trackId) REFERENCES music(trackId)
+    FOREIGN KEY (trackId) REFERENCES music(trackId) ON DELETE CASCADE
     )`;
   let queryString = mysql.format(query, [playlistName]);
   await db.query(queryString);

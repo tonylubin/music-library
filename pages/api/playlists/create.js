@@ -8,7 +8,7 @@ export default async function handler(req,res) {
     let tablesArr = await rows.flatMap((table) => Object.values(table));
     // check if playlist name exists
     let searchPlaylists = await tablesArr.includes(playlistName) ?  true : false;
-    
+   
     if (searchPlaylists === true) {
       res.status(400).send({ msg: `${playlistName.toUpperCase()} playlist already exists, choose another name!` });
     }

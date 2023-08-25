@@ -1,18 +1,18 @@
 import React from "react";
-import { CldUploadWidget } from "next-cloudinary";
+import { CldUploadButton } from "next-cloudinary";
 
 const CloudUpload = ({ setUploadStatus, setValue, uploadOption }) => {
   const uploadFolder =
-    (uploadOption === "images")
+    uploadOption === "images"
       ? process.env.NEXT_PUBLIC_CLOUDINARY_DB_FOLDER_IMG
       : process.env.NEXT_PUBLIC_CLOUDINARY_DB_FOLDER_AUD;
 
   const uploadText =
-    (uploadOption === "images")
+    uploadOption === "images"
       ? "Done! Image uploaded."
       : "Done! track audio uploaded.";
 
-  const uploadUrl = (uploadOption === "images") ? "imageUrl" : "audioUrl";
+  const uploadUrl = uploadOption === "images" ? "imageUrl" : "audioUrl";
 
   // cloudinary widget options
   const widgetUIOptions = {
@@ -52,7 +52,8 @@ const CloudUpload = ({ setUploadStatus, setValue, uploadOption }) => {
 
   // upload handling
   const handleUpload = async (result) => {
-    let uploadedSrc = (uploadOption === 'images') ? result.info.public_id : result.info.url;
+    let uploadedSrc =
+      (uploadOption === "images") ? result.info.public_id : result.info.url;
     Promise.all([
       await setValue(uploadUrl, uploadedSrc),
       await setUploadStatus({
@@ -75,27 +76,13 @@ const CloudUpload = ({ setUploadStatus, setValue, uploadOption }) => {
   };
 
   return (
-    <CldUploadWidget
+    <CldUploadButton
+      className="px-5 py-[6px] rounded-full bg-teal-500 text-sm font-semibold hover:bg-teal-400 hover:text-black ring-2 ring-teal-500"
       uploadPreset="next-cloudinary-unsigned"
       options={widgetUIOptions}
       onUpload={handleUpload}
       onError={handleError}
-    >
-      {({ open }) => {
-        function handleOnClick(e) {
-          e.preventDefault();
-          open();
-        }
-        return (
-          <button
-            className="px-5 py-[6px] rounded-full bg-teal-500 text-sm font-semibold hover:bg-teal-400 hover:text-black ring-2 ring-teal-500"
-            onClick={handleOnClick}
-          >
-            Upload
-          </button>
-        );
-      }}
-    </CldUploadWidget>
+    />
   );
 };
 

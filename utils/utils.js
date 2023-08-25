@@ -20,7 +20,7 @@ export const serializeErrorFunc = (data) => JSON.parse(JSON.stringify(data));
 // Toastify alert
 export const successNotification = (message) => {
   return toast.success(message, {
-    position: "top-right",
+    position: "bottom-right",
     autoClose: 2500,
     hideProgressBar: false,
     closeOnClick: true,
@@ -34,7 +34,7 @@ export const successNotification = (message) => {
 
 export const destroyNotification = (message) => {
   return toast.error(message, {
-    position: "top-right",
+    position: "bottom-right",
     autoClose: 2500,
     hideProgressBar: false,
     closeOnClick: true,

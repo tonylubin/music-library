@@ -1,9 +1,13 @@
 import { LuChevronRight, LuStar, LuStarOff } from "react-icons/lu";
-import { MdRemoveCircleOutline, MdAddCircleOutline } from "react-icons/md";
+import { MdRemoveCircleOutline, MdAddCircleOutline, MdDeleteForever } from "react-icons/md";
 import React from "react";
-import { destroyNotification, successNotification } from "@/utils/utils";
+import { destroyNotification, successNotification, toastClose } from "@/utils/utils";
+import { useRouter } from "next/router";
 
 function MainMenu({ trackId, setSubMenu, setIsFavourite }) {
+
+  const router = useRouter();
+
   // adding to favs
   const addToFavourites = async (id) => {
     const requestOptions = {
@@ -25,29 +29,46 @@ function MainMenu({ trackId, setSubMenu, setIsFavourite }) {
     destroyNotification(msg);
   };
 
+  // delete from library
+  const handleTrackDel = async (id) => {
+    let res = await fetch(`/api/deleteTrack?trackNum=${id}`, { method: "DELETE"});
+    let { msg } = await res.json();
+    destroyNotification(msg);
+    const callbackFunc = () => router.push("/library");
+    toastClose(callbackFunc);
+  };
+
   return (
-    <ul className="flex flex-col gap-6 p-8 pt-12 bg-secondaryBlack h-full w-full">
+    <ul className="flex flex-col gap-6 p-8 pt-4 bg-secondaryBlack h-full w-full">
       <li
         className="flex items-center gap-4 hover:cursor-pointer pl-1 hover:text-primaryRed"
+        onClick={() => handleTrackDel(trackId)}
+      >
+        <MdDeleteForever className="h-6 w-6 text-primaryRed" />
+        <span>Delete from Library</span>
+      </li>
+      <span className="border-b-2 border-b-slate-400"></span>
+      <li
+        className="flex items-center gap-4 hover:cursor-pointer pl-1 hover:text-emerald-400"
         onClick={() => addToFavourites(trackId)}
       >
-        <LuStar className="h-6 w-6" />
+        <LuStar className="h-6 w-6 text-emerald-400" />
         <span>Set as favourite</span>
       </li>
       <li
         className="flex items-center gap-4 hover:cursor-pointer pl-1 hover:text-primaryRed"
         onClick={() => removeFromFavourites(trackId)}
       >
-        <LuStarOff className="h-6 w-6" />
+        <LuStarOff className="h-6 w-6 text-primaryRed" />
         <span>Unset as favourite</span>
       </li>
       <span className="border-b-2 border-b-slate-400"></span>
       <li
-        className="flex justify-between cursor-default pl-1 hover:text-primaryRed"
+        className="flex justify-between cursor-default pl-1 hover:text-emerald-400"
         onClick={() => setSubMenu({ status: true, action: "add" })}
       >
         <div className="flex items-center gap-4">
-          <MdAddCircleOutline className="h-6 w-6" />
+          <MdAddCircleOutline className="h-6 w-6 text-emerald-400" />
           <span>Add to playlist</span>
         </div>
         <LuChevronRight className="h-6 w-6" />
@@ -57,7 +78,7 @@ function MainMenu({ trackId, setSubMenu, setIsFavourite }) {
         onClick={() => setSubMenu({ status: true, action: "remove" })}
       >
         <div className="flex items-center gap-4">
-          <MdRemoveCircleOutline className="h-6 w-6" />
+          <MdRemoveCircleOutline className="h-6 w-6 text-primaryRed" />
           <span>Remove from playlist</span>
         </div>
         <LuChevronRight className="h-6 w-6" />

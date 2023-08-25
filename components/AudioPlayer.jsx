@@ -42,12 +42,10 @@ const AudioPlayer = ({ trackData }) => {
   // skipping feature
   const skipForward = () => {
     audioPlayer.current.currentTime += 10;
-    //animationRef.current = requestAnimationFrame(updateProgressBar);
   };
 
   const skipBackward = () => {
     audioPlayer.current.currentTime -= 10;
-    //animationRef.current = requestAnimationFrame(updateProgressBar);
   };
 
   // reset/reload track when playing ended

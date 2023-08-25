@@ -16,10 +16,10 @@ const SubMenu = ({
   const addFuncPlaylistTables = playlistData.map((table, index) => (
     <li
       key={index}
-      className="flex items-center gap-4 text-neutral-300 hover:text-primaryRed hover:cursor-pointer"
+      className="flex items-center gap-4 text-neutral-300 hover:text-emerald-400 hover:cursor-pointer"
       onClick={() => addToPlaylist(table.TABLE_NAME, trackId)}
     >
-      <MdOutlineQueueMusic className="h-6 w-6" />
+      <MdOutlineQueueMusic className="h-6 w-6 text-emerald-400" />
       <span>{table.TABLE_NAME}</span>
     </li>
   ));
@@ -31,7 +31,7 @@ const SubMenu = ({
       className="flex items-center gap-4 text-neutral-300 hover:text-primaryRed hover:cursor-pointer"
       onClick={() => removeFromPlaylist(table.TABLE_NAME, trackId)}
     >
-      <MdOutlineQueueMusic className="h-6 w-6" />
+      <MdOutlineQueueMusic className="h-6 w-6 text-primaryRed" />
       <span>{table.TABLE_NAME}</span>
     </li>
   ));

@@ -8,21 +8,17 @@ import {
 import { useRouter } from "next/router";
 import { BsPauseCircle, BsPlayCircle } from "react-icons/bs";
 import { CldImage } from "next-cloudinary";
-import { defaultTrackImgUrl } from "../utils/utils";
 
-const MiniAudioPlayer = (props) => {
-  const { title, artist, simplePlay, setSimplePlay } = props;
-
+const MiniAudioPlayer = ({ simplePlay, setSimplePlay, currentTrack }) => {
   const router = useRouter();
 
   // player state
   const [playing, setPlaying] = useState(false);
   const [currentTime, setCurrentTime] = useState();
-  const [duration, setDuration] = useState();
 
   // useRef's - reference to html elements
-  const audioPlayer = useRef();
-  const containerRef = useRef();
+  const audioPlayer = useRef(null);
+  const containerRef = useRef(null);
   const progressBarRef = useRef();
   const animationRef = useRef();
 
@@ -32,7 +28,7 @@ const MiniAudioPlayer = (props) => {
     if (!playing) {
       audioPlayer.current.play();
       setPlaying(true);
-      setSimplePlay(true)
+      setSimplePlay(true);
       animationRef.current = requestAnimationFrame(updateProgressBar);
     } else {
       audioPlayer.current.pause();
@@ -45,12 +41,10 @@ const MiniAudioPlayer = (props) => {
   // skipping feature
   const skipForward = () => {
     audioPlayer.current.currentTime += 10;
-    //updateProgressBar();
   };
 
   const skipBackward = () => {
     audioPlayer.current.currentTime -= 10;
-    //updateProgressBar();
   };
 
   // reset/reload track when playing ended
@@ -72,23 +66,29 @@ const MiniAudioPlayer = (props) => {
     return `${correctMins}:${correctSecs}`;
   };
 
-  // ** when browser has loaded metadata for audio it fires loadmetadata event (can then get track duration) & create audio motion element instance **
   useEffect(() => {
-    setDuration(formatTime(audioPlayer.current.duration));
-    const audioMotion = new AudioMotionAnalyzer(containerRef.current, {
-      source: audioPlayer.current,
-      ledBars: true,
-      mode: 6,
-      barSpace: 0.5,
-      gradient: "orangered",
-      showScaleX: false,
-      height: containerRef.current.offsetHeight,
-      width: containerRef.current.offsetWidth,
-      overlay: true,
-      showBgColor: true,
-      bgAlpha: 0,
-    });
-  }, [audioPlayer?.current?.loadedmetadata]);
+    const createAudioAnalyzer = async () => {
+      const player = await audioPlayer.current;
+      const analyzerContainer = await containerRef.current;
+
+      const audioMotion = new AudioMotionAnalyzer(analyzerContainer, {
+        source: player,
+        ledBars: true,
+        mode: 6,
+        barSpace: 0.5,
+        gradient: "orangered",
+        showScaleX: false,
+        height: analyzerContainer.offsetHeight,
+        width: analyzerContainer.offsetWidth,
+        overlay: true,
+        showBgColor: true,
+        bgAlpha: 0,
+      });
+      return audioMotion;
+    };
+
+    createAudioAnalyzer();
+  }, []);
 
   // update current playing time
   useEffect(() => {
@@ -98,7 +98,6 @@ const MiniAudioPlayer = (props) => {
   // cancel progress bar update when navigating away - that's causing null error
   useEffect(() => {
     const cancelAnimation = async () => {
-      await audioPlayer.current.pause();
       cancelAnimationFrame(animationRef.current);
     };
     router.events.on("routeChangeStart", cancelAnimation);
@@ -109,14 +108,15 @@ const MiniAudioPlayer = (props) => {
 
   // handling outside audio play btn
   useEffect(() => {
-    if(!simplePlay) {
+    if (!simplePlay) {
       audioPlayer.current.pause();
-      setPlaying((playing) => playing = false);
+      setPlaying(false);
     } else {
       audioPlayer.current.play();
-      setPlaying((playing) => playing = true);
+      cancelAnimationFrame(animationRef.current);
+      setPlaying(true);
     }
-  },[simplePlay]); 
+  }, [simplePlay]);
 
   // progress bar
   function updateProgressBar() {
@@ -133,8 +133,9 @@ const MiniAudioPlayer = (props) => {
       <audio
         ref={audioPlayer}
         id="audio"
-        src="/music/02 Treat Me Right.m4a"
+        src={currentTrack.audio}
         preload="auto"
+        crossOrigin="anonymous"
         onTimeUpdate={(e) => {
           setCurrentTime(formatTime(e.currentTarget.currentTime));
         }}
@@ -142,17 +143,21 @@ const MiniAudioPlayer = (props) => {
       ></audio>
       <div className="w-full h-4/5 flex gap-8 pl-8 items-center">
         <div className="w-10 h-10 flex">
-          <CldImage
-            alt="mini album cover"
-            src={defaultTrackImgUrl}
-            width={70}
-            height={70}
-            sizes="100vw"
-          />
+          {currentTrack.image && (
+            <CldImage
+              alt="mini album cover"
+              src={currentTrack.image}
+              width={70}
+              height={70}
+              sizes="100vw"
+            />
+          )}
         </div>
         <div className="flex flex-col">
-          <p className="capitalize text-lg">{title}</p>
-          <p className="capitalize text-redHover text-sm">{artist}</p>
+          <p className="capitalize text-lg">{currentTrack.title}</p>
+          <p className="capitalize text-redHover text-sm">
+            {currentTrack.artist}
+          </p>
         </div>
       </div>
       <div className="w-full flex flex-col items-center">
@@ -209,7 +214,7 @@ const MiniAudioPlayer = (props) => {
               className="w-0 h-full bg-redHover rounded-l-lg"
             ></div>
           </div>
-          <p className="text-primaryRed text-sm">{duration}</p>
+          <p className="text-primaryRed text-sm">{currentTrack.duration}</p>
         </div>
       </div>
       <div

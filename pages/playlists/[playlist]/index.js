@@ -9,55 +9,64 @@ import Link from "next/link";
 import { BsPlayCircleFill, BsPauseCircleFill } from "react-icons/bs";
 import MiniAudioPlayer from "@/components/MiniAudioPlayer";
 
-function Playlist({ data }) {
-
-  const [showPlayBtn, setShowPlayBtn] = useState({ id: null });
-  const [ simplePlay, setSimplePlay ] = useState(false);
+function Playlist({ trackData }) {
+  const [showPlayBtn, setShowPlayBtn] = useState({ id: null, status: false });
+  const [simplePlay, setSimplePlay] = useState(false);
+  const [currentTrack, setCurrentTrack] = useState({ title: '', artist: '', image: '', audio: '', duration: '00:00'});
 
   const router = useRouter();
   const name = router.query.playlist;
 
   // hover play status - mouseEnter
   const mouseEnterPlay = (e) => {
-    let element = Number(e.currentTarget.id);
+    console.log(Number(e.currentTarget.id) + 1)
+    let element = Number(e.currentTarget.id) + 1;
     setShowPlayBtn({ id: element, status: true });
   };
 
   // hover play status - mouseLeave
   const mouseLeavePlay = () => {
-    setShowPlayBtn({ id: null });
+    setShowPlayBtn({ id: null, status: false });
   };
 
   // handle hover playing
-  const handleMouseOverPlay = (e) => {
-    let element = Number(e.currentTarget.id);
+  const handleMouseOverPlay = async (e) => {
+    let i = e.currentTarget.parentElement.id - 1;
+    setCurrentTrack({
+      title: trackData[i].title,
+      artist: trackData[i].artist,
+      audio: trackData[i].audioUrl,
+      image: trackData[i].imageUrl,
+      duration: trackData[i].duration
+    });
     setSimplePlay(!simplePlay);
   };
 
   // added modulo function for odd/even colour scheme
-  const getPlaylistTracks = data.map((track, index) => (
+  const getPlaylistTracks = trackData.map((track, index) => (
     <div
       key={index}
+      id={index}
       className={`grid grid-cols-playlistHeader  text-neutral-300 capitalize hover:bg-redHover rounded items-center ${
         index % 2 == 0 ? "bg-brownCard" : "bg-transparent"
       }`}
+      onMouseEnter={mouseEnterPlay}
+      onMouseLeave={mouseLeavePlay}
     >
       <div className="justify-self-center">{index + 1}</div>
 
       <div className="flex items-center gap-6">
-        <div
-          id={index + 1}
-          className="w-10 h-10 relative"
-          onMouseEnter={mouseEnterPlay}
-          onMouseLeave={mouseLeavePlay}
-        >
+        <div className="w-10 h-10 relative">
           {showPlayBtn.id === index + 1 && (
-            <div className="w-full h-full flex items-center justify-center bg-black/50 absolute">
+            <div
+              id={index + 1}
+              className="w-full h-full flex items-center justify-center bg-black/50 absolute"
+            >
               <button
                 className="text-3xl text-white/80 active:text-white"
                 onClick={handleMouseOverPlay}
               >
-                { !simplePlay ? <BsPlayCircleFill /> : <BsPauseCircleFill /> }
+                {!simplePlay ? <BsPlayCircleFill /> : <BsPauseCircleFill />}
               </button>
             </div>
           )}
@@ -113,7 +122,11 @@ function Playlist({ data }) {
         </div>
       </div>
       <div className="absolute bottom-0 w-full">
-        <MiniAudioPlayer title="treat me right" artist="kim english" simplePlay={simplePlay} setSimplePlay={setSimplePlay} />
+        <MiniAudioPlayer
+          currentTrack={currentTrack}
+          simplePlay={simplePlay}
+          setSimplePlay={setSimplePlay}
+        />
       </div>
     </main>
   );
@@ -124,6 +137,6 @@ export default Playlist;
 export const getServerSideProps = async (context) => {
   const playlistName = context.query.playlist;
   const res = await getPlaylistTable(playlistName);
-  const data = await serializeErrorFunc(res);
-  return { props: { data } };
+  const trackData = await serializeErrorFunc(res);
+  return { props: { trackData } };
 };

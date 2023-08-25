@@ -35,7 +35,7 @@ function Form({ closeModal }) {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(data.name),
     });
-    if (response.status === 400) {
+    if (response.status >= 400) {
       const { msg } = await response.json();
       setErrorStatus({status: true, message: msg});
     } else {
