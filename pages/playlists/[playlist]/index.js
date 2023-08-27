@@ -19,9 +19,8 @@ function Playlist({ trackData }) {
 
   // hover play status - mouseEnter
   const mouseEnterPlay = (e) => {
-    console.log(Number(e.currentTarget.id) + 1)
     let element = Number(e.currentTarget.id) + 1;
-    setShowPlayBtn({ id: element, status: true });
+    setShowPlayBtn({ id: element, status: true, playing: true });
   };
 
   // hover play status - mouseLeave
@@ -31,6 +30,7 @@ function Playlist({ trackData }) {
 
   // handle hover playing
   const handleMouseOverPlay = async (e) => {
+    // off set with array & playlist starting from 1 
     let i = e.currentTarget.parentElement.id - 1;
     setCurrentTrack({
       title: trackData[i].title,
@@ -42,7 +42,7 @@ function Playlist({ trackData }) {
     setSimplePlay(!simplePlay);
   };
 
-  // added modulo function for odd/even colour scheme
+  // added modulo operator for odd/even colour scheme
   const getPlaylistTracks = trackData.map((track, index) => (
     <div
       key={index}
@@ -66,7 +66,7 @@ function Playlist({ trackData }) {
                 className="text-3xl text-white/80 active:text-white"
                 onClick={handleMouseOverPlay}
               >
-                {!simplePlay ? <BsPlayCircleFill /> : <BsPauseCircleFill />}
+                {simplePlay ? <BsPauseCircleFill /> : <BsPlayCircleFill />}
               </button>
             </div>
           )}
