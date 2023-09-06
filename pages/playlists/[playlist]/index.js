@@ -7,25 +7,32 @@ import { serializeErrorFunc } from "@/utils/utils";
 import { CldImage } from "next-cloudinary";
 import Link from "next/link";
 import MiniAudioPlayer from "@/components/MiniAudioPlayer";
-import { MdPlayCircle } from "react-icons/md";
-
+import { BsPauseCircleFill, BsPlayCircleFill } from "react-icons/bs";
 
 function Playlist({ trackData }) {
   // play status
   const [playing, setPlaying] = useState(false);
   // highlight selected/currently playing track
-  const [active, setActive] = useState({ id: null })
-  const [ currentTrackIndex, setCurrentTrackIndex ] = useState();
+  const [active, setActive] = useState({ id: null });
+  const [currentTrackIndex, setCurrentTrackIndex] = useState();
+  const [showBtn, setShowBtn] = useState({ id: null });
 
   const router = useRouter();
   const name = router.query.playlist;
 
   // handle hover playing
   const handleTrackPlay = (i) => {
-    setCurrentTrackIndex(i)
-    setActive({id: i})
+    setCurrentTrackIndex(i);
+    setActive({ id: i });
     setPlaying(true);
   };
+
+  // handle hover pause
+  const handleTrackPause = () => setPlaying(false);
+
+  // handle mouse enter/leave
+  const handleMouseEnter = (i) => setShowBtn({ id: i });
+  const handleMouseLeave = () => setShowBtn({ id: null });
 
   // added modulo operator for odd/even colour scheme
   const getPlaylistTracks = trackData.map((track, index) => (
@@ -35,8 +42,8 @@ function Playlist({ trackData }) {
       className={`grid grid-cols-playlistHeader  text-neutral-300 capitalize hover:bg-redHover rounded items-center ${
         index % 2 == 0 ? "bg-brownCard" : ""
       } ${active.id === index ? "bg-redHover/60" : ""}`}
-      onClick={() => handleTrackPlay(index)}
-      title="Click to play"
+      onMouseEnter={() => handleMouseEnter(index)}
+      onMouseLeave={handleMouseLeave}
     >
       <div className="justify-self-center">{index + 1}</div>
 
@@ -49,11 +56,47 @@ function Playlist({ trackData }) {
             height={150}
             sizes="100vw"
           />
+          {/* display play button only on mouse enter/leave */}
+          {showBtn.id === index && (
+            <div
+              className="w-full h-full flex items-center justify-center bg-black/50 absolute top-0 left-0"
+            >
+              <button
+                className="text-3xl text-white/80 active:text-white"
+                title="Play"
+                onClick={() => handleTrackPlay(index)}
+              >
+                <BsPlayCircleFill />
+              </button>
+            </div>
+          )}
+          {/* play/pause for selected current track */}
+          {active.id === index && (
+            <div
+              className="w-full h-full flex items-center justify-center bg-black/50 absolute top-0 left-0"
+            >
+              {playing ? (
+                <button
+                  className="text-3xl text-white/80 active:text-white"
+                  title="Pause"
+                  onClick={handleTrackPause}
+                >
+                  <BsPauseCircleFill />
+                </button>
+              ) : (
+                <button
+                  className="text-3xl text-white/80 active:text-white"
+                  onClick={() => handleTrackPlay(index)}
+                  title="Play"
+                >
+                  <BsPlayCircleFill />
+                </button>
+              )}
+            </div>
+          )}
         </div>
-        <Link href={`/track/${track.trackId}`}>
-          <div className="truncate pr-4 hover:underline">
-            {track.title}
-          </div>
+        <Link href={`/track/${track.trackId}`} title="Track info">
+          <div className="truncate pr-4 hover:underline">{track.title}</div>
         </Link>
       </div>
       <div className="truncate pr-4 artist" title={track.artist}>

@@ -119,7 +119,7 @@ const MiniAudioPlayer = (props) => {
     createAudioAnalyzer();
   }, []);
 
-  // handle track upload & initial play
+  // handle track upload & play
   useEffect(() => {
     if (currentTrackIndex >= 0 && playing) {
       audioPlayer.current.play();
