@@ -19,7 +19,7 @@ CREATE TABLE music (
 
 CREATE TABLE favourites (
     favouriteId INT AUTO_INCREMENT,
-    trackId INT,
+    trackId INT UNIQUE,
     created TIMESTAMP NOT NULL DEFAULT NOW(),
     PRIMARY KEY(favouriteId),
     FOREIGN KEY (trackId) REFERENCES music(trackId) ON DELETE CASCADE,

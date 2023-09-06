@@ -1,0 +1,37 @@
+[
+  {
+    "imgPath": "/images/house-genre.jpg",
+    "pageUrl": "/genres/house",
+    "genre": "House"
+  },
+  {
+    "imgPath": "/images/ukg-genre.jpg",
+    "pageUrl": "/genres/ukg",
+    "genre": "Uk Garage"
+  },
+  {
+    "imgPath": "/images/garage-genre.jpg",
+    "pageUrl": "/genres/garage",
+    "genre": "Garage"
+  },
+  {
+    "imgPath": "/images/pop-genre.jpg",
+    "pageUrl": "/genres/pop",
+    "genre": "Pop"
+  },
+  {
+    "imgPath": "/images/indie-genre.jpg",
+    "pageUrl": "/genres/indie",
+    "genre": "Indie"
+  },
+  {
+    "imgPath": "/images/randb-genre.jpg",
+    "pageUrl": "/genres/randb",
+    "genre": "R&B"
+  },
+  {
+    "imgPath": "/images/hiphop-genre.jpg",
+    "pageUrl": "/genres/hiphop",
+    "genre": "Hip-Hop"
+  }
+]

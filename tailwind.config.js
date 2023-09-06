@@ -73,9 +73,9 @@ module.exports = {
       },
       gridTemplateColumns: {
         playlistHeader: "4rem 3fr 3fr 1fr 6rem",
-        homepage: "repeat(auto-fill,minmax(300px,1fr))",
+        homepage: "repeat(3,300px)",
       },
     },
   },
-  plugins: [require("@tailwindcss/forms"), require('@headlessui/tailwindcss')],
+  plugins: [require("@tailwindcss/forms"), require("@headlessui/tailwindcss")],
 };
