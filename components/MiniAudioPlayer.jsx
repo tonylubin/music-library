@@ -1,41 +1,59 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect, useCallback } from "react";
 import AudioMotionAnalyzer from "audiomotion-analyzer";
 import {
   MdOutlineForward10,
   MdOutlineReplay10,
   MdOutlineCached,
+  MdSkipPrevious,
+  MdSkipNext,
 } from "react-icons/md";
 import { useRouter } from "next/router";
 import { BsPauseCircle, BsPlayCircle } from "react-icons/bs";
 import { CldImage } from "next-cloudinary";
 
-const MiniAudioPlayer = ({ simplePlay, setSimplePlay, currentTrack }) => {
-  const router = useRouter();
+const MiniAudioPlayer = (props) => {
+  const {
+    playing,
+    setPlaying,
+    setCurrentTrackIndex,
+    currentTrackIndex,
+    trackData,
+    active,
+    setActive,
+  } = props;
 
-  // player state
-  const [playing, setPlaying] = useState(false);
-  const [currentTime, setCurrentTime] = useState();
+  const router = useRouter();
+  // track time
+  const [currentTime, setCurrentTime] = useState("00:00");
+  const [duration, setDuration] = useState("00:00");
 
   // useRef's - reference to html elements
-  const audioPlayer = useRef(null);
-  const containerRef = useRef(null);
+  const audioPlayer = useRef();
+  const containerRef = useRef();
   const progressBarRef = useRef();
   const animationRef = useRef();
 
-  // toggle button status - play/pause - for both play btns
-  // smooth animation of progress bar
-  const handlePlay = () => {
-    if (!playing) {
-      audioPlayer.current.play();
-      setPlaying(true);
-      setSimplePlay(true);
-      animationRef.current = requestAnimationFrame(updateProgressBar);
-    } else {
-      audioPlayer.current.pause();
+  // next track
+  const nextTrack = () => {
+    if (trackData.length === currentTrackIndex + 1) {
       setPlaying(false);
-      setSimplePlay(false);
-      cancelAnimationFrame(animationRef.current);
+      setCurrentTrackIndex();
+      setActive({ id: null });
+      setCurrentTime("00:00");
+      setDuration("00:00");
+    } else {
+      setCurrentTrackIndex(currentTrackIndex + 1);
+      setActive({ id: active.id + 1 });
     }
+  };
+
+  // previous track
+  const prevTrack = () => {
+    if (currentTrackIndex === 0) {
+      return null;
+    }
+    setCurrentTrackIndex(currentTrackIndex - 1);
+    setActive({ id: active.id - 1 });
   };
 
   // skipping feature
@@ -66,10 +84,21 @@ const MiniAudioPlayer = ({ simplePlay, setSimplePlay, currentTrack }) => {
     return `${correctMins}:${correctSecs}`;
   };
 
+  // progress bar & smooth animation of progress bar
+  const updateProgressBar = useCallback(() => {
+    const currentTime = audioPlayer.current?.currentTime;
+    const duration = audioPlayer.current?.duration;
+    const progressBar = progressBarRef?.current;
+    const progressPercentage = (currentTime / duration) * 100;
+    progressBar.style.width = `${progressPercentage}%`;
+    animationRef.current = requestAnimationFrame(updateProgressBar);
+  },[]);
+
+  // create eq analyzer effect
   useEffect(() => {
-    const createAudioAnalyzer = async () => {
-      const player = await audioPlayer.current;
-      const analyzerContainer = await containerRef.current;
+    const createAudioAnalyzer = () => {
+      const player = audioPlayer.current;
+      const analyzerContainer = containerRef.current;
 
       const audioMotion = new AudioMotionAnalyzer(analyzerContainer, {
         source: player,
@@ -90,63 +119,53 @@ const MiniAudioPlayer = ({ simplePlay, setSimplePlay, currentTrack }) => {
     createAudioAnalyzer();
   }, []);
 
-  // update current playing time
+  // handle track upload & initial play
   useEffect(() => {
-    setCurrentTime(formatTime(audioPlayer.current.currentTime));
-  }, [playing]);
+    if (currentTrackIndex >= 0 && playing) {
+      audioPlayer.current.play();
+      animationRef.current = requestAnimationFrame(updateProgressBar);
+    } else {
+      audioPlayer.current.pause();
+      cancelAnimationFrame(animationRef.current);
+    }
+  }, [currentTrackIndex, playing, updateProgressBar]);
 
   // cancel progress bar update when navigating away - that's causing null error
   useEffect(() => {
     const cancelAnimation = async () => {
+      await setPlaying(false);
+      await audioPlayer.current.pause();
       cancelAnimationFrame(animationRef.current);
     };
     router.events.on("routeChangeStart", cancelAnimation);
     return () => {
       router.events.off("routeChangeStart", cancelAnimation);
     };
-  }, [router.events]);
-
-  // handling outside audio play btn
-  useEffect(() => {
-    if (!simplePlay) {
-      audioPlayer.current.pause();
-      setPlaying(false);
-    } else {
-      audioPlayer.current.play();
-      cancelAnimationFrame(animationRef.current);
-      setPlaying(true);
-    }
-  }, [simplePlay]);
-
-  // progress bar
-  function updateProgressBar() {
-    const currentTime = audioPlayer?.current?.currentTime;
-    const duration = audioPlayer?.current?.duration;
-    const progressBar = progressBarRef?.current;
-    const progressPercentage = (currentTime / duration) * 100;
-    progressBar.style.width = `${progressPercentage}%`;
-    animationRef.current = requestAnimationFrame(updateProgressBar);
-  }
+  }, [router.events, setPlaying]);
 
   return (
     <div className="w-full h-20 grid grid-cols-3 gap-4 items-center font-vt323 bg-secondaryBlack">
       <audio
         ref={audioPlayer}
         id="audio"
-        src={currentTrack.audio}
+        src={trackData[currentTrackIndex]?.audioUrl}
         preload="auto"
         crossOrigin="anonymous"
         onTimeUpdate={(e) => {
           setCurrentTime(formatTime(e.currentTarget.currentTime));
         }}
-        onEnded={reload}
+        onLoadedMetadata={(e) =>
+          setDuration(formatTime(e.currentTarget.duration))
+        }
+        // handle next track 'autoplay'
+        onEnded={nextTrack}
       ></audio>
       <div className="w-full h-4/5 flex gap-8 pl-8 items-center">
         <div className="w-10 h-10 flex">
-          {currentTrack.image && (
+          {trackData[currentTrackIndex]?.imageUrl && (
             <CldImage
               alt="mini album cover"
-              src={currentTrack.image}
+              src={trackData[currentTrackIndex]?.imageUrl}
               width={70}
               height={70}
               sizes="100vw"
@@ -154,14 +173,27 @@ const MiniAudioPlayer = ({ simplePlay, setSimplePlay, currentTrack }) => {
           )}
         </div>
         <div className="flex flex-col">
-          <p className="capitalize text-lg">{currentTrack.title}</p>
+          <p className="capitalize text-lg">
+            {trackData[currentTrackIndex]?.title}
+          </p>
           <p className="capitalize text-redHover text-sm">
-            {currentTrack.artist}
+            {trackData[currentTrackIndex]?.artist}
           </p>
         </div>
       </div>
       <div className="w-full flex flex-col items-center">
         <div className="flex items-center gap-x-7">
+          <div className="flex flex-col">
+            <button
+              id="forward"
+              type="button"
+              title="previous track"
+              className="text-2xl text-primaryRed hover:text-redHover"
+              onClick={prevTrack}
+            >
+              <MdSkipPrevious />
+            </button>
+          </div>
           <div className="flex flex-col">
             <button
               id="backward"
@@ -178,7 +210,7 @@ const MiniAudioPlayer = ({ simplePlay, setSimplePlay, currentTrack }) => {
               type="button"
               title="play/pause"
               className="text-4xl text-primaryRed hover:text-redHover"
-              onClick={handlePlay}
+              onClick={() => setPlaying(!playing)}
             >
               {!playing ? <BsPlayCircle /> : <BsPauseCircle />}
             </button>
@@ -192,6 +224,17 @@ const MiniAudioPlayer = ({ simplePlay, setSimplePlay, currentTrack }) => {
               onClick={skipForward}
             >
               <MdOutlineForward10 />
+            </button>
+          </div>
+          <div className="flex flex-col">
+            <button
+              id="forward"
+              type="button"
+              title="next track"
+              className="text-2xl text-primaryRed hover:text-redHover"
+              onClick={nextTrack}
+            >
+              <MdSkipNext />
             </button>
           </div>
           <div className="flex flex-col">
@@ -214,7 +257,7 @@ const MiniAudioPlayer = ({ simplePlay, setSimplePlay, currentTrack }) => {
               className="w-0 h-full bg-redHover rounded-l-lg"
             ></div>
           </div>
-          <p className="text-primaryRed text-sm">{currentTrack.duration}</p>
+          <p className="text-primaryRed text-sm">{duration}</p>
         </div>
       </div>
       <div

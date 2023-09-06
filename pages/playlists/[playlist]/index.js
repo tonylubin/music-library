@@ -6,40 +6,25 @@ import { getPlaylistTable } from "@/database/musicLibrary";
 import { serializeErrorFunc } from "@/utils/utils";
 import { CldImage } from "next-cloudinary";
 import Link from "next/link";
-import { BsPlayCircleFill, BsPauseCircleFill } from "react-icons/bs";
 import MiniAudioPlayer from "@/components/MiniAudioPlayer";
+import { MdPlayCircle } from "react-icons/md";
+
 
 function Playlist({ trackData }) {
-  const [showPlayBtn, setShowPlayBtn] = useState({ id: null, status: false });
-  const [simplePlay, setSimplePlay] = useState(false);
-  const [currentTrack, setCurrentTrack] = useState({ title: '', artist: '', image: '', audio: '', duration: '00:00'});
+  // play status
+  const [playing, setPlaying] = useState(false);
+  // highlight selected/currently playing track
+  const [active, setActive] = useState({ id: null })
+  const [ currentTrackIndex, setCurrentTrackIndex ] = useState();
 
   const router = useRouter();
   const name = router.query.playlist;
 
-  // hover play status - mouseEnter
-  const mouseEnterPlay = (e) => {
-    let element = Number(e.currentTarget.id) + 1;
-    setShowPlayBtn({ id: element, status: true, playing: true });
-  };
-
-  // hover play status - mouseLeave
-  const mouseLeavePlay = () => {
-    setShowPlayBtn({ id: null, status: false });
-  };
-
   // handle hover playing
-  const handleMouseOverPlay = async (e) => {
-    // off set with array & playlist starting from 1 
-    let i = e.currentTarget.parentElement.id - 1;
-    setCurrentTrack({
-      title: trackData[i].title,
-      artist: trackData[i].artist,
-      audio: trackData[i].audioUrl,
-      image: trackData[i].imageUrl,
-      duration: trackData[i].duration
-    });
-    setSimplePlay(!simplePlay);
+  const handleTrackPlay = (i) => {
+    setCurrentTrackIndex(i)
+    setActive({id: i})
+    setPlaying(true);
   };
 
   // added modulo operator for odd/even colour scheme
@@ -48,28 +33,15 @@ function Playlist({ trackData }) {
       key={index}
       id={index}
       className={`grid grid-cols-playlistHeader  text-neutral-300 capitalize hover:bg-redHover rounded items-center ${
-        index % 2 == 0 ? "bg-brownCard" : "bg-transparent"
-      }`}
-      onMouseEnter={mouseEnterPlay}
-      onMouseLeave={mouseLeavePlay}
+        index % 2 == 0 ? "bg-brownCard" : ""
+      } ${active.id === index ? "bg-redHover/60" : ""}`}
+      onClick={() => handleTrackPlay(index)}
+      title="Click to play"
     >
       <div className="justify-self-center">{index + 1}</div>
 
       <div className="flex items-center gap-6">
         <div className="w-10 h-10 relative">
-          {showPlayBtn.id === index + 1 && (
-            <div
-              id={index + 1}
-              className="w-full h-full flex items-center justify-center bg-black/50 absolute"
-            >
-              <button
-                className="text-3xl text-white/80 active:text-white"
-                onClick={handleMouseOverPlay}
-              >
-                {simplePlay ? <BsPauseCircleFill /> : <BsPlayCircleFill />}
-              </button>
-            </div>
-          )}
           <CldImage
             alt="vinyl record cover"
             src={track.imageUrl}
@@ -79,7 +51,7 @@ function Playlist({ trackData }) {
           />
         </div>
         <Link href={`/track/${track.trackId}`}>
-          <div className="truncate pr-4 hover:underline" title={track.title}>
+          <div className="truncate pr-4 hover:underline">
             {track.title}
           </div>
         </Link>
@@ -123,9 +95,13 @@ function Playlist({ trackData }) {
       </div>
       <div className="absolute bottom-0 w-full">
         <MiniAudioPlayer
-          currentTrack={currentTrack}
-          simplePlay={simplePlay}
-          setSimplePlay={setSimplePlay}
+          currentTrackIndex={currentTrackIndex}
+          trackData={trackData}
+          playing={playing}
+          setPlaying={setPlaying}
+          setCurrentTrackIndex={setCurrentTrackIndex}
+          active={active}
+          setActive={setActive}
         />
       </div>
     </main>

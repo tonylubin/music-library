@@ -2,17 +2,19 @@ import MusicCard from "@/components/MusicCard";
 import { getTracks } from "@/database/musicLibrary";
 import { serializeErrorFunc } from "@/utils/utils";
 import React from "react";
+import { Fade } from 'react-awesome-reveal';
 
 export default function Library({ data }) {
 
   const cardTracks = data.map((track, i) => (
-    <MusicCard
-      key={i}
-      title={track.title}
-      artist={track.artist}
-      trackId={track.trackId}
-      imageUrl={track.imageUrl}
-    />
+    <Fade key={i}>
+      <MusicCard
+        title={track.title}
+        artist={track.artist}
+        trackId={track.trackId}
+        imageUrl={track.imageUrl}
+      />
+    </Fade>
   ));
   
   return (

@@ -102,6 +102,7 @@ const AudioPlayer = ({ trackData }) => {
   useEffect(() => {
     const cancelAnimation = () => {
       cancelAnimationFrame(animationRef.current);
+      audioPlayer.current.pause();
     };
     router.events.on("routeChangeStart", cancelAnimation);
     return () => {
