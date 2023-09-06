@@ -1,20 +1,34 @@
 import HomeCard from '@/components/HomeCard';
 import React from 'react';
+import data from '../../database/homePageData.json';
+import { Zoom } from 'react-awesome-reveal'
 
-function Home() {
+function Home() { 
+
+  const getMusicGenres = data.map((music,i) => (
+    <Zoom key={i}>
+      <HomeCard genre={music.genre} page={music.pageUrl} imgUrl={music.imgPath} />
+    </Zoom>
+  ))
+
   return (
-    <main className='col-start-3 col-end-13 row-start-1 row-end-7 bg-primaryBgAlt overflow-auto'>
-      <section className='grid grid-cols-homepage gap-10 p-12'>
-        <HomeCard page={"/genres/house"} genre={"House"} imgUrl={'/images/house-genre.jpg'} />
-        <HomeCard page={"/genres/ukg"} genre={"Uk Garage"} imgUrl={'/images/ukg-genre.jpg'} />
-        <HomeCard page={"/genres/garage"} genre={"Garage"} imgUrl={'/images/garage-genre.jpg'} />
-        <HomeCard page={"/genres/pop"} genre={"Pop"} imgUrl={'/images/pop-genre.jpg'} />
-        <HomeCard page={"/genres/indie"} genre={"Indie"} imgUrl={'/images/indie-genre.jpg'} />
-        <HomeCard page={"/genres/randb"} genre={"R&b"} imgUrl={'/images/randb-genre.jpg'} />
-        <HomeCard page={"/genres/hiphop"} genre={"Hip-Hop"} imgUrl={'/images/hiphop-genre.jpg'} />
+    <main className='col-start-3 col-end-13 row-start-1 row-end-7 bg-primaryBgAlt'>
+      <section className='h-full w-full grid grid-cols-homepage gap-x-14 gap-y-19 justify-center items-center p-8'>
+        { getMusicGenres }
       </section>
     </main>
   )
 }
 
 export default Home;
+
+// fetch data from local json file
+// import { promises as fs } from 'fs';
+// import path from 'path';
+
+// export const getStaticProps = async () => {
+//   const filePath = path.join(process.cwd(), 'database/homePageData.json')
+//   const jsonData = await fs.readFile(filePath)
+//   const data = await JSON.parse(jsonData)
+//   return { props: { data } };
+// }

@@ -7,7 +7,9 @@ const SearchBar = ({ searchQuery, setSearchQuery }) => {
 
   const handleSearch = (e) => {
     e.preventDefault();
-    router.push(`/search?term=${searchQuery}`);
+    // handle query params
+    let routePath = searchQuery.length ? `/search?term=${searchQuery}` : '/search';
+    router.push(routePath);
   };
 
   return (

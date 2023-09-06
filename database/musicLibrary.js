@@ -39,7 +39,7 @@ const getTrack = async (id) => {
 
 // SEARCH - by letter input
 const searchFunc = async (searchTerm) => {
-  let text = `${searchTerm}%`;
+  let text = searchTerm ? `${searchTerm}%` : "";
   const query = "SELECT * FROM music WHERE artist LIKE ? OR title LIKE ?";
   let [rows] = await db.query(query, [text, text]);
   return rows;
@@ -81,7 +81,7 @@ const getAllFavouriteTracks = async () => {
 
 //  Add a favourite track
 const addFavouriteTrack = async (id) => {
-  const query = `INSERT INTO favourites (trackId) VALUES (?)`;
+  const query = `INSERT IGNORE INTO favourites (trackId) VALUES (?)`;
   await db.query(query, [id]);
 };
 
@@ -97,9 +97,10 @@ const createPlaylist = async (name) => {
   let allowedStrName = addBackTicks(name);
   // make sql string e.g: removes quotes from string that query method adds
   let playlistName = mysql.raw(allowedStrName);
+  // Unique constraint makes sure duplicates not allowed
   const query = `CREATE TABLE ? (
     trackNumber INT AUTO_INCREMENT,
-    trackId INT,
+    trackId INT UNIQUE,
     playlist BOOLEAN DEFAULT TRUE, 
     created TIMESTAMP NOT NULL DEFAULT NOW(),
     PRIMARY KEY (trackNumber),
@@ -145,11 +146,11 @@ const getPlaylistTable = async (name) => {
   return rows;
 };
 
-// add to playlist
+// add to playlist --> 'insert ignore' handles/prevents duplicate records
 const addToPlaylist = async (name, trackNum) => {
   let allowedStrName = addBackTicks(name);
   let trackName = mysql.raw(allowedStrName);
-  const query = "INSERT INTO ? (trackId) VALUES (?)";
+  const query = "INSERT IGNORE INTO ? (trackId) VALUES (?)";
   let queryString = mysql.format(query,[trackName,trackNum])
   await db.query(queryString, [trackName, trackNum]);
 };

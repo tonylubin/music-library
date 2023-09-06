@@ -9,6 +9,11 @@ export default function DeleteModal({ playlistName, removePlaylist }) {
 
   const openModal = () => setIsOpen(true);
 
+  const handleDelete = async (name) => {
+    await removePlaylist(name);
+    closeModal();
+  }
+
   return (
     <>
       <button
@@ -61,7 +66,7 @@ export default function DeleteModal({ playlistName, removePlaylist }) {
                   <button
                     type="button"
                     className="inline-flex justify-center rounded-md border border-transparent bg-redHover px-4 py-2 text-sm font-medium dark:text-white hover:bg-primaryRed focus:outline-none focus-visible:ring-2 focus-visible:ring-primaryRed focus-visible:ring-offset-2 text-neutral-300"
-                    onClick={() => removePlaylist(playlistName)}
+                    onClick={() => handleDelete(playlistName)}
                   >
                     Confirm
                   </button>

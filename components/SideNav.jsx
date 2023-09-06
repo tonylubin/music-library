@@ -25,15 +25,20 @@ function SideNav() {
       case "/playlists":
         setActive({ playlists: true });
         break;
+      case "/playlists/[playlist]":
+        setActive({ playlists: true });
+        break;
       case "/favourites":
         setActive({ favs: true });
         break;
-      case "/addMusic":
+      case "/addTrack":
         setActive({ addMusic: true });
         break;
       case "/search":
         setActive({ searching: true });
         break;
+      default:
+        setActive(false)  
     }
   }, [currentPage]);
 

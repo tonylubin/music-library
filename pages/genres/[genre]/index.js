@@ -2,12 +2,13 @@ import React from "react";
 import { serializeErrorFunc } from "@/utils/utils";
 import { getGenreLib } from "@/database/musicLibrary";
 import Image from "next/image";
-import imagePaths from "../../../database/data.json";
+import imagePaths from "../../../database/homePageData.json";
 import MusicCard from "@/components/MusicCard";
 
 export default function Genre({ data, genre }) {
-  let pathObj = imagePaths.genreImgPath.find((music) => music[genre]);
-  let imgPath = pathObj[genre];
+  
+  let pathObj = imagePaths.find(music => music.pageUrl === `/genres/${genre}`);
+  let imgPath = pathObj.imgPath;
 
   const cardTracks = data.map((track, i) => (
     <MusicCard
@@ -36,7 +37,7 @@ export default function Genre({ data, genre }) {
   }  
 
   return (
-    <main className="col-start-3 col-end-13 row-start-1 row-end-7 font-kanit overflow-auto">
+    <main className="col-start-3 col-end-13 row-start-1 row-end-7 font-kanit">
       <div className="w-full h-1/4 text-3xl bg-brownShadeAlt sticky top-0 z-10">
         <div className="w-full h-full relative">
           <h1 className="text-xl z-10 relative pl-16 pt-8">Genre</h1>
@@ -52,7 +53,7 @@ export default function Genre({ data, genre }) {
           />
         </div>
       </div>
-      <section className="grid grid-cols-5 gap-6 py-24 px-12 h-full overflow-auto bg-primaryBgAlt">
+      <section className="grid grid-cols-5 gap-6 py-24 px-12 h-3/4 overflow-auto bg-primaryBgAlt">
         {cardTracks}
       </section>
     </main>
