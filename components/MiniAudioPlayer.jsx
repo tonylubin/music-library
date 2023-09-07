@@ -136,6 +136,7 @@ const MiniAudioPlayer = (props) => {
       await setPlaying(false);
       await audioPlayer.current.pause();
       cancelAnimationFrame(animationRef.current);
+      window.cancelAnimationFrame(animationRef.current);
     };
     router.events.on("routeChangeStart", cancelAnimation);
     return () => {

@@ -103,12 +103,13 @@ const AudioPlayer = ({ trackData }) => {
     const cancelAnimation = () => {
       cancelAnimationFrame(animationRef.current);
       audioPlayer.current.pause();
+      setPlaying(!playing)
     };
     router.events.on("routeChangeStart", cancelAnimation);
     return () => {
       router.events.off("routeChangeStart", cancelAnimation);
     };
-  }, [router.events]);
+  }, [playing, router.events]);
 
   // progress bar
   function updateProgressBar() {
