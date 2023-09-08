@@ -95,8 +95,8 @@ function Playlist({ trackData }) {
             </div>
           )}
         </div>
-        <Link href={`/track/${track.trackId}`} title="Track info">
-          <div className="truncate pr-4 hover:underline">{track.title}</div>
+        <Link href={`/track/${track.trackId}`} title="Track info" className="truncate pr-4 hover:underline">
+          {track.title}
         </Link>
       </div>
       <div className="truncate pr-4 artist" title={track.artist}>

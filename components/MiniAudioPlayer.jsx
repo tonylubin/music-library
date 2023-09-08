@@ -19,13 +19,14 @@ const MiniAudioPlayer = (props) => {
     currentTrackIndex,
     trackData,
     active,
-    setActive,
+    setActive
   } = props;
 
   const router = useRouter();
   // track time
   const [currentTime, setCurrentTime] = useState("00:00");
   const [duration, setDuration] = useState("00:00");
+  const [eqAnalyzer, setEqAnalyzer] = useState(null);
 
   // useRef's - reference to html elements
   const audioPlayer = useRef();
@@ -37,7 +38,7 @@ const MiniAudioPlayer = (props) => {
   const nextTrack = () => {
     if (trackData.length === currentTrackIndex + 1) {
       setPlaying(false);
-      setCurrentTrackIndex();
+      setCurrentTrackIndex(null);
       setActive({ id: null });
       setCurrentTime("00:00");
       setDuration("00:00");
@@ -92,7 +93,7 @@ const MiniAudioPlayer = (props) => {
     const progressPercentage = (currentTime / duration) * 100;
     progressBar.style.width = `${progressPercentage}%`;
     animationRef.current = requestAnimationFrame(updateProgressBar);
-  },[]);
+  },[audioPlayer,progressBarRef]);
 
   // create eq analyzer effect
   useEffect(() => {
@@ -115,12 +116,13 @@ const MiniAudioPlayer = (props) => {
       });
       return audioMotion;
     };
-
-    createAudioAnalyzer();
+    createAudioAnalyzer()
   }, []);
 
+
   // handle track upload & play
-  useEffect(() => {
+  useEffect(() => {    
+
     if (currentTrackIndex >= 0 && playing) {
       audioPlayer.current.play();
       animationRef.current = requestAnimationFrame(updateProgressBar);
@@ -132,17 +134,15 @@ const MiniAudioPlayer = (props) => {
 
   // cancel progress bar update when navigating away - that's causing null error
   useEffect(() => {
-    const cancelAnimation = async () => {
-      await setPlaying(false);
-      await audioPlayer.current.pause();
+    const cancelAnimation = () => {
+      audioPlayer.current.pause();
       cancelAnimationFrame(animationRef.current);
-      window.cancelAnimationFrame(animationRef.current);
     };
     router.events.on("routeChangeStart", cancelAnimation);
     return () => {
       router.events.off("routeChangeStart", cancelAnimation);
-    };
-  }, [router.events, setPlaying]);
+    }  
+  }, [router.events]);
 
   return (
     <div className="w-full h-20 grid grid-cols-3 gap-4 items-center font-vt323 bg-secondaryBlack">

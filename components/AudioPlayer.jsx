@@ -10,14 +10,14 @@ import { BiRefresh } from "react-icons/bi";
 import { useRouter } from "next/router";
 
 const AudioPlayer = ({ trackData }) => {
-  const { title, artist, album, genre, year, audioUrl, duration } = trackData;
+  const { title, artist, album, genre, year, audioUrl } = trackData;
 
   const router = useRouter();
 
   // player state
   const [playing, setPlaying] = useState(false);
   const [currentTime, setCurrentTime] = useState();
-  const [trackLength, setTrackLength] = useState(duration.substr(3));
+  const [trackLength, setTrackLength] = useState('00:00');
 
   // useRef's - reference to html elements
   const audioPlayer = useRef(null);
@@ -56,7 +56,7 @@ const AudioPlayer = ({ trackData }) => {
   };
 
   // format secs/mins for double digits  - '03:03'
-  function formatTime(time) {
+  const formatTime = (time) => {
     if (isNaN(time)) {
       return "00:00";
     }
@@ -65,6 +65,16 @@ const AudioPlayer = ({ trackData }) => {
     const correctSecs = secs < 10 ? `0${secs}` : `${secs}`;
     const correctMins = mins < 10 ? `0${mins}` : `${mins}`;
     return `${correctMins}:${correctSecs}`;
+  };
+
+  // progress bar
+  const updateProgressBar = () => {
+    const currentTime = audioPlayer?.current?.currentTime;
+    const duration = audioPlayer?.current?.duration;
+    const progressBar = progressBarRef?.current;
+    const progressPercentage = (currentTime / duration) * 100;
+    progressBar.style.width = `${progressPercentage}%`;
+    animationRef.current = requestAnimationFrame(updateProgressBar);
   };
 
   // ** when browser has loaded metadata for audio it fires loadmetadata event (can then get track duration) & create audio motion element instance **
@@ -103,23 +113,13 @@ const AudioPlayer = ({ trackData }) => {
     const cancelAnimation = () => {
       cancelAnimationFrame(animationRef.current);
       audioPlayer.current.pause();
-      setPlaying(!playing)
+      setPlaying(!playing);
     };
     router.events.on("routeChangeStart", cancelAnimation);
     return () => {
       router.events.off("routeChangeStart", cancelAnimation);
     };
   }, [playing, router.events]);
-
-  // progress bar
-  function updateProgressBar() {
-    const currentTime = audioPlayer?.current?.currentTime;
-    const duration = audioPlayer?.current?.duration;
-    const progressBar = progressBarRef?.current;
-    const progressPercentage = (currentTime / duration) * 100;
-    progressBar.style.width = `${progressPercentage}%`;
-    animationRef.current = requestAnimationFrame(updateProgressBar);
-  }
 
   return (
     <div className="w-80 p-8 flex flex-col gap-5 items-center font-vt323 bg-secondaryBlack">
@@ -133,7 +133,7 @@ const AudioPlayer = ({ trackData }) => {
           setCurrentTime(formatTime(e.currentTarget.currentTime));
         }}
         onEnded={reload}
-        // onLoadedMetadata={(e) => setTrackLength(formatTime(e.target.duration))}
+        onLoadedMetadata={(e) => setTrackLength(formatTime(e.target.duration))}
       ></audio>
       <div className="w-full">
         <p className="capitalize text-3xl">{title}</p>
