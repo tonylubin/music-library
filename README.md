@@ -44,4 +44,18 @@ Created a full stack web app music player inspired by online streaming players l
 
 7. music player - created using `<audio>` element with play, pause and seek functions. Visual progress bar song duration and using 'audioMotion-analyzer' to show eq function of playing audio
 
-
+</br>
+</br>
+<img src='public/images/music_app-home.jpeg' width='700' height='350' style='display:block;margin:0 auto'>
+</br>
+</br>
+<img src='public/images/music_app-library.jpeg' width='700' height='350' style='display:block;margin:0 auto;'>
+</br>
+</br>
+<img src='public/images/music_app-playlistPlay.jpeg' width='700' height='350' style='display:block;margin:0 auto'>
+</br>
+</br>
+<img src='public/images/music_app-card.jpeg' width='700' height='350' style='display:block;margin:0 auto'>
+</br>
+</br>
+<img src='public/images/music_app-form.jpeg' width='700' height='350' style='display:block;margin:0 auto;'>
