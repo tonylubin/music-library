@@ -17,7 +17,7 @@ Created a full stack web app music player inspired by online streaming players l
 - React
 - Tailwind CSS
 - react icons
-- audiomotion-analyzer
+- audiomotion-analyzer - EQ animation
 - React hook form
 - yup resolver - form validation
 - react toastify - toast notification
@@ -43,6 +43,8 @@ Created a full stack web app music player inspired by online streaming players l
     - uploading audio
 
 7. music player - created using `<audio>` element with play, pause and seek functions. Visual progress bar song duration and using 'audioMotion-analyzer' to show eq function of playing audio
+
+## Screenshots
 
 </br>
 </br>
