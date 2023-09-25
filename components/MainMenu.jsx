@@ -4,7 +4,7 @@ import React from "react";
 import { destroyNotification, successNotification, toastClose } from "@/utils/utils";
 import { useRouter } from "next/router";
 
-function MainMenu({ trackId, setSubMenu, setIsFavourite }) {
+const MainMenu = ({ trackId, setSubMenu, setIsFavourite }) => {
 
   const router = useRouter();
 
@@ -31,7 +31,7 @@ function MainMenu({ trackId, setSubMenu, setIsFavourite }) {
 
   // delete from library
   const handleTrackDel = async (id) => {
-    let res = await fetch(`/api/deleteTrack?trackNum=${id}`, { method: "DELETE"});
+    let res = await fetch(`/api/tracks?trackNum=${id}`, { method: "DELETE"});
     let { msg } = await res.json();
     destroyNotification(msg);
     const callbackFunc = () => router.push("/library");

@@ -36,7 +36,7 @@ const FormStep4 = ({ formData }) => {
   const submitTrack = async (data,e) => {
     e.preventDefault();
     
-    const postTrack = await fetch("/api/addTrack", {
+    const postTrack = await fetch("/api/tracks", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({...formData, ...data}),

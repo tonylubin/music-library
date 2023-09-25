@@ -1,24 +1,25 @@
-import HomeCard from '@/components/HomeCard';
-import React from 'react';
-import data from '../../database/homePageData.json';
-import { Zoom } from 'react-awesome-reveal'
+import HomeCard from "@/components/HomeCard";
+import React from "react";
+import data from "../../database/homePageData.json";
 
-function Home() { 
-
-  const getMusicGenres = data.map((music,i) => (
-    <Zoom key={i}>
-      <HomeCard genre={music.genre} page={music.pageUrl} imgUrl={music.imgPath} />
-    </Zoom>
-  ))
+const Home = () => {
+  const getMusicGenres = data.map((music, i) => (
+    <HomeCard
+      key={i}
+      genre={music.genre}
+      page={music.pageUrl}
+      imgUrl={music.imgPath}
+    />
+  ));
 
   return (
-    <main className='col-start-3 col-end-13 row-start-1 row-end-7 bg-primaryBgAlt'>
-      <section className='h-full w-full grid grid-cols-homepage gap-x-14 gap-y-19 justify-center items-center p-8'>
-        { getMusicGenres }
+    <main className="col-start-3 col-end-13 row-start-1 row-end-7 bg-primaryBgAlt">
+      <section className="h-full w-full grid grid-cols-homepage gap-x-14 gap-y-19 justify-center items-center p-8">
+        {getMusicGenres}
       </section>
     </main>
-  )
-}
+  );
+};
 
 export default Home;
 

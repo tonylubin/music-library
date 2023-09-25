@@ -3,7 +3,7 @@ import { getAllFavouriteTracks } from "@/database/musicLibrary";
 import { serializeErrorFunc } from "@/utils/utils";
 import React from "react";
 
-function Favourites({ data }) {
+const Favourites = ({ data }) => {
 
   const cardTracks = data.map((track, i) => (
     <MainCard

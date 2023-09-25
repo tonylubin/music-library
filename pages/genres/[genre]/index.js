@@ -5,7 +5,7 @@ import Image from "next/image";
 import imagePaths from "../../../database/homePageData.json";
 import MusicCard from "@/components/MusicCard";
 
-export default function Genre({ data, genre }) {
+const Genre = ({ data, genre }) => {
   
   let pathObj = imagePaths.find(music => music.pageUrl === `/genres/${genre}`);
   let imgPath = pathObj.imgPath;
@@ -58,7 +58,9 @@ export default function Genre({ data, genre }) {
       </section>
     </main>
   );
-}
+};
+
+export default Genre;
 
 export const getServerSideProps = async (context) => {
   const { genre } = context.query;

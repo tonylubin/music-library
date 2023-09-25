@@ -1,7 +1,7 @@
 import Image from 'next/image';
 import React from 'react';
 
-function Logo() {
+const Logo = () => {
   return (
     <div className='w-14 h-14 relative'>
         <Image

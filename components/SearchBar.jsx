@@ -2,13 +2,14 @@ import { useRouter } from "next/router";
 import React from "react";
 
 const SearchBar = ({ searchQuery, setSearchQuery }) => {
-
   const router = useRouter();
 
   const handleSearch = (e) => {
     e.preventDefault();
     // handle query params
-    let routePath = searchQuery.length ? `/search?term=${searchQuery}` : '/search';
+    let routePath = searchQuery.length
+      ? `/search?term=${searchQuery}`
+      : "/search";
     router.push(routePath);
   };
 

@@ -5,7 +5,7 @@ import FormStep2 from "@/components/FormStep2";
 import FormStep3 from "@/components/FormStep3";
 import FormStep4 from "@/components/FormStep4";
 
-const Test = () => {
+const AddTrack = () => {
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [formData, setFormData] = useState({});
 
@@ -58,4 +58,4 @@ const Test = () => {
   );
 };
 
-export default Test;
+export default AddTrack;

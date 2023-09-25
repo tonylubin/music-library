@@ -9,7 +9,7 @@ import Link from "next/link";
 import MiniAudioPlayer from "@/components/MiniAudioPlayer";
 import { BsPauseCircleFill, BsPlayCircleFill } from "react-icons/bs";
 
-function Playlist({ trackData }) {
+const Playlist = ({ trackData }) => {
   // play status
   const [playing, setPlaying] = useState(false);
   // highlight selected/currently playing track

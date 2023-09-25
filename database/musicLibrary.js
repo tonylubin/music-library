@@ -98,7 +98,7 @@ const createPlaylist = async (name) => {
   // make sql string e.g: removes quotes from string that query method adds
   let playlistName = mysql.raw(allowedStrName);
   // Unique constraint makes sure duplicates not allowed
-  const query = `CREATE TABLE ? (
+  const query = `CREATE TABLE IF NOT EXISTS ? (
     trackNumber INT AUTO_INCREMENT,
     trackId INT UNIQUE,
     playlist BOOLEAN DEFAULT TRUE, 
@@ -107,7 +107,7 @@ const createPlaylist = async (name) => {
     FOREIGN KEY (trackId) REFERENCES music(trackId) ON DELETE CASCADE
     )`;
   let queryString = mysql.format(query, [playlistName]);
-  await db.query(queryString);
+  return await db.query(queryString);
 };
 
 //  delete playlist
