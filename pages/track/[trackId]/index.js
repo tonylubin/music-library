@@ -4,7 +4,7 @@ import { serializeErrorFunc } from "@/utils/utils";
 import TrackCards from "@/components/TrackCards";
 
 
-function Track({ trackData, playlistData }) {
+const Track = ({ trackData, playlistData }) => {
   
   // initial setting of favourite status
   let fav = trackData.favouriteId ? true : false;

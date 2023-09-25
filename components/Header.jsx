@@ -3,7 +3,7 @@ import SearchBar from "./SearchBar";
 import { FaMagnifyingGlass } from 'react-icons/fa6';
 
 
-function Header() {
+const Header = () => {
   const [searchQuery, setSearchQuery] = useState("");
 
   return (

@@ -6,7 +6,7 @@ import { ImHeadphones } from "react-icons/im";
 import { TbVinyl } from "react-icons/tb";
 import { useRouter } from "next/router";
 
-function SideNav() {
+const SideNav = () => {
 
   //  get current page path & enable "active link" styling
   const router = useRouter();

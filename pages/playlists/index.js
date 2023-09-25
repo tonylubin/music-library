@@ -5,7 +5,7 @@ import { serializeErrorFunc } from "@/utils/utils";
 import React from "react";
 
 
-function Playlists({ data }) {
+const Playlists = ({ data }) => {
 
   // get array of playlists in database
   let playlistTableArr = data.map((playlist, index) => (

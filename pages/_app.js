@@ -5,6 +5,7 @@ import Layout from "@/components/Layout";
 import { createContext, useState } from "react";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { PagesProgressBar as ProgressBar } from 'next-nprogress-bar';
 
 
 // google fonts
@@ -61,6 +62,11 @@ export default function App({ Component, pageProps }) {
         draggable
         pauseOnHover
         theme="dark"
+      />
+      <ProgressBar 
+        height='0.4rem'
+        shallowRouting={true}
+        color='#fa586a'
       />
     </div>
   );

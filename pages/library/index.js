@@ -2,19 +2,17 @@ import MusicCard from "@/components/MusicCard";
 import { getTracks } from "@/database/musicLibrary";
 import { serializeErrorFunc } from "@/utils/utils";
 import React from "react";
-import { Fade } from 'react-awesome-reveal';
 
-export default function Library({ data }) {
+const Library = ({ data }) => {
 
   const cardTracks = data.map((track, i) => (
-    <Fade key={i}>
       <MusicCard
+        key={i}
         title={track.title}
         artist={track.artist}
         trackId={track.trackId}
         imageUrl={track.imageUrl}
       />
-    </Fade>
   ));
   
   return (
@@ -24,6 +22,7 @@ export default function Library({ data }) {
   )
 };
 
+export default Library;
 
 export const getServerSideProps = async () => {
   const res = await getTracks();
