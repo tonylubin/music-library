@@ -17,6 +17,7 @@ const schema = yup
   .required();
 
 const FormStep4 = ({ formData }) => {
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [uploadSatus, setUploadStatus] = useState({
     status: null,
     text: null,
@@ -33,17 +34,18 @@ const FormStep4 = ({ formData }) => {
 
   const router = useRouter();
 
-  const submitTrack = async (data,e) => {
+  const submitTrack = async (data, e) => {
     e.preventDefault();
-    
+    setIsSubmitting(true);
+
     const postTrack = await fetch("/api/tracks", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({...formData, ...data}),
+      body: JSON.stringify({ ...formData, ...data }),
     });
 
-    const response = await postTrack.json();
-    
+    const response = await postTrack.json().then(() => setIsSubmitting(false));
+
     let msg = (
       <p>
         The track{" "}
@@ -67,8 +69,10 @@ const FormStep4 = ({ formData }) => {
     <div className="flex flex-col gap-16">
       <div className="flex gap-5 items-center justify-evenly border-dashed border-[0.5px] border-slate-400 py-6 rounded-full font-kanit text-xl">
         <div className="flex gap-4">
-        <ImFileMusic className="text-2xl" />
-        <p>Upload <span className="text-teal-500">audio</span> sample</p>
+          <ImFileMusic className="text-2xl" />
+          <p>
+            Upload <span className="text-teal-500">audio</span> sample
+          </p>
         </div>
         <CloudUpload
           setUploadStatus={setUploadStatus}
@@ -77,17 +81,17 @@ const FormStep4 = ({ formData }) => {
         />
       </div>
       {uploadSatus.status === "success" && (
-            <div className="flex items-center justify-center gap-4 border-[0.5px] border-teal-500 px-5 py-3 bg-black text-teal-500">
-              <p className="font-semibold">{uploadSatus.text}</p>
-              <ImCheckmark />
-            </div>
-          )}
-          {uploadSatus.status === "error" && (
-            <div className="flex items-center justify-center gap-4 border-[0.5px] border-red-600 px-5 py-3 bg-black text-red-600">
-              <p className="font-semibold">{uploadSatus.text}</p>
-              <MdErrorOutline />
-            </div>
-          )}
+        <div className="flex items-center justify-center gap-4 border-[0.5px] border-teal-500 px-5 py-3 bg-black text-teal-500">
+          <p className="font-semibold">{uploadSatus.text}</p>
+          <ImCheckmark />
+        </div>
+      )}
+      {uploadSatus.status === "error" && (
+        <div className="flex items-center justify-center gap-4 border-[0.5px] border-red-600 px-5 py-3 bg-black text-red-600">
+          <p className="font-semibold">{uploadSatus.text}</p>
+          <MdErrorOutline />
+        </div>
+      )}
       <form
         id={3}
         className="flex flex-col gap-4"
@@ -101,12 +105,25 @@ const FormStep4 = ({ formData }) => {
           placeholderText="audio src: www.music-track.example"
           errors={errors}
         />
-        <button
-          type="submit"
-          className="font-medium font-bioRhyme rounded-lg text-md px-5 py-2.5 w-1/2 mt-6 self-center hover:text-black bg-primaryRed hover:bg-redHover hover:cursor-pointer"
-        >
-          Submit
-        </button>
+        {!isSubmitting ? (
+          <button
+            type="submit"
+            className="font-medium font-bioRhyme rounded-lg text-md px-5 py-2.5 w-1/2 mt-6 self-center hover:text-black bg-primaryRed hover:bg-redHover hover:cursor-pointer"
+          >
+            Submit
+          </button>
+        ) : (
+          <button
+            type="button"
+            disabled
+            className="font-medium font-bioRhyme rounded-lg text-md px-5 py-2.5 w-1/2 mt-6 self-center bg-redHover hover:contrast-50 hover:cursor-not-allowed duration-[500ms,800ms]"
+          >
+            <div className="flex items-center justify-center gap-2">
+              <div className="h-5 w-5 border-t-transparent border-solid animate-spin rounded-full border-white border-4"></div>
+              <div> Submitting... </div>
+            </div>
+          </button>
+        )}
       </form>
     </div>
   );

@@ -7,39 +7,38 @@ import {
   BsSkipForward,
 } from "react-icons/bs";
 import { BiRefresh } from "react-icons/bi";
-import { motion, useMotionValue, useTransform } from "framer-motion";
+import { useRouter } from "next/router";
 
-const AudioPlayer = ({ trackData }) => {
+const TestAudioPlayer = ({ trackData }) => {
   const { title, artist, album, genre, year, audioUrl } = trackData;
+
+  const router = useRouter();
 
   // player state
   const [playing, setPlaying] = useState(false);
   const [currentTime, setCurrentTime] = useState();
-  const [trackLength, setTrackLength] = useState("00:00");
+  const [trackLength, setTrackLength] = useState('00:00');
 
   // useRef's - reference to html elements
   const audioPlayer = useRef(null);
   const containerRef = useRef(null);
   const progressBarRef = useRef();
+  const animationRef = useRef();
 
   // toggle button status - play/pause
+  // smooth animation of progress bar
   const handlePlay = () => {
     if (!playing) {
       audioPlayer.current.play();
       setPlaying(true);
+      updateTime()
+      animationRef.current = requestAnimationFrame(updateProgressBar);
     } else {
       audioPlayer.current.pause();
       setPlaying(false);
+      cancelAnimationFrame(animationRef.current);
     }
   };
-
-  // progress bar
-  let progress = useMotionValue(0);
-  let width = useTransform(progress, (currentTime) => {
-    const duration = audioPlayer?.current?.duration;
-    const progressPercentage = `${(currentTime / duration) * 100}%`;
-    return progressPercentage;
-  });
 
   // skipping feature
   const skipForward = () => {
@@ -54,7 +53,7 @@ const AudioPlayer = ({ trackData }) => {
   const reload = () => {
     setPlaying(false);
     audioPlayer.current.load();
-    progress.set(0);
+    progressBarRef.current.style.width = `0%`;
   };
 
   // format secs/mins for double digits  - '03:03'
@@ -67,6 +66,16 @@ const AudioPlayer = ({ trackData }) => {
     const correctSecs = secs < 10 ? `0${secs}` : `${secs}`;
     const correctMins = mins < 10 ? `0${mins}` : `${mins}`;
     return `${correctMins}:${correctSecs}`;
+  };
+
+  // progress bar
+  const updateProgressBar = () => {
+    const currentTime = audioPlayer?.current?.currentTime;
+    const duration = audioPlayer?.current?.duration;
+    const progressBar = progressBarRef?.current;
+    const progressPercentage = (currentTime / duration) * 100;
+    progressBar.style.width = `${progressPercentage}%`;
+    animationRef.current = requestAnimationFrame(updateProgressBar);
   };
 
   // ** when browser has loaded metadata for audio it fires loadmetadata event (can then get track duration) & create audio motion element instance **
@@ -100,6 +109,19 @@ const AudioPlayer = ({ trackData }) => {
     setCurrentTime(formatTime(audioPlayer.current.currentTime));
   }, [playing]);
 
+  // cancel progress bar update when navigating away - that's causing null error
+  useEffect(() => {
+    const cancelAnimation = () => {
+      cancelAnimationFrame(animationRef.current);
+      audioPlayer.current.pause();
+      setPlaying(!playing);
+    };
+    router.events.on("routeChangeStart", cancelAnimation);
+    return () => {
+      router.events.off("routeChangeStart", cancelAnimation);
+    };
+  }, [playing, router.events]);
+
   return (
     <div className="w-80 p-8 flex flex-col gap-5 items-center font-vt323 bg-secondaryBlack">
       <audio
@@ -110,8 +132,6 @@ const AudioPlayer = ({ trackData }) => {
         preload="auto"
         onTimeUpdate={(e) => {
           setCurrentTime(formatTime(e.currentTarget.currentTime));
-          // update motion value for progress bar
-          progress.set(e.currentTarget.currentTime);
         }}
         onEnded={reload}
         onLoadedMetadata={(e) => setTrackLength(formatTime(e.target.duration))}
@@ -173,11 +193,10 @@ const AudioPlayer = ({ trackData }) => {
           </div>
         </div>
         <div className="w-full h-[2px] bg-slate-700 rounded-lg">
-          <motion.div
+          <div
             ref={progressBarRef}
-            className="h-full bg-redHover rounded-l-lg"
-            style={{ width }}
-          ></motion.div>
+            className="w-0 h-full bg-redHover rounded-l-lg"
+          ></div>
         </div>
         <div className="w-full flex gap-6 justify-between text-lg">
           <p>
@@ -193,4 +212,4 @@ const AudioPlayer = ({ trackData }) => {
   );
 };
 
-export default AudioPlayer;
+export default TestAudioPlayer;

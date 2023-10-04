@@ -1,5 +1,7 @@
 // NOTE: to remove quotes from json object string use mysql.raw(string)
 
+// NOTE: To include a single-quote character within a string constant, write two adjacent single quotes, e.g. 'Dianne''s horse'.
+
 import { addBackTicks } from "@/utils/utils";
 const mysql = require('mysql2');
 
@@ -198,14 +200,3 @@ export {
   removeFromPlaylist,
   getGenreLib, 
 };
-
-
-// NOTE - resetting auto increment
-
-// To find the highest number
-// query --> SELECT MAX( `column` ) FROM `table`;
-// Replace ‘column’ with the name of the auto incrementing column. Replace table with the   name of the table. 
-
-// Reset the auto increment field
-// query --> ALTER TABLE `table` AUTO_INCREMENT = 'number';
-// Replacing ‘number’ with the result of the previous command plus one and replacing table with the table name.

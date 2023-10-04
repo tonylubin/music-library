@@ -1,16 +1,18 @@
 import { useRouter } from "next/router";
 import React from "react";
 
-const SearchBar = ({ searchQuery, setSearchQuery }) => {
+const SearchBar = ({ searchQuery, setSearchQuery, isLoading, setIsLoading }) => {
   const router = useRouter();
 
   const handleSearch = (e) => {
+    setIsLoading(true);
     e.preventDefault();
     // handle query params
     let routePath = searchQuery.length
       ? `/search?term=${searchQuery}`
       : "/search";
-    router.push(routePath);
+      router.push(routePath);
+      // setTimeout(() => router.push(routePath), 1000);
   };
 
   return (
@@ -24,9 +26,22 @@ const SearchBar = ({ searchQuery, setSearchQuery }) => {
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
         />
-        <button className="text-neutral-300 hover:text-black bg-redHover hover:bg-primaryRed font-medium rounded-lg px-5 py-2.5 text-center hover:outline hover:outline-primaryRed">
-          Search
-        </button>
+        {!isLoading ? (
+          <button type="submit" className="text-neutral-300 hover:text-black bg-redHover hover:bg-primaryRed font-medium rounded-lg px-5 py-2.5 text-center hover:outline hover:outline-primaryRed">
+            Search
+          </button>
+        ) : (
+          <button
+            type="button"
+            className="bg-primaryRed h-max w-max rounded-lg px-5 py-2.5 text-neutral-200 font-medium hover:contrast-50 hover:cursor-not-allowed duration-[500ms,800ms]"
+            disabled
+          >
+            <div className="flex items-center justify-center gap-2">
+              <div className="h-5 w-5 border-t-transparent border-solid animate-spin rounded-full border-white border-4"></div>
+              <div> Searching... </div>
+            </div>
+          </button>
+        )}
       </form>
     </div>
   );

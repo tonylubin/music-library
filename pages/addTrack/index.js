@@ -4,6 +4,7 @@ import FormStep1 from "@/components/FormStep1";
 import FormStep2 from "@/components/FormStep2";
 import FormStep3 from "@/components/FormStep3";
 import FormStep4 from "@/components/FormStep4";
+import { motion } from "framer-motion";
 
 const AddTrack = () => {
   const [selectedIndex, setSelectedIndex] = useState(0);
@@ -38,19 +39,46 @@ const AddTrack = () => {
         </div>
         <div className="col-start-1 col-end-11 row-start-2 row-end-7 flex items-center justify-center">
           <Tab.Panels className="w-1/2">
-            <Tab.Panel>
-              <FormStep1 handleNext={handleNext} />
-            </Tab.Panel>
-            <Tab.Panel>
-              <FormStep2 handleNext={handleNext} />
-            </Tab.Panel>
-            <Tab.Panel>
-              <FormStep3 handleNext={handleNext}
-              />
-            </Tab.Panel>
-            <Tab.Panel>
-              <FormStep4 formData={formData} />
-            </Tab.Panel>
+              <Tab.Panel>
+                <motion.div
+                  initial={{ y: 10 ,opacity: 0 }}
+                  animate={{ y: 0 ,opacity: 1 }}
+                  exit={{ y: -10 ,opacity: 0 }}
+                  transition={{ type: "tween", duration: 0.2, delay: 0.2, ease: "easeInOut" }}
+                >
+                  <FormStep1 handleNext={handleNext} />
+                </motion.div>
+              </Tab.Panel>
+              <Tab.Panel>
+                <motion.div
+                  initial={{ y: 10 ,opacity: 0 }}
+                  animate={{ y: 0 ,opacity: 1 }}
+                  exit={{ y: -10 ,opacity: 0 }}
+                  transition={{ type: "tween", duration: 0.2, delay: 0.2, ease: "easeInOut" }}
+                >
+                  <FormStep2 handleNext={handleNext} />
+                </motion.div>
+              </Tab.Panel>
+              <Tab.Panel>
+                <motion.div
+                  initial={{ y: 10 ,opacity: 0 }}
+                  animate={{ y: 0 ,opacity: 1 }}
+                  exit={{ y: -10 ,opacity: 0 }}
+                  transition={{ type: "tween", duration: 0.2, delay: 0.2, ease: "easeInOut" }}
+                >
+                  <FormStep3 handleNext={handleNext} />
+                </motion.div>
+              </Tab.Panel>
+              <Tab.Panel>
+                <motion.div
+                  initial={{ y: 10 ,opacity: 0 }}
+                  animate={{ y: 0 ,opacity: 1 }}
+                  exit={{ y: -10 ,opacity: 0 }}
+                  transition={{ type: "tween", duration: 0.2, delay: 0.2, ease: "easeInOut" }}
+                >
+                  <FormStep4 formData={formData} />
+                </motion.div>
+              </Tab.Panel>
           </Tab.Panels>
         </div>
       </Tab.Group>

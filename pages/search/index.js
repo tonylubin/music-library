@@ -6,29 +6,33 @@ import React, { useEffect, useState } from "react";
 
 const Search = ({ searchResults, query }) => {
   const [queryRequest, setQueryRequest] = useState(true);
+  const [isLoading, setIsLoading] = useState();
 
+  
   const searchQuery = searchResults.map((track, i) => (
     <MainCard
-      key={i}
-      artist={track.artist}
-      title={track.title}
-      trackId={track.trackId}
-      imageUrl={track.imageUrl}
+    key={i}
+    artist={track.artist}
+    title={track.title}
+    trackId={track.trackId}
+    imageUrl={track.imageUrl}
     />
-  ));
-
-  useEffect(() => {
-    if (query.length >= 1) {
-      setQueryRequest(false);
-    }
-    if (query.length === 0) {
-      setQueryRequest(true);
-    }
-  }, [query.length]);
+    ));
+    
+    useEffect(() => {
+      if (query.length >= 1) {
+        setQueryRequest(false);
+      }
+      if (query.length === 0) {
+        setQueryRequest(true);
+      }
+      setIsLoading(false);
+    }, [query.length]);
+    
 
   return (
     <div className="col-start-3 col-end-13 row-start-1 row-end-7 bg-blackShade grid grid-cols-5 grid-rows-6">
-      <Header />
+      <Header isLoading={isLoading} setIsLoading={setIsLoading} />
       <main className="grid col-start-1 col-end-13 row-start-2 row-end-7 z-0 overflow-auto rounded-tl-lg bg-primaryBgAlt">
         <section className="grid grid-cols-5 auto-rows-max gap-12 py-12 px-12 relative">
           {queryRequest && (

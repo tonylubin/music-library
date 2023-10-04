@@ -6,8 +6,9 @@ import imagePaths from "../../../database/homePageData.json";
 import MusicCard from "@/components/MusicCard";
 
 const Genre = ({ data, genre }) => {
-  
-  let pathObj = imagePaths.find(music => music.pageUrl === `/genres/${genre}`);
+  let pathObj = imagePaths.find(
+    (music) => music.pageUrl === `/genres/${genre}`
+  );
   let imgPath = pathObj.imgPath;
 
   const cardTracks = data.map((track, i) => (
@@ -22,19 +23,19 @@ const Genre = ({ data, genre }) => {
 
   // genre name formating
   switch (genre) {
-    case 'hiphop':
-      genre = 'hip-hop'
+    case "hiphop":
+      genre = "hip-hop";
       break;
-    case 'randb':
-      genre = 'r&b'
+    case "randb":
+      genre = "r&b";
       break;
-    case 'ukg':
-      genre = 'uk garage'
-      break;  
+    case "ukg":
+      genre = "uk garage";
+      break;
     default:
-      genre
+      genre;
       break;
-  }  
+  }
 
   return (
     <main className="col-start-3 col-end-13 row-start-1 row-end-7 font-kanit">
@@ -53,9 +54,15 @@ const Genre = ({ data, genre }) => {
           />
         </div>
       </div>
-      <section className="grid grid-cols-5 gap-6 py-24 px-12 h-3/4 overflow-auto bg-primaryBgAlt">
-        {cardTracks}
-      </section>
+      {cardTracks.length ? (
+        <section className="grid grid-cols-5 gap-6 py-24 px-12 h-3/4 overflow-auto bg-primaryBgAlt">
+          {cardTracks}
+        </section>
+      ) : (
+        <div className="flex items-center justify-center h-3/4">
+          <p className="font-bioRhyme text-3xl text-primaryRed">Nothing found in your library</p>
+        </div>
+      )}
     </main>
   );
 };
