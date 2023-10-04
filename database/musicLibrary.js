@@ -1,7 +1,5 @@
 // NOTE: to remove quotes from json object string use mysql.raw(string)
 
-// NOTE: To include a single-quote character within a string constant, write two adjacent single quotes, e.g. 'Dianne''s horse'.
-
 import { addBackTicks } from "@/utils/utils";
 const mysql = require('mysql2');
 

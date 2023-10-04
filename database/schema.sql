@@ -4,8 +4,6 @@ USE vinyl_catalogue;
 CREATE TABLE music (
     -- mysql
     trackId INT AUTO_INCREMENT,
-    --postgres --> serial is equivalent to auto increment
-    trackId SERIAL,
     title VARCHAR(255) NOT NULL,
     artist VARCHAR(255) NOT NULL,
     album VARCHAR(255),
