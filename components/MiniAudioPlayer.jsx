@@ -24,7 +24,7 @@ const MiniAudioPlayer = (props) => {
 
   // track time
   const [currentTime, setCurrentTime] = useState("00:00");
-  const [duration, setDuration] = useState("00:00");
+  const [duration, setDuration] = useState();
 
   // useRef's - reference to html elements
   const audioPlayer = useRef();
@@ -90,6 +90,12 @@ const MiniAudioPlayer = (props) => {
     return `${correctMins}:${correctSecs}`;
   };
 
+  const getDuration = () => {
+    const time = audioPlayer.current.duration;
+    const duration = formatTime(time);
+    setDuration(duration);
+  };
+
   // create eq analyzer effect
   useEffect(() => {
     const createAudioAnalyzer = () => {
@@ -132,7 +138,7 @@ const MiniAudioPlayer = (props) => {
         preload="auto"
         crossOrigin="anonymous"
         onTimeUpdate={(e) => {
-          setCurrentTime(formatTime(e.currentTarget.currentTime));
+          getDuration();
           // update motion value for progress bar
           progress.set(e.currentTarget.currentTime);
         }}
