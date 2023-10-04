@@ -1,17 +1,56 @@
-import AudioPlayer from "@/components/AudioPlayer";
 import { CldImage } from "next-cloudinary";
 import React, { useState } from "react";
 import { LuMoreHorizontal } from "react-icons/lu";
 import { Tooltip } from "react-tooltip";
 import { RiHeartFill, RiHeartLine } from "react-icons/ri";
 import Menu from "./Menu";
+import { motion } from "framer-motion";
+import AudioPlayer from "./AudioPlayer";
 
-const TrackCards = ({
-  trackData,
-  isFavourite,
-  setIsFavourite,
-  playlistData,
-}) => {
+// framer motion variants
+// animation --> 1st: scale 2nd: rotate
+const effect = {
+  type: "tween",
+  ease: "easeInOut",
+}
+
+const duration = 0.3;
+
+const variants = {
+  open: {
+    rotateY: 0,
+    transition: {
+      effect,
+      duration: duration,
+    }
+    
+  },
+  closed: {
+    rotateY: -180,
+    transition: {
+      effect,
+      duration: duration,
+      delay: duration
+    }
+  },
+  normal: {
+    scale: 1,
+    transition: {
+      effect,
+      duration: duration,
+      delay: duration
+    }
+  },
+  scaled: {
+    scale: 1.05,
+    transition: {
+      effect,
+      duration: duration,
+    }
+  }
+}
+
+const TrackCards = ({ trackData, isFavourite, setIsFavourite, playlistData }) => {
   const [flipOpen, setFlipOpen] = useState(false);
 
   return (
@@ -26,13 +65,17 @@ const TrackCards = ({
         >
           <LuMoreHorizontal className="mx-auto" size={40} />
         </button>
-        <div className="aspect-square rounded-lg self-center cardContainer overflow-hidden">
-          <div
-            className={`relative w-full h-full rounded-lg transition-transform duration-1000 card ${
-              flipOpen ? "rotated" : ""
-            }`}
+        <motion.div 
+          className="aspect-square rounded-lg self-center cardContainer overflow-hidden"
+          animate={flipOpen ? "scaled" : "normal" }
+          variants={variants}
+        >
+          <motion.div
+            className="relative w-full h-full rounded-lg card"
+            animate={flipOpen ? "closed" : "open" }
+            variants={variants}
           >
-            <div className="h-full w-full absolute rounded-lg overflow-hidden cardFace shadow-2xl">
+            <div className="h-full w-full rounded-lg overflow-hidden cardFace shadow-2xl">
               <CldImage
                 alt="vinyl record cover"
                 src={trackData.imageUrl}
@@ -41,7 +84,7 @@ const TrackCards = ({
                 sizes="100vw"
               />
             </div>
-            <div className="h-full w-full absolute cardFace rounded-lg overflow-hidden cardBack border border-neutral-200">
+            <div className="h-full w-full cardFace rounded-lg overflow-hidden cardBack border border-neutral-200">
               <Menu
                 trackId={trackData.trackId}
                 playlistData={playlistData}
@@ -50,8 +93,8 @@ const TrackCards = ({
                 flipOpen={flipOpen}
               />
             </div>
-          </div>
-        </div>
+          </motion.div>
+        </motion.div>
         {isFavourite ? (
           <RiHeartFill className="text-4xl text-primaryGreen" />
         ) : (

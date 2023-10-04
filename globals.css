@@ -38,26 +38,22 @@ body {
 
 /* card flipping */
 .cardContainer {
-  perspective: 600px;
+  perspective: 1200px;
   width: 325px;
   height: 325px;
 }
 
-.cardFace {
+.cardFace,
+.cardBack {
+  position: absolute;
   backface-visibility: hidden;
 }
 
 .card {
   transform-style: preserve-3d;
-  transform-origin: center right;
 }
 
 .cardBack {
-  transform: rotateY(180deg);
-  -moz-transform: rotateY(180deg);
-}
-
-.rotated {
-  transform: translate(-100%) rotateY(-180deg);
-  -moz-transform: translate(-100%) rotateY(-180deg);  
+  transform: rotateY(-180deg);
+  -moz-transform: rotateY(-180deg);
 }

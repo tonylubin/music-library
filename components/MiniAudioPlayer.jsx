@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect, useCallback } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import AudioMotionAnalyzer from "audiomotion-analyzer";
 import {
   MdOutlineForward10,
@@ -7,9 +7,9 @@ import {
   MdSkipPrevious,
   MdSkipNext,
 } from "react-icons/md";
-import { useRouter } from "next/router";
 import { BsPauseCircle, BsPlayCircle } from "react-icons/bs";
 import { CldImage } from "next-cloudinary";
+import { motion, useTransform, useMotionValue } from "framer-motion";
 
 const MiniAudioPlayer = (props) => {
   const {
@@ -19,20 +19,17 @@ const MiniAudioPlayer = (props) => {
     currentTrackIndex,
     trackData,
     active,
-    setActive
+    setActive,
   } = props;
 
-  const router = useRouter();
   // track time
   const [currentTime, setCurrentTime] = useState("00:00");
   const [duration, setDuration] = useState("00:00");
-  const [eqAnalyzer, setEqAnalyzer] = useState(null);
 
   // useRef's - reference to html elements
   const audioPlayer = useRef();
   const containerRef = useRef();
   const progressBarRef = useRef();
-  const animationRef = useRef();
 
   // next track
   const nextTrack = () => {
@@ -47,6 +44,14 @@ const MiniAudioPlayer = (props) => {
       setActive({ id: active.id + 1 });
     }
   };
+
+  // progress bar
+  let progress = useMotionValue(0);
+  let width = useTransform(progress, (currentTime) => {
+    const duration = audioPlayer?.current?.duration;
+    const progressPercentage = `${(currentTime / duration) * 100}%`;
+    return progressPercentage;
+  });
 
   // previous track
   const prevTrack = () => {
@@ -70,7 +75,7 @@ const MiniAudioPlayer = (props) => {
   const reload = () => {
     setPlaying(false);
     audioPlayer.current.load();
-    progressBarRef.current.style.width = `0%`;
+    progress.set(0);
   };
 
   // format secs/mins for double digits  - '03:03'
@@ -84,16 +89,6 @@ const MiniAudioPlayer = (props) => {
     const correctMins = mins < 10 ? `0${mins}` : `${mins}`;
     return `${correctMins}:${correctSecs}`;
   };
-
-  // progress bar & smooth animation of progress bar
-  const updateProgressBar = useCallback(() => {
-    const currentTime = audioPlayer.current?.currentTime;
-    const duration = audioPlayer.current?.duration;
-    const progressBar = progressBarRef?.current;
-    const progressPercentage = (currentTime / duration) * 100;
-    progressBar.style.width = `${progressPercentage}%`;
-    animationRef.current = requestAnimationFrame(updateProgressBar);
-  },[audioPlayer,progressBarRef]);
 
   // create eq analyzer effect
   useEffect(() => {
@@ -116,33 +111,17 @@ const MiniAudioPlayer = (props) => {
       });
       return audioMotion;
     };
-    createAudioAnalyzer()
+    createAudioAnalyzer();
   }, []);
 
-
   // handle track upload & play
-  useEffect(() => {    
-
+  useEffect(() => {
     if (currentTrackIndex >= 0 && playing) {
       audioPlayer.current.play();
-      animationRef.current = requestAnimationFrame(updateProgressBar);
     } else {
       audioPlayer.current.pause();
-      cancelAnimationFrame(animationRef.current);
     }
-  }, [currentTrackIndex, playing, updateProgressBar]);
-
-  // cancel progress bar update when navigating away - that's causing null error
-  useEffect(() => {
-    const cancelAnimation = () => {
-      audioPlayer.current.pause();
-      cancelAnimationFrame(animationRef.current);
-    };
-    router.events.on("routeChangeStart", cancelAnimation);
-    return () => {
-      router.events.off("routeChangeStart", cancelAnimation);
-    }  
-  }, [router.events]);
+  }, [currentTrackIndex, playing]);
 
   return (
     <div className="w-full h-20 grid grid-cols-3 gap-4 items-center font-vt323 bg-secondaryBlack">
@@ -154,6 +133,8 @@ const MiniAudioPlayer = (props) => {
         crossOrigin="anonymous"
         onTimeUpdate={(e) => {
           setCurrentTime(formatTime(e.currentTarget.currentTime));
+          // update motion value for progress bar
+          progress.set(e.currentTarget.currentTime);
         }}
         onLoadedMetadata={(e) =>
           setDuration(formatTime(e.currentTarget.duration))
@@ -253,10 +234,11 @@ const MiniAudioPlayer = (props) => {
         <div className="w-full flex gap-4 items-center justify-between text-lg">
           <p className="text-emerald-400 text-sm">{currentTime}</p>
           <div className="w-full h-[2px] bg-slate-700 rounded-lg">
-            <div
+            <motion.div
               ref={progressBarRef}
               className="w-0 h-full bg-redHover rounded-l-lg"
-            ></div>
+              style={{ width }}
+            ></motion.div>
           </div>
           <p className="text-primaryRed text-sm">{duration}</p>
         </div>

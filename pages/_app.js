@@ -1,12 +1,10 @@
-import '../globals.css';
+import "../globals.css";
 import { BioRhyme, Kanit, VT323 } from "next/font/google";
 import { useRouter } from "next/router";
 import Layout from "@/components/Layout";
-import { createContext, useState } from "react";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { PagesProgressBar as ProgressBar } from 'next-nprogress-bar';
-
+import { PagesProgressBar as ProgressBar } from "next-nprogress-bar";
 
 // google fonts
 const bioRhyme = BioRhyme({
@@ -16,24 +14,20 @@ const bioRhyme = BioRhyme({
   variable: "--font-bioRhyme",
 });
 const kanit = Kanit({
-  weight: ["700", "600","500", "400", "300"],
+  weight: ["700", "600", "500", "400", "300"],
   style: ["normal"],
   subsets: ["latin"],
-  variable: "--font-kanit"
-})
+  variable: "--font-kanit",
+});
 
 const vt323 = VT323({
   weight: ["400"],
   style: ["normal"],
   subsets: ["latin"],
-  variable: "--font-vt323"
-})
-
-// context
-export const GlobalContext = createContext();
+  variable: "--font-vt323",
+});
 
 export default function App({ Component, pageProps }) {
-  const [formData, setFormData] = useState();
 
   const router = useRouter();
 
@@ -41,16 +35,15 @@ export default function App({ Component, pageProps }) {
     <div
       className={`h-full w-full overflow-hidden ${bioRhyme.variable} ${kanit.variable} ${vt323.variable} text-neutral-200 bg-primaryBgAlt`}
     >
-      <GlobalContext.Provider value={{ formData, setFormData }}>
-        {/* conditional for shared layout for app & not for landing page */}
-        {router.pathname !== "/" ? (
-          <Layout>
-            <Component {...pageProps} />
-          </Layout>
-        ) : (
+      {/* conditional for shared layout for app & not for landing page */}
+      {router.pathname !== "/" ? (
+        <Layout>
           <Component {...pageProps} />
-        )}
-      </GlobalContext.Provider>
+        </Layout>
+      ) : (
+        <Component {...pageProps} />
+      )}
+
       <ToastContainer
         position="bottom-right"
         autoClose={2500}
@@ -63,11 +56,7 @@ export default function App({ Component, pageProps }) {
         pauseOnHover
         theme="dark"
       />
-      <ProgressBar 
-        height='0.4rem'
-        shallowRouting={true}
-        color='#fa586a'
-      />
+      <ProgressBar height="0.4rem" shallowRouting={true} color="#fa586a" />
     </div>
   );
 }
