@@ -14,7 +14,7 @@ const AudioPlayer = ({ trackData }) => {
 
   // player state
   const [playing, setPlaying] = useState(false);
-  const [currentTime, setCurrentTime] = useState();
+  const [currentTime, setCurrentTime] = useState('00:00');
   const [trackLength, setTrackLength] = useState('00:00');
 
   // useRef's - reference to html elements
