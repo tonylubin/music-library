@@ -52,9 +52,9 @@ const AudioPlayer = ({ trackData }) => {
 
   // reset/reload track when playing ended
   const reload = () => {
+    progress.set(0);
     setPlaying(false);
     audioPlayer.current.load();
-    progress.set(0);
   };
 
   // format secs/mins for double digits  - '03:03'

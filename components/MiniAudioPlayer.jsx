@@ -24,7 +24,7 @@ const MiniAudioPlayer = (props) => {
 
   // track time
   const [currentTime, setCurrentTime] = useState("00:00");
-  const [duration, setDuration] = useState();
+  const [duration, setDuration] = useState("00:00");
 
   // useRef's - reference to html elements
   const audioPlayer = useRef();
@@ -138,6 +138,7 @@ const MiniAudioPlayer = (props) => {
         preload="auto"
         crossOrigin="anonymous"
         onTimeUpdate={(e) => {
+          setCurrentTime(formatTime(e.currentTarget.currentTime));
           getDuration();
           // update motion value for progress bar
           progress.set(e.currentTarget.currentTime);
