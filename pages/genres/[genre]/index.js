@@ -41,8 +41,8 @@ const Genre = ({ data, genre }) => {
     <main className="col-start-3 col-end-13 row-start-1 row-end-7 font-kanit">
       <div className="w-full h-1/4 text-3xl bg-brownShadeAlt sticky top-0 z-10">
         <div className="w-full h-full relative">
-          <h1 className="text-xl z-10 relative pl-16 pt-8">Genre</h1>
-          <p className="capitalize text-7xl font-semibold pt-6 pl-16 z-10 relative">
+          <h1 className="text-xl text-primaryRed z-10 relative pl-16 pt-8">Genre</h1>
+          <p className="capitalize text-7xl font-semibold pt-4 pl-16 z-10 relative">
             {genre}
           </p>
           <Image

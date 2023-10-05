@@ -90,6 +90,12 @@ const MiniAudioPlayer = (props) => {
     return `${correctMins}:${correctSecs}`;
   };
 
+  const getDuration = () => {
+    const time = audioPlayer.current.duration;
+    const duration = formatTime(time);
+    setDuration(duration);
+  };
+
   // create eq analyzer effect
   useEffect(() => {
     const createAudioAnalyzer = () => {
@@ -133,6 +139,7 @@ const MiniAudioPlayer = (props) => {
         crossOrigin="anonymous"
         onTimeUpdate={(e) => {
           setCurrentTime(formatTime(e.currentTarget.currentTime));
+          getDuration();
           // update motion value for progress bar
           progress.set(e.currentTarget.currentTime);
         }}

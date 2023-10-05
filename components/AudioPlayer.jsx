@@ -15,7 +15,7 @@ const AudioPlayer = ({ trackData }) => {
   // player state
   const [playing, setPlaying] = useState(false);
   const [currentTime, setCurrentTime] = useState();
-  const [trackLength, setTrackLength] = useState("00:00");
+  const [trackLength, setTrackLength] = useState('00:00');
 
   // useRef's - reference to html elements
   const audioPlayer = useRef(null);
@@ -52,9 +52,9 @@ const AudioPlayer = ({ trackData }) => {
 
   // reset/reload track when playing ended
   const reload = () => {
+    progress.set(0);
     setPlaying(false);
     audioPlayer.current.load();
-    progress.set(0);
   };
 
   // format secs/mins for double digits  - '03:03'
@@ -67,6 +67,12 @@ const AudioPlayer = ({ trackData }) => {
     const correctSecs = secs < 10 ? `0${secs}` : `${secs}`;
     const correctMins = mins < 10 ? `0${mins}` : `${mins}`;
     return `${correctMins}:${correctSecs}`;
+  };
+
+  const getDuration = () => {
+    const time = audioPlayer.current.duration;
+    const duration = formatTime(time);
+    setTrackLength(duration)
   };
 
   // ** when browser has loaded metadata for audio it fires loadmetadata event (can then get track duration) & create audio motion element instance **
@@ -114,7 +120,7 @@ const AudioPlayer = ({ trackData }) => {
           progress.set(e.currentTarget.currentTime);
         }}
         onEnded={reload}
-        onLoadedMetadata={(e) => setTrackLength(formatTime(e.target.duration))}
+        onLoadedMetadata={getDuration}
       ></audio>
       <div className="w-full">
         <p className="capitalize text-3xl">{title}</p>
