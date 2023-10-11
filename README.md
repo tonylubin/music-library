@@ -22,7 +22,7 @@ Created a full stack web app music player inspired by online streaming players l
 - yup resolver - form validation
 - react toastify - toast notification
 - NextCloudinary & Cloudinary- image upload cloud server
-- SQL database - MySql
+- SQL database - PostgreSql
 
 ## Functionality
 
@@ -43,5 +43,3 @@ Created a full stack web app music player inspired by online streaming players l
     - uploading audio
 
 7. music player - created using `<audio>` element with play, pause and seek functions. Visual progress bar song duration and using 'audioMotion-analyzer' to show eq function of playing audio
-
-

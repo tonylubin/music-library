@@ -18,22 +18,6 @@ export default async function handler(req,res) {
       await deletePlaylist(tableName);
       res.status(200).json({ msg: "Playlist was successfully deleted"});
     }
-  
-    // // get all table names in database
-    // let [rows] = await db.query("SHOW tables");
-    // let tablesArr = await rows.flatMap((table) => Object.values(table));
-    // // check if playlist name exists
-    // let searchPlaylists = await tablesArr.includes(playlistName) ?  true : false;
-   
-    // if (searchPlaylists === true) {
-    //   res.status(400).send({ msg: `${playlistName.toUpperCase()} playlist already exists, choose another name!` });
-    // }
-    
-    // if (searchPlaylists === false) {
-    //   await createPlaylist(playlistName)
-    //   res.status(200).json({ msg: `Playlist ${playlistName.toUpperCase()} was created` });
-    // }
-
   } catch (error) {
     console.log(error)
     res

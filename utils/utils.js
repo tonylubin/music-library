@@ -58,12 +58,3 @@ export const toastClose = (callbackFunction) => {
 
 // default image cloudinary URL
 export const defaultTrackImgUrl = "vinyl-library-app/images/vinyl-white-label_rus5nl";
-
-// mysql function - allows string template literals
-export const addBackTicks = (str) => {
-  let backticks = "`";
-  let strArr = str.split('');
-  strArr.unshift(backticks);
-  strArr.push(backticks);
-  return strArr.join('');  
-};
