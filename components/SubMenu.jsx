@@ -17,10 +17,10 @@ const SubMenu = ({
     <li
       key={index}
       className="flex items-center gap-4 text-neutral-300 hover:text-emerald-400 hover:cursor-pointer"
-      onClick={() => addToPlaylist(table.TABLE_NAME, trackId)}
+      onClick={() => addToPlaylist(table.table_name, trackId)}
     >
       <MdOutlineQueueMusic className="h-6 w-6 text-emerald-400" />
-      <span>{table.TABLE_NAME}</span>
+      <span>{table.table_name}</span>
     </li>
   ));
 
@@ -29,10 +29,10 @@ const SubMenu = ({
     <li
       key={index}
       className="flex items-center gap-4 text-neutral-300 hover:text-primaryRed hover:cursor-pointer"
-      onClick={() => removeFromPlaylist(table.TABLE_NAME, trackId)}
+      onClick={() => removeFromPlaylist(table.table_name, trackId)}
     >
       <MdOutlineQueueMusic className="h-6 w-6 text-primaryRed" />
-      <span>{table.TABLE_NAME}</span>
+      <span>{table.table_name}</span>
     </li>
   ));
 

@@ -2,7 +2,7 @@ import Image from "next/image";
 import { useRouter } from "next/router";
 import React, { useState } from "react";
 import bannerImage from "../../../public/images/analog-turntable-spinning-retro-soundtrack-nightclub-generated-by-ai.jpg";
-import { getPlaylistTable } from "@/database/musicLibrary";
+import { getPlaylistTable } from "@/database/musicLib";
 import { serializeErrorFunc } from "@/utils/utils";
 import { CldImage } from "next-cloudinary";
 import Link from "next/link";
@@ -51,7 +51,7 @@ const Playlist = ({ trackData }) => {
         <div className="w-10 h-10 relative">
           <CldImage
             alt="vinyl record cover"
-            src={track.imageUrl}
+            src={track.image_url}
             width={150}
             height={150}
             sizes="100vw"
@@ -95,7 +95,7 @@ const Playlist = ({ trackData }) => {
             </div>
           )}
         </div>
-        <Link href={`/track/${track.trackId}`} title="Track info" className="truncate pr-4 hover:underline">
+        <Link href={`/track/${track.track_id}`} title="Track info" className="truncate pr-4 hover:underline">
           {track.title}
         </Link>
       </div>

@@ -1,5 +1,5 @@
 import MainCard from "@/components/MainCard";
-import { getAllFavouriteTracks } from "@/database/musicLibrary";
+import { getAllFavouriteTracks } from "@/database/musicLib";
 import { serializeErrorFunc } from "@/utils/utils";
 import React from "react";
 
@@ -10,8 +10,8 @@ const Favourites = ({ data }) => {
       key={i}
       title={track.title}
       artist={track.artist}
-      trackId={track.trackId}
-      imageUrl={track.imageUrl}
+      trackId={track.track_id}
+      imageUrl={track.image_url}
     />
   ));
   

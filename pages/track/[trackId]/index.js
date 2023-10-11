@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { getTables, getTrack } from "@/database/musicLibrary";
+import { getTables, getTrack } from "@/database/musicLib";
 import { serializeErrorFunc } from "@/utils/utils";
 import TrackCards from "@/components/TrackCards";
 
@@ -7,7 +7,7 @@ import TrackCards from "@/components/TrackCards";
 const Track = ({ trackData, playlistData }) => {
   
   // initial setting of favourite status
-  let fav = trackData.favouriteId ? true : false;
+  let fav = trackData.favourite_id ? true : false;
   const [ isFavourite, setIsFavourite ] = useState(fav);
 
   return (
@@ -26,7 +26,7 @@ export default Track;
 
 export async function getServerSideProps(context) {
   const id = context.params.trackId;
-
+ 
   const [trackResponse, playlistResponse] = await Promise.all([
     getTrack(id),
     getTables(),

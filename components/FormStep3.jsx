@@ -16,7 +16,7 @@ const FormStep3 = ({ handleNext }) => {
   });
 
   const { register, handleSubmit, setValue } = useForm({
-    defaultValues: { imageUrl: uploadSatus.uploadUrl },
+    defaultValues: { image_url: uploadSatus.uploadUrl },
   });
 
   return (
@@ -78,7 +78,7 @@ const FormStep3 = ({ handleNext }) => {
         >
           Next
         </button>
-        <input type="hidden" {...register("imageUrl")} />
+        <input type="hidden" {...register("image_url")} />
       </form>
     </div>
   );

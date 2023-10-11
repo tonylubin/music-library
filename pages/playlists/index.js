@@ -1,6 +1,6 @@
 import PlaylistCard from "@/components/PlaylistCard";
 import PlaylistCardHolder from "@/components/PlaylistCardHolder";
-import { getTables } from "@/database/musicLibrary";
+import { getTables } from "@/database/musicLib";
 import { serializeErrorFunc } from "@/utils/utils";
 import React from "react";
 
@@ -9,7 +9,7 @@ const Playlists = ({ data }) => {
 
   // get array of playlists in database
   let playlistTableArr = data.map((playlist, index) => (
-    <PlaylistCard key={index} playlistName={playlist.TABLE_NAME} />
+    <PlaylistCard key={index} playlistName={playlist.table_name} />
   ));
 
   let getPlaylists;

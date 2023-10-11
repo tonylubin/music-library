@@ -1,19 +1,18 @@
+-- N/B - postgres is case insensitive thus avoid camelcase/pascalcase
+
 CREATE DATABASE vinyl_catalogue;
 USE vinyl_catalogue;
 
 CREATE TABLE music (
-    -- mysql
-    trackId INT AUTO_INCREMENT,
-    --postgres --> serial is equivalent to auto increment
-    trackId SERIAL,
+    track_id SERIAL,
     title VARCHAR(255) NOT NULL,
     artist VARCHAR(255) NOT NULL,
     album VARCHAR(255),
     -- time format "hh:mm:ss"
     duration TIME,  
     genre VARCHAR(255) NOT NULL,
-    imageUrl VARCHAR(255),
-    audioUrl VARCHAR(255),
+    image_url VARCHAR(255),
+    audio_url VARCHAR(255),
     year INT NOT NULL,
     audioFilename VARCHAR(255) NOT NULL,
     created TIMESTAMP NOT NULL DEFAULT NOW()
@@ -21,7 +20,7 @@ CREATE TABLE music (
 );
 
 CREATE TABLE favourites (
-    favouriteId INT AUTO_INCREMENT,
+    favouriteId SERIAL,
     trackId INT UNIQUE,
     created TIMESTAMP NOT NULL DEFAULT NOW(),
     PRIMARY KEY(favouriteId),

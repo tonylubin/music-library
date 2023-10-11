@@ -78,7 +78,7 @@ const TrackCards = ({ trackData, isFavourite, setIsFavourite, playlistData }) =>
             <div className="h-full w-full rounded-lg overflow-hidden cardFace shadow-2xl">
               <CldImage
                 alt="vinyl record cover"
-                src={trackData.imageUrl}
+                src={trackData.image_url}
                 width={325}
                 height={325}
                 sizes="100vw"
@@ -86,7 +86,7 @@ const TrackCards = ({ trackData, isFavourite, setIsFavourite, playlistData }) =>
             </div>
             <div className="h-full w-full cardFace rounded-lg overflow-hidden cardBack border border-neutral-200">
               <Menu
-                trackId={trackData.trackId}
+                trackId={trackData.track_id}
                 playlistData={playlistData}
                 isFavourite={isFavourite}
                 setIsFavourite={setIsFavourite}

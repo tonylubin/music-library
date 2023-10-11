@@ -10,7 +10,7 @@ import { BiRefresh } from "react-icons/bi";
 import { motion, useMotionValue, useTransform } from "framer-motion";
 
 const AudioPlayer = ({ trackData }) => {
-  const { title, artist, album, genre, year, audioUrl } = trackData;
+  const { title, artist, album, genre, year, audio_url } = trackData;
 
   // player state
   const [playing, setPlaying] = useState(false);
@@ -111,7 +111,7 @@ const AudioPlayer = ({ trackData }) => {
       <audio
         ref={audioPlayer}
         id="audio"
-        src={audioUrl}
+        src={audio_url}
         crossOrigin="anonymous"
         preload="auto"
         onTimeUpdate={(e) => {

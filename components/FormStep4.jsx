@@ -12,7 +12,7 @@ import { useRouter } from "next/router";
 // form validation - yup
 const schema = yup
   .object({
-    audioUrl: yup.string().required("Please upload an audio track sample!"),
+    audio_url: yup.string().required("Please upload an audio track sample!"),
   })
   .required();
 
@@ -99,7 +99,7 @@ const FormStep4 = ({ formData }) => {
       >
         <FormInput
           inputLabel="Audio Track"
-          inputName="audioUrl"
+          inputName="audio_url"
           register={register}
           type="text"
           placeholderText="audio src: www.music-track.example"

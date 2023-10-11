@@ -134,7 +134,7 @@ const MiniAudioPlayer = (props) => {
       <audio
         ref={audioPlayer}
         id="audio"
-        src={trackData[currentTrackIndex]?.audioUrl}
+        src={trackData[currentTrackIndex]?.audio_url}
         preload="auto"
         crossOrigin="anonymous"
         onTimeUpdate={(e) => {
@@ -151,10 +151,10 @@ const MiniAudioPlayer = (props) => {
       ></audio>
       <div className="w-full h-4/5 flex gap-8 pl-8 items-center">
         <div className="w-10 h-10 flex">
-          {trackData[currentTrackIndex]?.imageUrl && (
+          {trackData[currentTrackIndex]?.image_url && (
             <CldImage
               alt="mini album cover"
-              src={trackData[currentTrackIndex]?.imageUrl}
+              src={trackData[currentTrackIndex]?.image_url}
               width={70}
               height={70}
               sizes="100vw"

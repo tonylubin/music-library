@@ -35,7 +35,7 @@ const Form = ({ setPlaylistCreated }) => {
       setErrorStatus({ status: true, message: msg });
     } else {
       const { msg } = await response.json();
-      setErrorStatus({ status: true, message: "" });
+      setErrorStatus({ status: false, message: "" });
       setPlaylistCreated({ status: true, message: msg });
     }
   };

@@ -1,6 +1,6 @@
 import Header from "@/components/Header";
 import MainCard from "@/components/MainCard";
-import { searchFunc } from "@/database/musicLibrary";
+import { searchFunc } from "@/database/musicLib";
 import { serializeErrorFunc } from "@/utils/utils";
 import React, { useEffect, useState } from "react";
 
@@ -14,8 +14,8 @@ const Search = ({ searchResults, query }) => {
     key={i}
     artist={track.artist}
     title={track.title}
-    trackId={track.trackId}
-    imageUrl={track.imageUrl}
+    trackId={track.track_id}
+    imageUrl={track.image_url}
     />
     ));
     

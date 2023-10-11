@@ -1,16 +1,16 @@
-import { createPlaylist, deletePlaylist } from "@/database/musicLibrary";
+import { createPlaylist, deletePlaylist } from "@/database/musicLib";
 
 export default async function handler(req,res) {
   try {
     const playlistName = req.body;
 
     if(req.method === "POST") {
-      let playlistResponse = await createPlaylist(playlistName);
-      if (playlistResponse[0].warningStatus) {
+      let playlistResponse = await createPlaylist(playlistName);   
+      if (playlistResponse.name === 'error') {
         return res.status(400).json({ msg : "Playlist with that name already exists"});
       } else {
         return res.status(200).json({ msg: "Playlist was created"});
-      }      
+      }  
     }
 
     if(req.method === "DELETE") {

@@ -1,4 +1,4 @@
-import { addToPlaylist, removeFromPlaylist } from "@/database/musicLibrary";
+import { addToPlaylist, removeFromPlaylist } from "@/database/musicLib";
 
 
 export default async function handler(req, res) {

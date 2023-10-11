@@ -1,6 +1,6 @@
 import React from "react";
 import { serializeErrorFunc } from "@/utils/utils";
-import { getGenreLib } from "@/database/musicLibrary";
+import { getGenreLib } from "@/database/musicLib";
 import Image from "next/image";
 import imagePaths from "../../../database/homePageData.json";
 import MusicCard from "@/components/MusicCard";
@@ -16,8 +16,8 @@ const Genre = ({ data, genre }) => {
       key={i}
       title={track.title}
       artist={track.artist}
-      trackId={track.trackId}
-      imageUrl={track.imageUrl}
+      trackId={track.track_id}
+      imageUrl={track.image_url}
     />
   ));
 

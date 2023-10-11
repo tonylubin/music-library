@@ -1,4 +1,4 @@
-import { addFavouriteTrack, removeFavouriteTrack } from "@/database/musicLibrary";
+import { addFavouriteTrack, removeFavouriteTrack } from "@/database/musicLib";
 
 export default async function handler(req, res) {
   try {
@@ -9,7 +9,9 @@ export default async function handler(req, res) {
     } 
 
     if(req.method === "DELETE") {
-      let favTrackId = req.query.favouriteTrack; 
+      let { favouriteTrack } = req.query;
+      // url typeof string thus convert to number
+      let favTrackId = Number(favouriteTrack);
       await removeFavouriteTrack(favTrackId);
       res.status(200).json({ msg: "Track removed from your favourites list." });
     }
