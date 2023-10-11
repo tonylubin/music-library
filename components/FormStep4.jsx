@@ -44,7 +44,10 @@ const FormStep4 = ({ formData }) => {
       body: JSON.stringify({ ...formData, ...data }),
     });
 
-    const response = await postTrack.json().then(() => setIsSubmitting(false));
+    const response = await postTrack.json().then((res) => {
+      setIsSubmitting(false);
+      return res;
+    });
 
     let msg = (
       <p>

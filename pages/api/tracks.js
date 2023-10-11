@@ -7,7 +7,7 @@ export default async function handler(req,res) {
       let { title, artist, album, genre, year, image_url, duration, audio_url } = req.body;
   
       await addTrack(title, artist, album, genre, year, image_url, duration, audio_url);
-  
+
       res.status(200).json({ artist, title });     
     }
 
