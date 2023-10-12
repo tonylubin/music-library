@@ -41,8 +41,9 @@ const FormStep2 = ({ handleNext }) => {
       <option value="ukg">UKG</option>
       <option value="house">HOUSE</option>
       <option value="garge">GARAGE</option>
-      <option value="indie">INDIE</option>
+      <option value="hip-hop">HIP-HOP</option>
       <option value="r&b">R&B</option>
+      <option value="indie">INDIE</option>
       <option value="pop">POP</option>
     </select>
     <button

@@ -71,7 +71,8 @@ export default Genre;
 
 export const getServerSideProps = async (context) => {
   const { genre } = context.query;
-  const res = await getGenreLib(genre);
+  let musicGenre = (genre === 'randb') ? 'r&b' : genre;
+  const res = await getGenreLib(musicGenre);
   const data = await serializeErrorFunc(res);
   return { props: { data, genre } };
 };

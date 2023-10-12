@@ -12,7 +12,7 @@ const CloudUpload = ({ setUploadStatus, setValue, uploadOption }) => {
       ? "Done! Image uploaded."
       : "Done! track audio uploaded.";
 
-  const uploadUrl = uploadOption === "images" ? "imageUrl" : "audioUrl";
+  const uploadUrl = uploadOption === "images" ? "image_url" : "audio_url";
 
   // cloudinary widget options
   const widgetUIOptions = {
