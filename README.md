@@ -1,15 +1,23 @@
-# Music Player Library
+# Music Player Library</span>
 
 #### Getting started
+
 ```npm run dev```
+
+---
+
+Note: &nbsp; for demo purposes disabled form submission & use of cloudinary widget (due to automatic upload)
+ - To use add a `.env` file with your own cloudinary & database credentials.
+
+---
 
 ### Problem
 
-how to make vinyl analogue music collection made available to interact with, in a digital way.
+How to make my vinyl **analogue** record music collection available to interact with, in a **digital** way.
 
 ### Solution
 
-Created a full stack web app music player inspired by online streaming players like mixcloud/spotify to organise and upload music, play tracks and create playlists.
+Created a full stack web app music player inspired by online streaming players like mixcloud/itunes to organise and upload music, play tracks and create playlists.
 
 ## Tech
 
@@ -17,18 +25,19 @@ Created a full stack web app music player inspired by online streaming players l
 - React
 - Tailwind CSS
 - react icons
+- framer motion - (css transitions/animations)
 - audiomotion-analyzer
 - React hook form
 - yup resolver - form validation
 - react toastify - toast notification
-- NextCloudinary & Cloudinary- image upload cloud server
+- NextCloudinary & Cloudinary- image/audio upload cloud server
 - SQL database - PostgreSql
 
 ## Functionality
 
 1. library tracks organised via music genres
 
-2. search functionality via artist or track name using  Next router with url search query/term
+2. search functionality via artist or track name using  Next router with *url search query/term*
 
 3. navigation using NextJS  `<Link>` component and `useRouter()`
 
@@ -39,7 +48,42 @@ Created a full stack web app music player inspired by online streaming players l
 6. Form - add music to database library with form validation.
 
     - enter track info using multi-step form
-    - upload track vinyl cover image using cloudinary upload widget
-    - uploading audio
+    - upload track vinyl cover image and audio using cloudinary upload widget
 
-7. music player - created using `<audio>` element with play, pause and seek functions. Visual progress bar song duration and using 'audioMotion-analyzer' to show eq function of playing audio
+7. music player - created using `<audio>` element
+
+    - with play, pause, seek and reload functions
+    - Visual progress bar song duration
+    - using *'audioMotion-analyzer'* to show EQ function of playing audio
+
+8. BACKEND
+    - Postgresql database for storing track information
+    - used *sql template string* for making parameterized queries - easier readability - with joins & foreign keys
+    - CRUD functionality with API routes
+    - Asset (image/audio) storing & retrieval using Cloudinary service
+
+---
+
+## Screenshots
+
+</br>
+</br>
+<img src='./public/images/screenshots/music_app-home.jpeg' width='700' height='350' style='display:block;margin:0 auto'>
+</br>
+</br>
+<img src='./public/images/screenshots/music-app-genre.png' width='700' height='350' style='display:block;margin:0 auto'>
+</br>
+</br>
+<img src='./public/images/screenshots/music-app-trackcard.png' width='700' height='350' style='display:block;margin:0 auto'>
+</br>
+</br>
+<img src='./public/images/screenshots/music-app-menu.png' width='700' height='350' style='display:block;margin:0 auto'>
+</br>
+</br>
+<img src='./public/images/screenshots/music_app-playlistPlay.jpeg' width='700' height='350' style='display:block;margin:0 auto'>
+</br>
+</br>
+<img src='./public/images/screenshots/music-app-playlists.png' width='700' height='350' style='display:block;margin:0 auto'>
+</br>
+</br>
+<img src='./public/images/screenshots/music-app-search.png' width='700' height='350' style='display:block;margin:0 auto'>

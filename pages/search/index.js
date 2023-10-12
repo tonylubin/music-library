@@ -1,5 +1,5 @@
 import Header from "@/components/Header";
-import MainCard from "@/components/MainCard";
+import MusicCard from "@/components/MusicCard";
 import { searchFunc } from "@/database/musicLib";
 import { serializeErrorFunc } from "@/utils/utils";
 import React, { useEffect, useState } from "react";
@@ -10,7 +10,7 @@ const Search = ({ searchResults, query }) => {
 
   
   const searchQuery = searchResults.map((track, i) => (
-    <MainCard
+    <MusicCard
     key={i}
     artist={track.artist}
     title={track.title}

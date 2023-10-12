@@ -3,7 +3,7 @@ import { serializeErrorFunc } from "@/utils/utils";
 import { getGenreLib } from "@/database/musicLib";
 import Image from "next/image";
 import imagePaths from "../../../database/homePageData.json";
-import MusicCard from "@/components/MusicCard";
+import MainCard from "@/components/MainCard";
 
 const Genre = ({ data, genre }) => {
   let pathObj = imagePaths.find(
@@ -12,7 +12,7 @@ const Genre = ({ data, genre }) => {
   let imgPath = pathObj.imgPath;
 
   const cardTracks = data.map((track, i) => (
-    <MusicCard
+    <MainCard
       key={i}
       title={track.title}
       artist={track.artist}
@@ -55,7 +55,7 @@ const Genre = ({ data, genre }) => {
         </div>
       </div>
       {cardTracks.length ? (
-        <section className="grid grid-cols-5 gap-6 py-24 px-12 h-3/4 overflow-auto bg-primaryBgAlt">
+        <section className="grid grid-cols-5 gap-8 py-16 px-12 h-3/4 overflow-auto bg-primaryBgAlt">
           {cardTracks}
         </section>
       ) : (

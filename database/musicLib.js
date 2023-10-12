@@ -25,7 +25,9 @@ const getTracks = async () => {
 const getTrack = async (id) => {
   try {
     const queryString = SQL`
-    SELECT music.*, favourites.favourite_id FROM music LEFT JOIN favourites ON music.track_id = favourites.track_id 
+    SELECT music.*, favourites.favourite_id
+    FROM music 
+    LEFT JOIN favourites ON music.track_id = favourites.track_id 
     WHERE music.track_id = ${id}`;
     const { rows } = await db.query(queryString);
     // rows is an array - fetching only 1 track thus 1st array obj
@@ -74,7 +76,8 @@ const deleteTrack = async (trackId) => {
 const getTables = async () => {
   try {
     const queryString = SQL`
-    SELECT table_name FROM information_schema.columns
+    SELECT table_name
+    FROM information_schema.columns
     WHERE column_name = 'playlist'`;
     let { rows } = await db.query(queryString);
     return rows;
@@ -112,8 +115,10 @@ const removeFromPlaylist = async (name, id) => {
 const getAllFavouriteTracks = async () => {
   try {
     const queryString = SQL`
-    SELECT music.*, favourites.favourite_id FROM music
-    JOIN favourites ON music.track_id = favourites.track_id
+    SELECT music.*, favourites.favourite_id
+    FROM music
+    JOIN favourites
+    ON music.track_id = favourites.track_id
     `;
     let { rows } = await db.query(queryString);
     return rows;
@@ -163,7 +168,8 @@ const searchFunc = async (searchTerm) => {
     let text = searchTerm ? `${searchTerm}%` : "";
     const queryString = SQL`
     SELECT * FROM music
-    WHERE artist LIKE ${text} OR title LIKE ${text}
+    WHERE artist LIKE ${text}
+    OR title LIKE ${text}
     `;
     let { rows } = await db.query(queryString);
     return rows;
