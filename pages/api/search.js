@@ -1,4 +1,4 @@
-import { searchFunc } from "@/database/musicLibrary";
+import { searchFunc } from "@/database/musicLib";
 
 export default async function handler(req, res) {
   try {
