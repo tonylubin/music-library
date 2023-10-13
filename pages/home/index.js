@@ -13,11 +13,11 @@ const Home = () => {
   ));
 
   return (
-    <main className="col-start-3 col-end-13 row-start-1 row-end-7 bg-primaryBgAlt">
-      <section className="h-full w-full grid grid-cols-homepage gap-x-14 gap-y-19 justify-center items-center p-8">
-        {getMusicGenres}
-      </section>
-    </main>
+         <main className="col-start-3 col-end-13 row-start-1 row-end-7 bg-primaryBgAlt">
+        <section className="h-full w-full grid grid-cols-homepage gap-x-14 gap-y-19 justify-center items-center p-8">
+          {getMusicGenres}
+        </section>
+      </main>    
   );
 };
 
