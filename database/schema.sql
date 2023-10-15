@@ -15,7 +15,6 @@ CREATE TABLE music (
     audio_url VARCHAR(255),
     year INT NOT NULL,
     audioFilename VARCHAR(255) NOT NULL,
-    created TIMESTAMP NOT NULL DEFAULT NOW()
     PRIMARY KEY(trackId)
 );
 

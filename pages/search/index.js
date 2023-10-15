@@ -1,7 +1,6 @@
 import Header from "@/components/Header";
 import MusicCard from "@/components/MusicCard";
 import { searchFunc } from "@/database/musicLib";
-import { serializeErrorFunc } from "@/utils/utils";
 import React, { useEffect, useState } from "react";
 
 const Search = ({ searchResults, query }) => {
@@ -62,7 +61,6 @@ export const getServerSideProps = async (context) => {
   // conditional check for handling null/undefined url search query
   let query = term ? term : "";
 
-  let searchQuery = await searchFunc(query);
-  let searchResults = await serializeErrorFunc(searchQuery);
+  let searchResults = await searchFunc(query);
   return { props: { searchResults, query } };
 };

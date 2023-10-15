@@ -1,6 +1,5 @@
 import MusicCard from "@/components/MusicCard";
 import { getTracks } from "@/database/musicLib";
-import { serializeErrorFunc } from "@/utils/utils";
 import React from "react";
 
 const Library = ({ data }) => {
@@ -24,7 +23,6 @@ const Library = ({ data }) => {
 export default Library;
 
 export const getServerSideProps = async () => {
-  const res = await getTracks();
-  const data = await serializeErrorFunc(res);
+  const data = await getTracks();
   return { props: { data } };
 };

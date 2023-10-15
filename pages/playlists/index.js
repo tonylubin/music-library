@@ -1,7 +1,6 @@
 import PlaylistCard from "@/components/PlaylistCard";
 import PlaylistCardHolder from "@/components/PlaylistCardHolder";
 import { getTables } from "@/database/musicLib";
-import { serializeErrorFunc } from "@/utils/utils";
 import React from "react";
 
 
@@ -31,8 +30,7 @@ const Playlists = ({ data }) => {
 export default Playlists;
 
 
-export const getStaticProps = async () => {
-  const res = await getTables();
-  const data = await serializeErrorFunc(res);
+export const getServerSideProps = async () => {
+  const data = await getTables();
   return { props: { data } };
 };

@@ -1,20 +1,10 @@
-import { Pool, escapeIdentifier } from "pg";
-const SQL = require("sql-template-strings");
-
-// create connection to database
-const db = new Pool({
-  host: process.env.PGHOST,
-  user: process.env.PGUSER,
-  database: process.env.PGDATABASE,
-  password: process.env.PGPASSWORD,
-  port: process.env.PGPORT,
-});
+const format = require('pg-format');
+import { sql } from "@vercel/postgres";
 
 // GET all tracks (rows)
 const getTracks = async () => {
   try {
-    const queryString = "SELECT * FROM music";
-    const { rows } = await db.query(queryString);
+    const { rows } = await sql`SELECT * FROM music;`;
     return rows;
   } catch (error) {
     console.error(error);
@@ -24,12 +14,11 @@ const getTracks = async () => {
 // GET one track (row) & handles favourite status
 const getTrack = async (id) => {
   try {
-    const queryString = SQL`
+    const { rows } = await sql`
     SELECT music.*, favourites.favourite_id
     FROM music 
     LEFT JOIN favourites ON music.track_id = favourites.track_id 
-    WHERE music.track_id = ${id}`;
-    const { rows } = await db.query(queryString);
+    WHERE music.track_id = ${id};`;
     // rows is an array - fetching only 1 track thus 1st array obj
     const result = rows[0];
     return result;
@@ -51,10 +40,10 @@ const addTrack = async (
 ) => {
   try {
     const formatedDuration = `00:${duration}`;
-    const queryString = SQL`
+    const queryString = sql`
     INSERT INTO music
     (title, artist, album, genre, year, image_url, duration, audio_url)
-    VALUES (${title}, ${artist}, ${album}, ${genre}, ${year}, ${image_url}, ${formatedDuration}, ${audio_url})`;
+    VALUES (${title}, ${artist}, ${album}, ${genre}, ${year}, ${image_url}, ${formatedDuration}, ${audio_url});`;
     await db.query(queryString);
   } catch (error) {
     console.error(error);
@@ -64,8 +53,8 @@ const addTrack = async (
 // DELETE track (row)
 const deleteTrack = async (trackId) => {
   try {
-    const queryString = SQL`
-    DELETE FROM music WHERE track_id = ${trackId}`;
+    const queryString = sql`
+    DELETE FROM music WHERE track_id = ${trackId};`;
     await db.query(queryString);
   } catch (error) {
     console.error(error);
@@ -75,11 +64,11 @@ const deleteTrack = async (trackId) => {
 //  get tables - playlists
 const getTables = async () => {
   try {
-    const queryString = SQL`
+    const colName = 'playlist';
+    const { rows } = await sql`
     SELECT table_name
     FROM information_schema.columns
-    WHERE column_name = 'playlist'`;
-    let { rows } = await db.query(queryString);
+    WHERE column_name = ${colName};`;
     return rows;
   } catch (error) {
     console.error(error);
@@ -90,10 +79,9 @@ const getTables = async () => {
 // manually escape table name
 const addToPlaylist = async (name, trackNum) => {
   try {
-    const queryString = SQL`INSERT INTO `.append(escapeIdentifier(name))
-      .append(SQL` (track_id) VALUES (${trackNum})
-      ON CONFLICT (track_id) DO NOTHING`);
-    await db.query(queryString);
+    const queryString = format('INSERT INTO %1$I (track_id) VALUES (%2$L) ON CONFLICT (track_id) DO NOTHING', name, trackNum);
+    const formatQueryString = queryString.replace(`'${trackNum}'`, trackNum);
+    await sql.query(formatQueryString);
   } catch (error) {
     console.error(error);
   }
@@ -102,10 +90,10 @@ const addToPlaylist = async (name, trackNum) => {
 //  remove from playlist
 const removeFromPlaylist = async (name, id) => {
   try {
-    const queryString = SQL`DELETE FROM `
-      .append(escapeIdentifier(name))
-      .append(SQL` WHERE track_id = ${id}`);
-    await db.query(queryString);
+    const queryString = format('DELETE FROM %1$I WHERE track_id = %2$L', name, id);
+    // string to number for id param
+    const formatQueryString = queryString.replace(`'${id}'`, id);
+    await sql.query(formatQueryString);
   } catch (error) {
     console.error(error);
   }
@@ -114,13 +102,12 @@ const removeFromPlaylist = async (name, id) => {
 //  Get Favourite tracks
 const getAllFavouriteTracks = async () => {
   try {
-    const queryString = SQL`
+    const { rows } = await sql`
     SELECT music.*, favourites.favourite_id
     FROM music
     JOIN favourites
-    ON music.track_id = favourites.track_id
+    ON music.track_id = favourites.track_id;    
     `;
-    let { rows } = await db.query(queryString);
     return rows;
   } catch (error) {
     console.error(error);
@@ -130,12 +117,11 @@ const getAllFavouriteTracks = async () => {
 //  Add a Favourite track
 const addFavouriteTrack = async (id) => {
   try {
-    const queryString = SQL`
+    await sql`
     INSERT INTO favourites (track_id)
     VALUES(${id})
-    ON CONFLICT (track_id) DO NOTHING
+    ON CONFLICT (track_id) DO NOTHING;
     `;
-    await db.query(queryString);
   } catch (error) {
     console.error(error);
   }
@@ -144,8 +130,7 @@ const addFavouriteTrack = async (id) => {
 //  Delete a favourite track
 const removeFavouriteTrack = async (id) => {
   try {
-    const queryString = SQL`DELETE FROM favourites WHERE track_id = ${id}`;
-    await db.query(queryString);
+    await sql`DELETE FROM favourites WHERE track_id = ${id};`;
   } catch (error) {
     console.error(error);
   }
@@ -154,8 +139,7 @@ const removeFavouriteTrack = async (id) => {
 // get genre tracks
 const getGenreLib = async (genre) => {
   try {
-    const queryString = SQL`SELECT * FROM music WHERE genre = ${genre}`;
-    const { rows } = await db.query(queryString);
+    const { rows } = await sql`SELECT * FROM music WHERE genre = ${genre};`;
     return rows;
   } catch (error) {
     console.error(error);
@@ -166,12 +150,11 @@ const getGenreLib = async (genre) => {
 const searchFunc = async (searchTerm) => {
   try {
     let text = searchTerm ? `${searchTerm}%` : "";
-    const queryString = SQL`
+    const { rows } = await sql`
     SELECT * FROM music
     WHERE artist LIKE ${text}
-    OR title LIKE ${text}
+    OR title LIKE ${text};
     `;
-    let { rows } = await db.query(queryString);
     return rows;
   } catch (error) {
     console.error(error);
@@ -181,17 +164,16 @@ const searchFunc = async (searchTerm) => {
 // Create playlist
 const createPlaylist = async (name) => {
   try {
-    const queryString = SQL`CREATE TABLE `.append(
-      escapeIdentifier(name)
-    ).append(SQL` (
+    const queryString = format(`
+    CREATE TABLE %I (
       track_number SERIAL,
       track_id INT UNIQUE,
       playlist BOOLEAN DEFAULT TRUE,
       created TIMESTAMP NOT NULL DEFAULT NOW(),
       PRIMARY KEY (track_number),
-      FOREIGN KEY (track_id) REFERENCES music (track_id) ON DELETE CASCADE 
-    )`);
-    let { rows } = await db.query(queryString);
+      FOREIGN KEY (track_id) REFERENCES music (track_id) ON DELETE CASCADE
+    )`, name);  
+    const { rows } = await sql.query(queryString);
     return rows;
   } catch (error) {
     console.error(error);
@@ -202,8 +184,8 @@ const createPlaylist = async (name) => {
 // Delete playlist
 const deletePlaylist = async (name) => {
   try {
-    const queryString = SQL`DROP TABLE `.append(escapeIdentifier(name));
-    await db.query(queryString);
+    const queryString = format('DROP TABLE %I', name);
+    await sql.query(queryString);
   } catch (error) {
     console.error(error);
     return error
@@ -213,29 +195,18 @@ const deletePlaylist = async (name) => {
 // get playlist tracks
 const getPlaylistTable = async (name) => {
   try {
-    const queryString = SQL`
-    SELECT music.*, track_number 
+    const queryString = format(`
+    SELECT music.*, track_number
     FROM music
-    INNER JOIN `
-      .append(escapeIdentifier(name))
-      .append(SQL` ON music.track_id = `)
-      .append(escapeIdentifier(name))
-      .append(SQL`.track_id`);
-    let { rows } = await db.query(queryString);
+    INNER JOIN %1$I
+    ON music.track_id = %1$I.track_id`, name);
+    const { rows } = await sql.query(queryString);
     return rows;
   } catch (error) {
     console.error(error);
   }
 };
 
-// error handling with pool connection
-db.on("error", (error) =>
-  console.error("\x1b[31m%s\x1b[0m", "Error occured with database!", error)
-);
-
-db.on("connect", () =>
-  console.log("\x1b[34m%s\x1b[0m", "Successfull database connection!")
-);
 
 export {
   getTrack,

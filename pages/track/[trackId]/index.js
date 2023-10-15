@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { getTables, getTrack } from "@/database/musicLib";
-import { serializeErrorFunc } from "@/utils/utils";
 import TrackCards from "@/components/TrackCards";
 
 
@@ -25,15 +24,10 @@ export default Track;
 
 export async function getServerSideProps(context) {
   const id = context.params.trackId;
-
-  const [trackResponse, playlistResponse] = await Promise.all([
-    getTrack(id),
-    getTables(),
-  ]);
-
+ 
   const [trackData, playlistData] = await Promise.all([
-    serializeErrorFunc(trackResponse),
-    serializeErrorFunc(playlistResponse),
+    getTrack(id),
+    getTables()
   ]);
 
   return { props: { trackData, playlistData } };

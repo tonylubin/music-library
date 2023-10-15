@@ -3,7 +3,6 @@ import { useRouter } from "next/router";
 import React, { useState } from "react";
 import bannerImage from "../../../public/images/banners/analog-turntable-spinning-retro-soundtrack-nightclub-generated-by-ai.jpg";
 import { getPlaylistTable } from "@/database/musicLib";
-import { serializeErrorFunc } from "@/utils/utils";
 import { CldImage } from "next-cloudinary";
 import Link from "next/link";
 import MiniAudioPlayer from "@/components/MiniAudioPlayer";
@@ -155,7 +154,6 @@ export default Playlist;
 
 export const getServerSideProps = async (context) => {
   const playlistName = context.query.playlist;
-  const res = await getPlaylistTable(playlistName);
-  const trackData = await serializeErrorFunc(res);
+  const trackData = await getPlaylistTable(playlistName);
   return { props: { trackData } };
 };

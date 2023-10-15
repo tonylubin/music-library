@@ -1,6 +1,5 @@
 import MainCard from "@/components/MainCard";
 import { getAllFavouriteTracks } from "@/database/musicLib";
-import { serializeErrorFunc } from "@/utils/utils";
 import React from "react";
 
 const Favourites = ({ data }) => {
@@ -26,7 +25,6 @@ export default Favourites;
 
 
 export const getServerSideProps = async () => {
-  const res = await getAllFavouriteTracks();
-  const data = await serializeErrorFunc(res);
+  const data = await getAllFavouriteTracks();
   return { props: { data } };
 };

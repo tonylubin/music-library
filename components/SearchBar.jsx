@@ -12,7 +12,6 @@ const SearchBar = ({ searchQuery, setSearchQuery, isLoading, setIsLoading }) => 
       ? `/search?term=${searchQuery}`
       : "/search";
       router.push(routePath);
-      // setTimeout(() => router.push(routePath), 1000);
   };
 
   return (
@@ -24,7 +23,7 @@ const SearchBar = ({ searchQuery, setSearchQuery, isLoading, setIsLoading }) => 
           type="text"
           name="search"
           value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
+          onInput={(e) => setSearchQuery(e.target.value)}
         />
         {!isLoading ? (
           <button type="submit" className="text-neutral-300 hover:text-black bg-redHover hover:bg-primaryRed font-medium rounded-lg px-5 py-2.5 text-center hover:outline hover:outline-primaryRed">

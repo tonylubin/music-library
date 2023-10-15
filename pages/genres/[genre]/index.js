@@ -1,5 +1,4 @@
 import React from "react";
-import { serializeErrorFunc } from "@/utils/utils";
 import { getGenreLib } from "@/database/musicLib";
 import Image from "next/image";
 import imagePaths from "../../../database/homePageData.json";
@@ -72,7 +71,6 @@ export default Genre;
 export const getServerSideProps = async (context) => {
   const { genre } = context.query;
   let musicGenre = (genre === 'randb') ? 'r&b' : genre;
-  const res = await getGenreLib(musicGenre);
-  const data = await serializeErrorFunc(res);
+  const data = await getGenreLib(musicGenre);
   return { props: { data, genre } };
 };
