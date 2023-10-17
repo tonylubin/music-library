@@ -1,7 +1,7 @@
 import Image from "next/image";
 import { useRouter } from "next/router";
 import React, { useState } from "react";
-import bannerImage from "../../../public/images/banners/analog-turntable-spinning-retro-soundtrack-nightclub-generated-by-ai.jpg";
+import bannerImage from "../../../public/images/analog-turntable-spinning-retro-soundtrack-nightclub-generated-by-ai.jpg";
 import { getPlaylistTable } from "@/database/musicLib";
 import { serializeErrorFunc } from "@/utils/utils";
 import { CldImage } from "next-cloudinary";
