@@ -15,7 +15,7 @@ const Track = ({ trackData, playlistData, placeHolders }) => {
         isFavourite={isFavourite}
         setIsFavourite={setIsFavourite}
         playlistData={playlistData}
-        placeHolder={placeHolders[i]}
+        placeHolder={placeHolders[0]}
       />
     </main>
   );

@@ -7,7 +7,8 @@
 ---
 
 Note: &nbsp; for demo purposes disabled form submission & use of cloudinary widget (due to automatic upload)
- - To use add a `.env` file with your own cloudinary & database credentials.
+
+- To use add a `.env` file with your own cloudinary & database credentials.
 
 ---
 
@@ -21,7 +22,7 @@ Created a full stack web app music player inspired by online streaming players l
 
 ## Tech
 
-- Next JS (13)
+- Next JS
 - React
 - Tailwind CSS
 - react icons
@@ -30,14 +31,15 @@ Created a full stack web app music player inspired by online streaming players l
 - React hook form
 - yup resolver - form validation
 - react toastify - toast notification
+- plaiceholder pkg for generating image placholders
 - NextCloudinary & Cloudinary- image/audio upload cloud server
-- SQL database - PostgreSql
+- SQL database - PostgreSql (cloud service - vercel postgres)
 
 ## Functionality
 
 1. library tracks organised via music genres
 
-2. search functionality via artist or track name using  Next router with *url search query/term*
+2. search functionality via artist or track name using  Next router.push() with *url search query/term* e.g. '<http://vinyl-lib.com/search?term=sun>'
 
 3. navigation using NextJS  `<Link>` component and `useRouter()`
 
@@ -56,7 +58,9 @@ Created a full stack web app music player inspired by online streaming players l
     - Visual progress bar song duration
     - using *'audioMotion-analyzer'* to show EQ function of playing audio
 
-8. BACKEND
+8. image placeholders for better ux/ui using plaiceholder
+
+9. BACKEND
     - Postgresql database for storing track information
     - used *sql template string* for making parameterized queries - easier readability - with joins & foreign keys
     - CRUD functionality with API routes
