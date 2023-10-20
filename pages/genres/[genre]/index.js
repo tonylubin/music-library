@@ -4,7 +4,7 @@ import Image from "next/image";
 import imagePaths from "../../../database/homePageData.json";
 import MainCard from "@/components/MainCard";
 
-const Genre = ({ data, genre }) => {
+const Genre = ({ data, genre, placeHolders }) => {
   let pathObj = imagePaths.find(
     (music) => music.pageUrl === `/genres/${genre}`
   );
@@ -17,6 +17,7 @@ const Genre = ({ data, genre }) => {
       artist={track.artist}
       trackId={track.track_id}
       imageUrl={track.image_url}
+      placeHolder={placeHolders[i]}
     />
   ));
 
@@ -72,5 +73,20 @@ export const getServerSideProps = async (context) => {
   const { genre } = context.query;
   let musicGenre = (genre === 'randb') ? 'r&b' : genre;
   const data = await getGenreLib(musicGenre);
-  return { props: { data, genre } };
+
+  // Array of img urls
+  const imgSrc = data.map((track) => track.image_url);
+
+  // fetching image placeholders
+  const url = `${process.env.BASE_URL}/api/placeholders`;
+
+  const getPlaceHolders = await fetch(url, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(imgSrc)
+  });
+
+  const { placeHolders } = await getPlaceHolders.json();
+
+  return { props: { data, genre, placeHolders } };
 };

@@ -2,7 +2,7 @@ import MainCard from "@/components/MainCard";
 import { getAllFavouriteTracks } from "@/database/musicLib";
 import React from "react";
 
-const Favourites = ({ data }) => {
+const Favourites = ({ data, placeHolders }) => {
 
   const cardTracks = data.map((track, i) => (
     <MainCard
@@ -11,6 +11,7 @@ const Favourites = ({ data }) => {
       artist={track.artist}
       trackId={track.track_id}
       imageUrl={track.image_url}
+      placeHolder={placeHolders[i]}
     />
   ));
   
@@ -26,5 +27,20 @@ export default Favourites;
 
 export const getServerSideProps = async () => {
   const data = await getAllFavouriteTracks();
-  return { props: { data } };
+
+  // Array of img urls
+  const imgSrc = data.map((track) => track.image_url);
+
+  // fetching image placeholders
+  const url = `${process.env.BASE_URL}/api/placeholders`;
+
+  const getPlaceHolders = await fetch(url, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(imgSrc)
+  });
+
+  const { placeHolders } = await getPlaceHolders.json();
+
+  return { props: { data, placeHolders } };
 };
