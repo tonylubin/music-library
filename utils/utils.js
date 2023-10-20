@@ -58,3 +58,6 @@ export const toastClose = (callbackFunction) => {
 
 // default image cloudinary URL
 export const defaultTrackImgUrl = "vinyl-library-app/images/vinyl-white-label_rus5nl";
+
+// cloudinary base url
+export const cloudinaryBasePath = "https://res.cloudinary.com/dglaifd7o/";

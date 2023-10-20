@@ -3,7 +3,7 @@ import Link from "next/link";
 import React from "react";
 import { motion } from "framer-motion";
 
-const MusicCard = ({ trackId, title, artist, imageUrl }) => {
+const MusicCard = ({ trackId, title, artist, imageUrl, placeHolder }) => {
   return (
     <motion.div
       initial={{ opacity: 0 }}
@@ -26,6 +26,8 @@ const MusicCard = ({ trackId, title, artist, imageUrl }) => {
                 width={300}
                 height={300}
                 className="object-cover rounded-lg"
+                placeholder="blur"
+                blurDataURL={placeHolder}
               />
             </div>
             <div className="rounded-b-lg">

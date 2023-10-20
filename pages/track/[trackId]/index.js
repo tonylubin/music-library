@@ -4,7 +4,7 @@ import { serializeErrorFunc } from "@/utils/utils";
 import TrackCards from "@/components/TrackCards";
 
 
-const Track = ({ trackData, playlistData }) => {
+const Track = ({ trackData, playlistData, placeHolders }) => {
   // initial setting of favourite status
   let fav = trackData.favourite_id ? true : false;
   const [isFavourite, setIsFavourite] = useState(fav);
@@ -16,6 +16,7 @@ const Track = ({ trackData, playlistData }) => {
         isFavourite={isFavourite}
         setIsFavourite={setIsFavourite}
         playlistData={playlistData}
+        placeHolder={placeHolders[0]}
       />
     </main>
   );
@@ -35,6 +36,19 @@ export async function getServerSideProps(context) {
     serializeErrorFunc(trackResponse),
     serializeErrorFunc(playlistResponse),
   ]);
+ 
+  // Array of img urls (single element but function expects an array)
+  const imgSrc = [trackData.image_url];
 
-  return { props: { trackData, playlistData } };
+  // fetching image placeholders
+  const url = `${process.env.BASE_URL}/api/placeholders`;
+  const getPlaceHolders = await fetch(url, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(imgSrc)
+  });
+
+  const { placeHolders } = await getPlaceHolders.json();
+
+  return { props: { trackData, playlistData, placeHolders } };
 }

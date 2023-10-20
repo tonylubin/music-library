@@ -1,14 +1,17 @@
 import HomeCard from "@/components/HomeCard";
 import React from "react";
-import data from "../../database/homePageData.json";
+import { promises as fs } from 'fs';
+import path from 'path';
+import { getPlaiceholder } from "plaiceholder";
 
-const Home = () => {
+const Home = ({ data, placeHolders }) => {
   const getMusicGenres = data.map((music, i) => (
     <HomeCard
       key={i}
       genre={music.genre}
       page={music.pageUrl}
       imgUrl={music.imgPath}
+      placeHolder={placeHolders[i]}
     />
   ));
 
@@ -23,13 +26,25 @@ const Home = () => {
 
 export default Home;
 
-// fetch data from local json file
-// import { promises as fs } from 'fs';
-// import path from 'path';
+export const getStaticProps = async () => {
 
-// export const getStaticProps = async () => {
-//   const filePath = path.join(process.cwd(), 'database/homePageData.json')
-//   const jsonData = await fs.readFile(filePath)
-//   const data = await JSON.parse(jsonData)
-//   return { props: { data } };
-// }
+  // fetch data from local json file
+  const filePath = path.join(process.cwd(), 'database/homePageData.json')
+  const jsonData = await fs.readFile(filePath)
+  const data = await JSON.parse(jsonData)
+
+  // Array of img urls
+  const imgSrc = await Promise.all(data.map(async (img) => {
+    const filePath = path.join(process.cwd(), `public/${img.imgPath}`);
+    const file = await fs.readFile(filePath);
+    return file;
+  }));
+
+  const placeHolders = await Promise.all(imgSrc.map( async (file) => {
+    const { base64 } = await getPlaiceholder(file);
+    return base64;
+  }))
+
+
+  return { props: { data, placeHolders } };
+};

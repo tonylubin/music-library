@@ -90,9 +90,10 @@ const getTables = async () => {
 // manually escape table name
 const addToPlaylist = async (name, trackNum) => {
   try {
-    const queryString = SQL`INSERT INTO `.append(escapeIdentifier(name))
-      .append(SQL` (track_id) VALUES (${trackNum})
-      ON CONFLICT (track_id) DO NOTHING`);
+    const queryString = SQL`
+    INSERT INTO `.append(escapeIdentifier(name))
+    .append(SQL` (track_id) VALUES (${trackNum})
+    ON CONFLICT (track_id) DO NOTHING`);
     await db.query(queryString);
   } catch (error) {
     console.error(error);
@@ -102,9 +103,9 @@ const addToPlaylist = async (name, trackNum) => {
 //  remove from playlist
 const removeFromPlaylist = async (name, id) => {
   try {
-    const queryString = SQL`DELETE FROM `
-      .append(escapeIdentifier(name))
-      .append(SQL` WHERE track_id = ${id}`);
+    const queryString = SQL`
+    DELETE FROM `.append(escapeIdentifier(name))
+    .append(SQL` WHERE track_id = ${id}`);
     await db.query(queryString);
   } catch (error) {
     console.error(error);
@@ -181,9 +182,9 @@ const searchFunc = async (searchTerm) => {
 // Create playlist
 const createPlaylist = async (name) => {
   try {
-    const queryString = SQL`CREATE TABLE `.append(
-      escapeIdentifier(name)
-    ).append(SQL` (
+    const queryString = SQL`
+    CREATE TABLE `.append(escapeIdentifier(name))
+    .append(SQL` (
       track_number SERIAL,
       track_id INT UNIQUE,
       playlist BOOLEAN DEFAULT TRUE,
@@ -217,10 +218,10 @@ const getPlaylistTable = async (name) => {
     SELECT music.*, track_number 
     FROM music
     INNER JOIN `
-      .append(escapeIdentifier(name))
-      .append(SQL` ON music.track_id = `)
-      .append(escapeIdentifier(name))
-      .append(SQL`.track_id`);
+    .append(escapeIdentifier(name))
+    .append(SQL` ON music.track_id = `)
+    .append(escapeIdentifier(name))
+    .append(SQL`.track_id`);
     let { rows } = await db.query(queryString);
     return rows;
   } catch (error) {

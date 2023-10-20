@@ -1,7 +1,10 @@
 /** @type {import('next').NextConfig} */
+
+import withPlaiceholder from '@plaiceholder/next';
+
 const nextConfig = {
   reactStrictMode: false,
   transpilePackages: ['audiomotion-analyzer'],
 }
 
-module.exports = nextConfig
+export default withPlaiceholder(nextConfig);

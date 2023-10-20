@@ -4,7 +4,7 @@ import { searchFunc } from "@/database/musicLib";
 import { serializeErrorFunc } from "@/utils/utils";
 import React, { useEffect, useState } from "react";
 
-const Search = ({ searchResults, query }) => {
+const Search = ({ searchResults, query, placeHolders }) => {
   const [queryRequest, setQueryRequest] = useState(true);
   const [isLoading, setIsLoading] = useState();
 
@@ -16,6 +16,7 @@ const Search = ({ searchResults, query }) => {
     title={track.title}
     trackId={track.track_id}
     imageUrl={track.image_url}
+    placeHolder={placeHolders[i]}
     />
     ));
     
@@ -64,5 +65,19 @@ export const getServerSideProps = async (context) => {
 
   let searchQuery = await searchFunc(query);
   let searchResults = await serializeErrorFunc(searchQuery);
-  return { props: { searchResults, query } };
+
+  // Array of img urls
+  const imgSrc = searchResults.map((track) => track.image_url);
+
+  // fetching image placeholders
+  const url = `${process.env.BASE_URL}/api/placeholders`;
+  const getPlaceHolders = await fetch(url, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(imgSrc)
+  });
+
+  const { placeHolders } = await getPlaceHolders.json();
+
+  return { props: { searchResults, query, placeHolders } };
 };

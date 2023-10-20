@@ -4,7 +4,7 @@ import Link from "next/link";
 import { motion } from "framer-motion";
 
 const MainCard = (props) => {
-  const { trackId, title, artist, imageUrl } = props;
+  const { trackId, title, artist, imageUrl, placeHolder } = props;
 
   return (
     <motion.div
@@ -26,6 +26,8 @@ const MainCard = (props) => {
                 sizes="100vw"
                 width={600}
                 height={600}
+                placeholder="blur"
+                blurDataURL={placeHolder}
               />
             </div>
             <div className="w-full absolute bottom-0 backdrop-blur-3xl rounded-b-lg tracking-wide capitalize font-kanit">

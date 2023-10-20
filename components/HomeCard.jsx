@@ -3,7 +3,7 @@ import Link from "next/link";
 import React from "react";
 import { motion } from "framer-motion";
 
-const HomeCard = ({ genre, page, imgUrl }) => {
+const HomeCard = ({ genre, page, imgUrl, placeHolder }) => {
   const zoom = {
     hidden: {
       scale: 0,
@@ -34,6 +34,8 @@ const HomeCard = ({ genre, page, imgUrl }) => {
           sizes="100vw"
           fill
           className="object-cover absolute rounded-xl opacity-70"
+          placeholder="blur"
+          blurDataURL={placeHolder}
         />
       </Link>
     </motion.div>

@@ -50,7 +50,7 @@ const variants = {
   }
 }
 
-const TrackCards = ({ trackData, isFavourite, setIsFavourite, playlistData }) => {
+const TrackCards = ({ trackData, isFavourite, setIsFavourite, playlistData, placeHolder }) => {
   const [flipOpen, setFlipOpen] = useState(false);
 
   return (
@@ -82,6 +82,8 @@ const TrackCards = ({ trackData, isFavourite, setIsFavourite, playlistData }) =>
                 width={325}
                 height={325}
                 sizes="100vw"
+                placeholder="blur"
+                blurDataURL={placeHolder}
               />
             </div>
             <div className="h-full w-full cardFace rounded-lg overflow-hidden cardBack border border-neutral-200">

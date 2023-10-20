@@ -9,7 +9,8 @@ import Link from "next/link";
 import MiniAudioPlayer from "@/components/MiniAudioPlayer";
 import { BsPauseCircleFill, BsPlayCircleFill } from "react-icons/bs";
 
-const Playlist = ({ trackData }) => {
+
+const Playlist = ({ trackData, placeHolders }) => {
   // play status
   const [playing, setPlaying] = useState(false);
   // highlight selected/currently playing track
@@ -55,6 +56,8 @@ const Playlist = ({ trackData }) => {
             width={150}
             height={150}
             sizes="100vw"
+            placeholder="blur"
+            blurDataURL={placeHolders[index]}
           />
           {/* display play button only on mouse enter/leave */}
           {showBtn.id === index && (
@@ -121,6 +124,8 @@ const Playlist = ({ trackData }) => {
             src={bannerImage}
             fill
             className="object-cover opacity-10 object-[10%_60%]"
+            priority={true}
+            placeholder="blur"
           />
         </div>
       </div>
@@ -157,5 +162,19 @@ export const getServerSideProps = async (context) => {
   const playlistName = context.query.playlist;
   const res = await getPlaylistTable(playlistName);
   const trackData = await serializeErrorFunc(res);
-  return { props: { trackData } };
+
+  // Array of img urls
+  const imgSrc = trackData.map((track) => track.image_url);
+
+  // fetching image placeholders
+  const url = `${process.env.BASE_URL}/api/placeholders`;
+  const getPlaceHolders = await fetch(url, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(imgSrc)
+  });
+
+  const { placeHolders } = await getPlaceHolders.json();
+
+  return { props: { trackData, placeHolders } };
 };
