@@ -31,6 +31,7 @@ module.exports = {
         inputBgAlt: "#222222",
         primaryGreen: "#1ed760",
         secondaryBlack: "#141010",
+        toastRed: "#e74c3c",
       },
       fontFamily: {
         bioRhyme: "var(--font-bioRhyme)",

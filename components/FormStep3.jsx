@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { FaUpload } from "react-icons/fa";
-import CloudUpload from "./CloudUpload";
 import { CldImage } from "next-cloudinary";
 import { ImCheckmark } from "react-icons/im";
 import { MdErrorOutline } from "react-icons/md";
@@ -15,7 +14,7 @@ const FormStep3 = ({ handleNext }) => {
     uploadUrl: defaultTrackImgUrl,
   });
 
-  const { register, handleSubmit, setValue } = useForm({
+  const { register, handleSubmit } = useForm({
     defaultValues: { image_url: uploadSatus.uploadUrl },
   });
 
@@ -44,11 +43,12 @@ const FormStep3 = ({ handleNext }) => {
           <div className="flex gap-5 items-center border-[0.5px] border-slate-400 px-6 py-4 rounded-full font-kanit">
             <p className="text-xl">Upload image</p>
             <FaUpload className="text-xl" />
-            <CloudUpload
-              setUploadStatus={setUploadStatus}
-              setValue={setValue}
-              uploadOption="images"
-            />
+            <button
+              className="px-5 py-[6px] rounded-full bg-teal-500 text-sm font-semibold hover:bg-teal-400 hover:text-black ring-2 ring-teal-500 cursor-not-allowed"
+              disabled
+            >
+              Upload
+            </button>
           </div>
         </div>
         <div className="w-300 h-300 border-2 border-dotted border-slate-400 flex gap-6 relative">

@@ -57,3 +57,8 @@ body {
   transform: rotateY(-180deg);
   -moz-transform: rotateY(-180deg);
 }
+
+.toast {
+  border: 1px solid #e74c3c;
+  align-items: flex-start;
+}
