@@ -31,7 +31,7 @@ export const getServerSideProps = async () => {
 
   // fetching image placeholders
   //const url = `${process.env.BASE_URL}/api/placeholders`;
-  const url = `https://${process.env.NEXT_PUBLIC_VERCEL_URL}/api/placeholders`;
+  const url = '/api/placeholders';
 
   const getPlaceHolders = await fetch(url, {
     method: "POST",
