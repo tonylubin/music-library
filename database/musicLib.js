@@ -188,7 +188,6 @@ const createPlaylist = async (name) => {
       track_number SERIAL,
       track_id INT UNIQUE,
       playlist BOOLEAN DEFAULT TRUE,
-      created TIMESTAMP NOT NULL DEFAULT NOW(),
       PRIMARY KEY (track_number),
       FOREIGN KEY (track_id) REFERENCES music (track_id) ON DELETE CASCADE 
     )`);

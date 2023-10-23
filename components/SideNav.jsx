@@ -43,8 +43,8 @@ const SideNav = () => {
   }, [currentPage]);
 
   return (
-    <div className="flex items-center flex-col col-start-1 col-end-3 row-start-2 row-end-7 bg-blackShade">
-      <nav className="w-2/3 flex flex-col gap-10 text-lg mt-24">
+    <div className="flex items-center justify-center flex-col col-start-1 col-end-3 row-start-2 row-end-7 bg-blackShade">
+      <nav className="flex flex-col gap-10 text-lg h-3/4">
         <div
           className={`hover:text-primaryRed flex items-center gap-x-4 ${
             isActive.home ? "text-primaryRed" : ""
