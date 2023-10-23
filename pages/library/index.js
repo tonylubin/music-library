@@ -10,7 +10,7 @@ const Library = ({ data, placeHolders }) => {
       artist={track.artist}
       trackId={track.track_id}
       imageUrl={track.image_url}
-      placeHolder={placeHolders}
+      placeHolder={placeHolders[i]}
     />
   ));
 

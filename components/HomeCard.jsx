@@ -23,7 +23,7 @@ const HomeCard = ({ genre, page, imgUrl, placeHolder }) => {
     <motion.div initial="hidden" animate="visible" variants={zoom}>
       <Link
         href={page}
-        className="relative h-52 rounded-xl flex items-center justify-center overflow-hidden  hover:scale-95 hover:bg-neutral-50 hover:opacity-80 transition duration-300 ease-in-out shadow-2xl"
+        className="relative h-full rounded-xl flex items-center justify-center overflow-hidden  hover:scale-95 hover:bg-neutral-50 hover:opacity-80 transition duration-300 ease-in-out shadow-2xl"
       >
         <p className="text-3xl font-semibold font-kanit tracking-wider z-10">
           {genre}

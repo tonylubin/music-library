@@ -39,7 +39,7 @@ module.exports = {
         vt323: "var(--font-vt323)",
       },
       gridTemplateColumns: {
-        playlistHeader: "4rem 3fr 3fr 1fr 6rem",
+        playlistHeader: "0.5fr 3fr 3fr 1fr 1fr",
         homepage: "repeat(3,325px)",
       },
     },
