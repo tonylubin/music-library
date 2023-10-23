@@ -33,7 +33,8 @@ const DeleteModal = ({ playlistName }) => {
       <button
         type="button"
         onClick={openModal}
-        className="h-6 w-6 rounded-full bg-primaryBgAlt"
+        className="h-6 w-6 rounded-full bg-primaryBgAlt cursor-not-allowed"
+        disabled
       >
         <LuXCircle className="w-full h-full text-primaryRed" />
       </button>

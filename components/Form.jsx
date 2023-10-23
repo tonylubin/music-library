@@ -66,7 +66,8 @@ const Form = ({ setPlaylistCreated }) => {
       <div className="mt-4">
         <button
           type="submit"
-          className="inline-flex justify-center rounded-md border border-transparent bg-redHover px-4 py-2 text-sm font-medium dark:text-white hover:bg-primaryRed focus:outline-none focus-visible:ring-2 focus-visible:ring-primaryRed focus-visible:ring-offset-2 text-neutral-300"
+          className="inline-flex justify-center rounded-md border border-transparent bg-redHover px-4 py-2 text-sm font-medium dark:text-white hover:bg-primaryRed focus:outline-none focus-visible:ring-2 focus-visible:ring-primaryRed focus-visible:ring-offset-2 text-neutral-300 cursor-not-allowed"
+          disabled
         >
           Create
         </button>

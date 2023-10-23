@@ -41,8 +41,8 @@ const MainMenu = ({ trackId, setSubMenu, setIsFavourite }) => {
   return (
     <ul className="flex flex-col gap-6 p-8 pt-4 bg-secondaryBlack h-full w-full">
       <li
-        className="flex items-center gap-4 hover:cursor-pointer pl-1 hover:text-primaryRed"
-        onClick={() => handleTrackDel(trackId)}
+        className="flex items-center gap-4 hover:cursor-pointer pointer-events-none pl-1 hover:text-primaryRed"
+        //onClick={() => handleTrackDel(trackId)}
       >
         <MdDeleteForever className="h-6 w-6 text-primaryRed" />
         <span>Delete from Library</span>
