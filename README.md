@@ -31,13 +31,14 @@ Created a full stack web app music player inspired by online streaming players l
 - yup resolver - form validation
 - react toastify - toast notification
 - NextCloudinary & Cloudinary- image/audio upload cloud server
-- SQL database - PostgreSql
+- SQL database - PostgreSql (cloud service - vercel postgres)
 
 ## Functionality
 
 1. library tracks organised via music genres
 
-2. search functionality via artist or track name using  Next router with *url search query/term*
+2. search functionality via artist or track name using Next router (`router.push()`) with *url search query/term* 
+e.g: `www.vinyl_lib.com?term=nikki`
 
 3. navigation using NextJS  `<Link>` component and `useRouter()`
 
@@ -50,7 +51,7 @@ Created a full stack web app music player inspired by online streaming players l
     - enter track info using multi-step form
     - upload track vinyl cover image and audio using cloudinary upload widget
 
-7. music player - created using `<audio>` element
+7. Music Player - created using `<audio>` element
 
     - with play, pause, seek and reload functions
     - Visual progress bar song duration
