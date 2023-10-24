@@ -23,19 +23,21 @@ const Track = ({ trackData, playlistData, placeHolders }) => {
 
 export default Track;
 
-export async function getServerSideProps(context) {
-  const id = context.params.trackId;
- 
+export const getServerSideProps = async ({req, params}) => {
+  const id = params.trackId;
+
   const [trackData, playlistData] = await Promise.all([
     getTrack(id),
     getTables()
   ]);
-
+  
   // Array of img urls (single element but function expects an array)
   const imgSrc = [trackData.image_url];
-
+  
   // fetching image placeholders
-  const url = `${process.env.BASE_URL}/api/placeholders`;
+  const domainName  = req.headers.host;
+  const url = `http://${domainName}/api/placeholders`;
+
   const getPlaceHolders = await fetch(url, {
     method: "POST",
     headers: { "Content-Type": "application/json" },

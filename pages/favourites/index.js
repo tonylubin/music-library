@@ -25,14 +25,15 @@ const Favourites = ({ data, placeHolders }) => {
 export default Favourites;
 
 
-export const getServerSideProps = async () => {
+export const getServerSideProps = async ({ req }) => {
   const data = await getAllFavouriteTracks();
 
   // Array of img urls
   const imgSrc = data.map((track) => track.image_url);
 
   // fetching image placeholders
-  const url = `${process.env.BASE_URL}/api/placeholders`;
+  const domainName = req.headers.host;
+  const url = `http://${domainName}/api/placeholders`;
 
   const getPlaceHolders = await fetch(url, {
     method: "POST",

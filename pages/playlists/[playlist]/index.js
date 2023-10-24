@@ -154,15 +154,17 @@ const Playlist = ({ trackData, placeHolders }) => {
 
 export default Playlist;
 
-export const getServerSideProps = async (context) => {
-  const playlistName = context.query.playlist;
+export const getServerSideProps = async ({ req, query }) => {
+  const playlistName = query.playlist;
   const trackData = await getPlaylistTable(playlistName);
 
   // Array of img urls
   const imgSrc = trackData.map((track) => track.image_url);
 
   // fetching image placeholders
-  const url = `${process.env.BASE_URL}/api/placeholders`;
+  const domainName = req.headers.host;
+  const url = `http://${domainName}/api/placeholders`;
+
   const getPlaceHolders = await fetch(url, {
     method: "POST",
     headers: { "Content-Type": "application/json" },

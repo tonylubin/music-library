@@ -31,7 +31,7 @@ export const getServerSideProps = async ({ req }) => {
 
   // fetching image placeholders
   const domainName = req.headers.host;
-  const url = `https://${domainName}/api/placeholders`;
+  const url = `http://${domainName}/api/placeholders`;
 
   const getPlaceHolders = await fetch(url, {
     method: "POST",

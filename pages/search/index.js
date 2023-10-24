@@ -3,7 +3,7 @@ import MusicCard from "@/components/MusicCard";
 import { searchFunc } from "@/database/musicLib";
 import React, { useEffect, useState } from "react";
 
-const Search = ({ searchResults, query, placeHolders }) => {
+const Search = ({ searchResults, searchTerm, placeHolders }) => {
   const [queryRequest, setQueryRequest] = useState(true);
   const [isLoading, setIsLoading] = useState();
 
@@ -20,14 +20,14 @@ const Search = ({ searchResults, query, placeHolders }) => {
     ));
     
     useEffect(() => {
-      if (query.length >= 1) {
+      if (searchTerm.length >= 1) {
         setQueryRequest(false);
       }
-      if (query.length === 0) {
+      if (searchTerm.length === 0) {
         setQueryRequest(true);
       }
       setIsLoading(false);
-    }, [query.length]);
+    }, [searchTerm.length]);
     
 
   return (
@@ -55,20 +55,22 @@ const Search = ({ searchResults, query, placeHolders }) => {
 
 export default Search;
 
-export const getServerSideProps = async (context) => {
+export const getServerSideProps = async ({ req, query }) => {
   // deconstruct query param
-  let { term } = context.query;
+  let { term } = query;
  
   // conditional check for handling null/undefined url search query
-  let query = term ? term : "";
+  let searchTerm = term ? term : "";
 
-  let searchResults = await searchFunc(query);
+  let searchResults = await searchFunc(searchTerm);
 
   // Array of img urls
   const imgSrc = searchResults.map((track) => track.image_url);
 
   // fetching image placeholders
-  const url = `${process.env.BASE_URL}/api/placeholders`;
+  const domainName = req.headers.host;
+  const url = `http://${domainName}/api/placeholders`;
+
   const getPlaceHolders = await fetch(url, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
@@ -77,5 +79,5 @@ export const getServerSideProps = async (context) => {
 
   const { placeHolders } = await getPlaceHolders.json();
 
-  return { props: { searchResults, query, placeHolders } };
+  return { props: { searchResults, searchTerm, placeHolders } };
 };
