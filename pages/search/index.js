@@ -56,7 +56,8 @@ const Search = ({ searchResults, searchTerm, placeHolders }) => {
 
 export default Search;
 
-export const getServerSideProps = async () => {
+export const getServerSideProps = async (context) => {
+  
   // deconstruct query param
   let { term } = context.query;
  

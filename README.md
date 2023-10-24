@@ -6,7 +6,7 @@
 
 ---
 
-Note: &nbsp; for demo purposes disabled form submission & use of cloudinary widget (due to automatic upload - replaced `CloudUpload component` with normal button)
+Note: &nbsp; for demo purposes disabled creating playlists, form submission & use of cloudinary widget (due to automatic upload - replaced `CloudUpload component` with normal button). Able to add/remove from playlists/favourites to demo functionality.
 
 - To use add a `.env` file with your own cloudinary & database credentials.
 

@@ -155,7 +155,8 @@ const Playlist = ({ trackData, placeHolders }) => {
 
 export default Playlist;
 
-export const getServerSideProps = async () => {
+export const getServerSideProps = async (context) => {
+  
   const playlistName = context.query.playlist;
   const trackData = await getPlaylistTable(playlistName);
 
