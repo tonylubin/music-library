@@ -12,6 +12,8 @@ Note: &nbsp; for demo purposes disabled creating playlists, form submission & us
 
 ---
 
+PROJECT DEMO:  **[The Vinyl Lib.](https://my-vinyl-library.vercel.app/)**.
+
 ### Problem
 
 How to make my vinyl **analogue** record music collection available to interact with, in a **digital** way.
