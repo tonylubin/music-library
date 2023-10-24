@@ -1,6 +1,7 @@
 import MusicCard from "@/components/MusicCard";
 import { getTracks } from "@/database/musicLib";
 import React from "react";
+import axios from "axios";
 
 const Library = ({ data, placeHolders }) => {
   const cardTracks = data.map((track, i) => (
@@ -33,13 +34,17 @@ export const getServerSideProps = async (context) => {
   const domainName = context.req.headers.host;
   const url = `http://${domainName}/api/placeholders`;
 
-  const getPlaceHolders = await fetch(url, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(imgSrc)
-  });
+  // const getPlaceHolders = await fetch(url, {
+  //   method: "POST",
+  //   headers: { "Content-Type": "application/json" },
+  //   body: JSON.stringify(imgSrc)
+  // });
 
-  const { placeHolders } = await getPlaceHolders.json();
+  // const { placeHolders } = await getPlaceHolders.json();
+
+  const getPlaceHolders = await axios.post(url, imgSrc);
+
+  const { placeHolders } = getPlaceHolders.data;
 
   return { props: { data, placeHolders } };
 };
