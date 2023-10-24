@@ -1,6 +1,7 @@
 import Header from "@/components/Header";
 import MusicCard from "@/components/MusicCard";
 import { searchFunc } from "@/database/musicLib";
+import axios from "axios";
 import React, { useEffect, useState } from "react";
 
 const Search = ({ searchResults, searchTerm, placeHolders }) => {
@@ -71,13 +72,17 @@ export const getServerSideProps = async () => {
   const domainName = context.req.headers.host;
   const url = `http://${domainName}/api/placeholders`;
 
-  const getPlaceHolders = await fetch(url, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(imgSrc)
-  });
+  const getPlaceHolders = await axios.post(url, imgSrc);
 
-  const { placeHolders } = await getPlaceHolders.json();
+  const { placeHolders } = getPlaceHolders.data;
+
+  // const getPlaceHolders = await fetch(url, {
+  //   method: "POST",
+  //   headers: { "Content-Type": "application/json" },
+  //   body: JSON.stringify(imgSrc)
+  // });
+
+  // const { placeHolders } = await getPlaceHolders.json();
 
   return { props: { searchResults, searchTerm, placeHolders } };
 };

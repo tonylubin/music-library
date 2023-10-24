@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { getTables, getTrack } from "@/database/musicLib";
 import TrackCards from "@/components/TrackCards";
+import axios from "axios";
 
 
 const Track = ({ trackData, playlistData, placeHolders }) => {
@@ -38,13 +39,17 @@ export const getServerSideProps = async (context) => {
   const domainName  = context.req.headers.host;
   const url = `http://${domainName}/api/placeholders`;
 
-  const getPlaceHolders = await fetch(url, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(imgSrc)
-  });
+  const getPlaceHolders = await axios.post(url, imgSrc);
 
-  const { placeHolders } = await getPlaceHolders.json();
+  const { placeHolders } = getPlaceHolders.data;
+
+  // const getPlaceHolders = await fetch(url, {
+  //   method: "POST",
+  //   headers: { "Content-Type": "application/json" },
+  //   body: JSON.stringify(imgSrc)
+  // });
+
+  // const { placeHolders } = await getPlaceHolders.json();
 
   return { props: { trackData, playlistData, placeHolders } };
 }

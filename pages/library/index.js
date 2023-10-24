@@ -34,6 +34,12 @@ export const getServerSideProps = async (context) => {
   const domainName = context.req.headers.host;
   const url = `http://${domainName}/api/placeholders`;
 
+  const getPlaceHolders = await axios.post(url, imgSrc);
+
+  const { placeHolders } = getPlaceHolders.data;
+
+  // NOTE: vercel build causing error with 'fetch' thus using axios
+
   // const getPlaceHolders = await fetch(url, {
   //   method: "POST",
   //   headers: { "Content-Type": "application/json" },
@@ -41,10 +47,6 @@ export const getServerSideProps = async (context) => {
   // });
 
   // const { placeHolders } = await getPlaceHolders.json();
-
-  const getPlaceHolders = await axios.post(url, imgSrc);
-
-  const { placeHolders } = getPlaceHolders.data;
 
   return { props: { data, placeHolders } };
 };

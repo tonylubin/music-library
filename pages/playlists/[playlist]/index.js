@@ -7,6 +7,7 @@ import { CldImage } from "next-cloudinary";
 import Link from "next/link";
 import MiniAudioPlayer from "@/components/MiniAudioPlayer";
 import { BsPauseCircleFill, BsPlayCircleFill } from "react-icons/bs";
+import axios from "axios";
 
 const Playlist = ({ trackData, placeHolders }) => {
   // play status
@@ -165,13 +166,17 @@ export const getServerSideProps = async () => {
   const domainName = context.req.headers.host;
   const url = `http://${domainName}/api/placeholders`;
 
-  const getPlaceHolders = await fetch(url, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(imgSrc)
-  });
+  const getPlaceHolders = await axios.post(url, imgSrc);
 
-  const { placeHolders } = await getPlaceHolders.json();
+  const { placeHolders } = getPlaceHolders.data;
+
+  // const getPlaceHolders = await fetch(url, {
+  //   method: "POST",
+  //   headers: { "Content-Type": "application/json" },
+  //   body: JSON.stringify(imgSrc)
+  // });
+
+  // const { placeHolders } = await getPlaceHolders.json();
 
   return { props: { trackData, placeHolders } };
 };
