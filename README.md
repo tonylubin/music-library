@@ -1,5 +1,15 @@
 # Music Player Library</span>
 
+---
+
+### Problem
+
+How to make my vinyl **analogue** record music collection available to interact with, in a **digital** way.
+
+### Solution
+
+Created a full stack web app music player inspired by online streaming players like mixcloud/itunes to organise and upload music, play tracks and create playlists.
+
 #### Getting started
 
 ```npm run dev```
@@ -14,13 +24,7 @@ Note: &nbsp; for demo purposes disabled creating playlists, form submission & us
 
 Click link to see demo of the project: &nbsp; &nbsp; **[The Vinyl Lib.](https://my-vinyl-library.vercel.app/)**.
 
-### Problem
-
-How to make my vinyl **analogue** record music collection available to interact with, in a **digital** way.
-
-### Solution
-
-Created a full stack web app music player inspired by online streaming players like mixcloud/itunes to organise and upload music, play tracks and create playlists.
+---
 
 ## Tech
 
