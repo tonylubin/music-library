@@ -55,9 +55,9 @@ const Search = ({ searchResults, searchTerm, placeHolders }) => {
 
 export default Search;
 
-export const getServerSideProps = async ({ req, query }) => {
+export const getServerSideProps = async () => {
   // deconstruct query param
-  let { term } = query;
+  let { term } = context.query;
  
   // conditional check for handling null/undefined url search query
   let searchTerm = term ? term : "";
@@ -68,7 +68,7 @@ export const getServerSideProps = async ({ req, query }) => {
   const imgSrc = searchResults.map((track) => track.image_url);
 
   // fetching image placeholders
-  const domainName = req.headers.host;
+  const domainName = context.req.headers.host;
   const url = `http://${domainName}/api/placeholders`;
 
   const getPlaceHolders = await fetch(url, {

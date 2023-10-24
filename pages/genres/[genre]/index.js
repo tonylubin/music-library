@@ -69,8 +69,8 @@ const Genre = ({ data, genre, placeHolders }) => {
 
 export default Genre;
 
-export const getServerSideProps = async ({ req, query }) => {
-  const { genre } = query;
+export const getServerSideProps = async (context) => {
+  const { genre } = context.query;
   let musicGenre = (genre === 'randb') ? 'r&b' : genre;
   const data = await getGenreLib(musicGenre);
 
@@ -78,7 +78,7 @@ export const getServerSideProps = async ({ req, query }) => {
   const imgSrc = data.map((track) => track.image_url);
 
   // fetching image placeholders
-  const domainName = req.headers.host;
+  const domainName = context.req.headers.host;
   const url = `http://${domainName}/api/placeholders`;
 
   const getPlaceHolders = await fetch(url, {

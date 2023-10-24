@@ -23,14 +23,14 @@ const Library = ({ data, placeHolders }) => {
 
 export default Library;
 
-export const getServerSideProps = async ({ req }) => {
+export const getServerSideProps = async (context) => {
   const data = await getTracks();
 
   // Array of img urls
   const imgSrc = data.map((track) => track.image_url);
 
   // fetching image placeholders
-  const domainName = req.headers.host;
+  const domainName = context.req.headers.host;
   const url = `http://${domainName}/api/placeholders`;
 
   const getPlaceHolders = await fetch(url, {
