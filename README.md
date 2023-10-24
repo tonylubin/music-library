@@ -12,7 +12,7 @@ Note: &nbsp; for demo purposes disabled creating playlists, form submission & us
 
 ---
 
-Click link to see demo of the project:    **[The Vinyl Lib.](https://my-vinyl-library.vercel.app/)**.
+Click link to see demo of the project: &nbsp; &nbsp; **[The Vinyl Lib.](https://my-vinyl-library.vercel.app/)**.
 
 ### Problem
 
