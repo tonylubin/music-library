@@ -52,7 +52,7 @@ Click link to see demo of the project: &nbsp; &nbsp; **[The Vinyl Lib.](https://
 
 5. make playlists - add/remove tracks
 
-6. Form - add music to database library with form validation.
+6. Form - add music to database library with form validation (Yup).
 
     - enter track info using multi-step form
     - upload track vinyl cover image and audio using cloudinary upload widget
@@ -62,6 +62,7 @@ Click link to see demo of the project: &nbsp; &nbsp; **[The Vinyl Lib.](https://
     - with play, pause, seek and reload functions
     - Visual progress bar song duration
     - using *'audioMotion-analyzer'* to show EQ function of playing audio
+    - playlist has auto play for next song
 
 8. image placeholders for better ux/ui using plaiceholder
 
