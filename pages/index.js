@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import React, { useState } from "react";
-import landingPagePic from "../public/images/blocks-T3mKJXfdims-unsplash.jpg";
+import landingPagePic from "../public/images/stacked-vinyls.jpeg";
 import { motion } from "framer-motion";
 import Head from "next/head";
 
@@ -21,6 +21,7 @@ const Home = () => {
           priority={true}
           placeholder="blur"
           onLoadingComplete={() => setImageLoaded(true)}
+          className="z-0 opacity-40"
         />
         {imgLoaded && (
           <>
@@ -28,7 +29,7 @@ const Home = () => {
               initial={{ opacity: 0, y: "-100%" }}
               animate={{ opacity: 1, y: "0%" }}
               transition={{ ease: "easeIn", duration: 0.5 }}
-              className="text-7xl font-extrabold mt-20 mr-10 z-10"
+              className="text-primaryRed text-7xl font-extrabold mt-20 mr-10 z-10"
             >
               The Vinyl Lib<span className="text-4xl">.</span>
             </motion.h1>
@@ -39,7 +40,7 @@ const Home = () => {
             >
               <Link
                 href={"/home"}
-                className="text-2xl underline text-primaryRed z-10 underline-offset-4 decoration-[3px] mr-10"
+                className="text-2xl underline z-10 underline-offset-4 decoration-[3px] mr-10"
               >
                 Enter the Library
               </Link>
