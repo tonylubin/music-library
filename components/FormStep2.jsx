@@ -24,12 +24,13 @@ const FormStep2 = ({ handleNext }) => {
       inputName="duration"
       register={register}
       type="time"
-      placeholderText="Enter track time...format e.g. 03:33"
       errors={errors}
     />
     <div className='flex justify-between'>
       <label htmlFor="genre" className="text-lg">Genre</label>
-      <span className='text-red-700'>{errors.genre && errors.genre.message}</span>
+      {errors.genre && 
+      <span role='alert' className='text-red-700'>{errors.genre.message}</span>      
+      }
     </div>
     <select
       id="genre"

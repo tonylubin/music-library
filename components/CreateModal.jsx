@@ -27,6 +27,7 @@ const CreateModal = () => {
     <>
       <button
         type="button"
+        aria-label="create"
         onClick={openModal}
         className="text-sm font-medium h-8 w-8"
       >
@@ -44,7 +45,7 @@ const CreateModal = () => {
             leaveFrom="opacity-100"
             leaveTo="opacity-0"
           >
-            <div className="fixed inset-0 bg-black/60" />
+            <div data-testid="backdrop" className="fixed inset-0 bg-black/60" />
           </Transition.Child>
 
           <div className="fixed inset-0 overflow-y-auto">
@@ -72,7 +73,9 @@ const CreateModal = () => {
                     />
                   ) : (
                     <>
-                      <Dialog.Description className='text-emerald-400 py-6'>
+                      <Dialog.Description
+                        data-testid="playlist-success"
+                      className='text-emerald-400 py-6'>
                         {playlistCreated.message}
                       </Dialog.Description>
                       <button

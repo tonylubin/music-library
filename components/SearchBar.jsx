@@ -17,7 +17,7 @@ const SearchBar = ({ searchQuery, setSearchQuery, isLoading, setIsLoading }) => 
 
   return (
     <div className="w-2/4 flex gap-4 items-center relative">
-      <form onSubmit={handleSearch} className="flex gap-6 w-full">
+      <form onSubmit={handleSearch} className="flex gap-6 w-full" role="search">
         <input
           className="text-neutral-300 placeholder:italic placeholder:text-brownText block bg-brownShadeAlt w-full border-[0.1px] border-brownShade rounded-full py-1 px-5 shadow-md focus:outline-none focus:border-brownHover focus:ring-brownHover focus:ring-1 sm:text-sm font-kanit"
           placeholder="Search artist/title..."

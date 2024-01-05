@@ -1,0 +1,87 @@
+[
+  {
+    "track_id": 1,
+    "title":	"treat me right",
+    "artist":	"kim english",
+    "album":	"n/a",
+    "duration":	"00:05:02",
+    "genre":	"house",
+    "image_url":	"vinyl-library-app/images/ecanzyejmqullrepmngx",
+    "audio_url":	"https://res.cloudinary.com/dglaifd7o/video/upload/v1692797667/vinyl-library-app/audio/02_Treat_Me_Right_dc8w7z.m4a",
+    "year":	2002,
+    "favourite": true,
+    "favourite_id": true
+  },
+  {
+    "track_id": 2,
+    "title":	"alabama blues",
+    "artist":	"st germain - todd edwards dub mix",
+    "album":	"n/a",
+    "duration":	"00:05:31",
+    "genre":	"garage",
+    "image_url":	"vinyl-library-app/images/jjahhexnpy6zg97xlzjk",
+    "audio_url": "https://res.cloudinary.com/dglaifd7o/video/upload/v1692793025/vinyl-library-app/audio/cnbophp6hwfkfvnhryub.mp3",	
+    "year":	1995,
+    "favourite": false
+  },
+  {
+    "track_id": 3,
+    "title": "i'm on one",
+    "artist":	"dj khaled (feat. drake, rick ross & lil wayne)",
+    "album":	"n/a",
+    "duration":	"00:04:58",
+    "genre": "hip-hop",
+    "image_url": "vinyl-library-app/images/qrl2pss1tlxutlkhklyj",
+    "audio_url": "https://res.cloudinary.com/dglaifd7o/video/upload/v1697060359/vinyl-library-app/audio/jouclzrvlhxfxkub2gvb.mp3",
+    "year":	2011,
+    "favourite": true
+  },
+  {
+    "track_id": 4,
+    "title":	"moment 4 life",
+    "artist":	"nicki minaj (feat. drake)",
+    "album":	"pink friday",
+    "duration":	"00:04:39",
+    "genre":	"hip-hop",
+    "image_url": "vinyl-library-app/images/gtbqa0w1hepqxzrqpvrw",
+    "audio_url": "https://res.cloudinary.com/dglaifd7o/video/upload/v1697149108/vinyl-library-app/audio/tcab62zdmjfh57qll0s7.mp3",
+    "year":	2010,
+    "favourite": false
+  },
+  {
+    "track_id": 5,
+    "title":	"salsoul nugget (if u wanna)",
+    "artist":	"m&s presents the girl next door",
+    "album":	"n/a",
+    "duration":	"00:06:41",
+    "genre":	"house",
+    "image_url": "vinyl-library-app/images/vowuqcinsrmhhmzw4ivb",
+    "audio_url": "http://res.cloudinary.com/dglaifd7o/video/upload/v1692823049/vinyl-library-app/audio/z5lqm6git3q8p463s02w.mp3",
+    "year":	2001,
+    "favourite": false
+  },
+  {
+    "track_id": 6,
+    "title":	"bump n grind",
+    "artist":	"m dubs - sunship remix",
+    "album":	"n/a",
+    "duration":	"00:05:17",
+    "genre":	"ukg",
+    "image_url": "vinyl-library-app/images/iidvf8lrb48ebxs15xva",
+    "audio_url": "http://res.cloudinary.com/dglaifd7o/video/upload/v1692888380/vinyl-library-app/audio/ypzvvxv6aovlxyzf8reo.mp3",
+    "year":	2000,
+    "favourite": true
+  },
+  {
+    "track_id": 7,
+    "title": "you're mine - mj cole dub mix",
+    "artist": "guy s'mone",
+    "album": "n/a",
+    "duration": "00:05:54",
+    "genre": "ukg",
+    "image_url": "vinyl-library-app/images/l3cpe0mabvaexx4kwchh",
+    "audio_url": "http://res.cloudinary.com/dglaifd7o/video/upload/v1692887428/vinyl-library-app/audio/onmtpvpru9thducbt86z.mp3",
+    "year": 1998,
+    "favourite_id": null
+  }
+]

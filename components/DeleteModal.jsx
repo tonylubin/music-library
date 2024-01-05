@@ -5,7 +5,7 @@ import { LuXCircle } from "react-icons/lu";
 
 const DeleteModal = ({ playlistName }) => {
   const [isOpen, setIsOpen] = useState(false);
-  const [closeBtn, setCloseBtn] = useState({ status: false, message: '' });
+  const [closeBtn, setCloseBtn] = useState({ status: false, message: "" });
 
   const closeModal = () => setIsOpen(false);
 
@@ -16,22 +16,23 @@ const DeleteModal = ({ playlistName }) => {
   const handleCloseBtn = () => {
     router.replace(router.asPath);
     closeModal();
-    setCloseBtn({ status: false, message: '' });
+    setCloseBtn({ status: false, message: "" });
   };
 
   // delete request & callback func for toast to show close btn
   const removePlaylist = async (name) => {
-    let delReq = await fetch(`api/playlists/manage?tableName=${name}`, {
+    let delReq = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/playlists/manage?tableName=${name}`, {
       method: "DELETE",
     });
     let { msg } = await delReq.json();
-    setCloseBtn({status: true, message: msg});
+    setCloseBtn({ status: true, message: msg });
   };
 
   return (
     <>
       <button
         type="button"
+        aria-label="delete"
         onClick={openModal}
         className="h-6 w-6 rounded-full bg-primaryBgAlt"
       >
@@ -49,7 +50,7 @@ const DeleteModal = ({ playlistName }) => {
             leaveFrom="opacity-100"
             leaveTo="opacity-0"
           >
-            <div className="fixed inset-0 bg-black/60" />
+            <div data-testid="backdrop" className="fixed inset-0 bg-black/60" />
           </Transition.Child>
 
           <div className="fixed inset-0 overflow-y-auto">
@@ -63,7 +64,11 @@ const DeleteModal = ({ playlistName }) => {
                 leaveFrom="opacity-100 scale-100"
                 leaveTo="opacity-0 scale-95"
               >
-                <Dialog.Panel className={`w-full max-w-md transform overflow-hidden rounded-2xl bg-primaryBgAlt p-6 text-left align-middle shadow-xl transition-all border ${!closeBtn.status ? 'border-redHover' : 'border-emerald-600'}`}>
+                <Dialog.Panel
+                  className={`w-full max-w-md transform overflow-hidden rounded-2xl bg-primaryBgAlt p-6 text-left align-middle shadow-xl transition-all border ${
+                    !closeBtn.status ? "border-redHover" : "border-emerald-600"
+                  }`}
+                >
                   <Dialog.Title
                     as="h3"
                     className="text-lg font-medium leading-6 text-neutral-300"
@@ -82,6 +87,7 @@ const DeleteModal = ({ playlistName }) => {
                       </Dialog.Description>
                       <button
                         type="button"
+                        aria-label="confirm"
                         className="inline-flex justify-center rounded-md border border-transparent bg-redHover px-4 py-2 text-sm font-medium dark:text-white hover:bg-primaryRed focus:outline-none focus-visible:ring-2 focus-visible:ring-primaryRed focus-visible:ring-offset-2 text-neutral-300"
                         onClick={() => removePlaylist(playlistName)}
                       >
@@ -90,7 +96,9 @@ const DeleteModal = ({ playlistName }) => {
                     </>
                   ) : (
                     <>
-                      <Dialog.Description className="py-4 text-emerald-400 text-sm">
+                      <Dialog.Description
+                      data-testid="message-deleted"
+                      className="py-4 text-emerald-400 text-sm">
                         {closeBtn.message}
                       </Dialog.Description>
                       <button

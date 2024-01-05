@@ -25,7 +25,7 @@ const Form = ({ setPlaylistCreated }) => {
   } = useForm({ resolver: yupResolver(schema), criteriaMode: "all" });
 
   const onSubmit = async (data) => {
-    const response = await fetch("/api/playlists/manage", {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/playlists/manage`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(data.name),
@@ -72,13 +72,15 @@ const Form = ({ setPlaylistCreated }) => {
         </button>
       </div>
       {errorStatus && (
-        <p className="text-red-500 text-sm mt-3">{errorStatus.message}</p>
+        <p data-testid="playlist-error" className="text-red-500 text-sm mt-3">
+          {errorStatus.message}
+        </p>
       )}
       {errors.name && (
         <p className="text-red-500 text-sm mt-3">{errors.name.message}</p>
       )}
     </form>
   );
-}
+};
 
 export default Form;

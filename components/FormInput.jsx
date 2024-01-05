@@ -1,15 +1,27 @@
 import React from "react";
 
 const FormInput = (props) => {
-  const { inputLabel, inputName, register, placeholderText, type, errors, defaultValue } = props;
+  const {
+    inputLabel,
+    inputName,
+    register,
+    placeholderText,
+    type,
+    errors,
+    defaultValue,
+  } = props;
 
   return (
     <>
       <div className="flex justify-between items-center">
-        <label htmlFor={inputName} className="text-lg">{inputLabel}</label>
-        <span className="text-red-700">
-          {errors[inputName] && errors[inputName].message}
-        </span>
+        <label htmlFor={inputName} className="text-lg">
+          {inputLabel}
+        </label>
+        {errors[inputName]?.message && (
+          <span role="alert" className="text-red-700">
+            {errors[inputName] && errors[inputName].message}
+          </span>
+        )}
       </div>
       <input
         className="border border-brownShade

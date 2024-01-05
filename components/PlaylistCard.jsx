@@ -21,7 +21,7 @@ const PlaylistCard = ({ playlistName }) => {
             src={cardImg}
             fill
             className="object-cover rounded-lg hover:scale-125 transition duration-500"
-            placeholder="blur"
+            //placeholder="blur"
           />
           <div className="bg-white opacity-70 z-20 shadow-2xl rounded-b-md flex items-center w-full">
             <p className="text-black font-bold capitalize z-10 px-4 py-1">

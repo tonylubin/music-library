@@ -1,11 +1,11 @@
 import Image from "next/image";
 import Link from "next/link";
 import React, { useState } from "react";
-import landingPagePic from "../public/images/blocks-T3mKJXfdims-unsplash.jpg";
+import landingPagePic from "../public/images/stacked-vinyls.jpeg";
 import { motion } from "framer-motion";
 import Head from "next/head";
 
-const Home = () => {
+const LandingPage = () => {
   const [imgLoaded, setImageLoaded] = useState(false);
 
   return (
@@ -13,11 +13,12 @@ const Home = () => {
       <Head>
         <title>The Vinyl Library</title>
       </Head>
-      <div className="flex flex-col items-end gap-y-8 h-full font-bioRhyme">
+      <div className="flex flex-col items-end gap-y-8 h-full font-bioRhyme relative">
         <Image
           alt="vinyl and headphones on shelf"
           src={landingPagePic}
           fill
+          sizes="100vw"
           priority={true}
           placeholder="blur"
           onLoadingComplete={() => setImageLoaded(true)}
@@ -52,4 +53,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default LandingPage;

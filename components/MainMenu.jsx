@@ -15,7 +15,7 @@ const MainMenu = ({ trackId, setSubMenu, setIsFavourite }) => {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ id }),
     };
-    let res = await fetch("/api/favourites", requestOptions);
+    let res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/favourites`, requestOptions);
     let { msg } = await res.json();
     setIsFavourite(true);
     successNotification(msg);
@@ -23,7 +23,7 @@ const MainMenu = ({ trackId, setSubMenu, setIsFavourite }) => {
 
   //  delete from favs
   const removeFromFavourites = async (id) => {
-    let res = await fetch(`/api/favourites/${id}`, { method: "DELETE" });
+    let res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/favourites/${id}`, { method: "DELETE" });
     let { msg } = await res.json();
     setIsFavourite(false);
     destroyNotification(msg);

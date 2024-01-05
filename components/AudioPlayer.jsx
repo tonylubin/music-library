@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect, useCallback } from "react";
 import AudioMotionAnalyzer from "audiomotion-analyzer";
 import {
   BsPlayCircle,
@@ -11,35 +11,27 @@ import { motion, useMotionValue, useTransform } from "framer-motion";
 
 const AudioPlayer = ({ trackData }) => {
   const { title, artist, album, genre, year, audio_url } = trackData;
-
+  
   // player state
   const [playing, setPlaying] = useState(false);
   const [currentTime, setCurrentTime] = useState();
-  const [trackLength, setTrackLength] = useState('00:00');
-
+  const [trackLength, setTrackLength] = useState();
+  const [playCount, setPlayCount] = useState(0);
+  
   // useRef's - reference to html elements
   const audioPlayer = useRef(null);
   const containerRef = useRef(null);
-  const progressBarRef = useRef();
-
+  const progressBarRef = useRef(null);
+  
   // toggle button status - play/pause
   const handlePlay = () => {
     if (!playing) {
-      audioPlayer.current.play();
       setPlaying(true);
+      setPlayCount(playCount + 1);
     } else {
-      audioPlayer.current.pause();
       setPlaying(false);
     }
   };
-
-  // progress bar
-  let progress = useMotionValue(0);
-  let width = useTransform(progress, (currentTime) => {
-    const duration = audioPlayer?.current?.duration;
-    const progressPercentage = `${(currentTime / duration) * 100}%`;
-    return progressPercentage;
-  });
 
   // skipping feature
   const skipForward = () => {
@@ -52,9 +44,9 @@ const AudioPlayer = ({ trackData }) => {
 
   // reset/reload track when playing ended
   const reload = () => {
-    progress.set(0);
     setPlaying(false);
     audioPlayer.current.load();
+    progress.set(0);
   };
 
   // format secs/mins for double digits  - '03:03'
@@ -69,41 +61,58 @@ const AudioPlayer = ({ trackData }) => {
     return `${correctMins}:${correctSecs}`;
   };
 
-  const getDuration = () => {
+  // get track duration function & format it
+  const getDuration = useCallback(() => {
     const time = audioPlayer.current.duration;
     const duration = formatTime(time);
     setTrackLength(duration)
-  };
+  },[]);
 
-  // ** when browser has loaded metadata for audio it fires loadmetadata event (can then get track duration) & create audio motion element instance **
+  // progress bar
+  let progress = useMotionValue(0);
+  let width = useTransform(progress, (currentTime) => {
+    const duration = audioPlayer?.current?.duration;
+    const progressPercentage = `${(currentTime / duration) * 100}%`;
+    return progressPercentage;
+  });
+
+  // set track duration time
   useEffect(() => {
-    const createAudioAnalyzer = async () => {
-      const player = await audioPlayer.current;
-      const analyzerContainer = await containerRef.current;
-
-      const audioMotion = new AudioMotionAnalyzer(analyzerContainer, {
-        source: player,
-        ledBars: true,
-        mode: 6,
-        barSpace: 0.5,
-        gradient: "prism",
-        showScaleX: false,
-        height: 150,
-        width: analyzerContainer.offsetWidth,
-        overlay: true,
-        showBgColor: true,
-        bgAlpha: 0,
-      });
-
-      return audioMotion;
-    };
-
-    createAudioAnalyzer();
-  }, []);
-
-  // update current playing time
-  useEffect(() => {
+    getDuration();
     setCurrentTime(formatTime(audioPlayer.current.currentTime));
+  },[getDuration]);
+  
+    // setup EQ on pressing play button
+  const createAudioAnalyzer = (element, audioSource) => {
+    return new AudioMotionAnalyzer(element, {
+      source: audioSource,
+      ledBars: true,
+      mode: 6,
+      barSpace: 0.5,
+      gradient: "prism",
+      showScaleX: false,
+      height: 150,
+      width:  element.offsetWidth,
+      overlay: true,
+      showBgColor: true,
+      bgAlpha: 0,
+    });
+  }
+
+  useEffect(() => {
+    if(playCount === 1) {
+      createAudioAnalyzer(containerRef.current,audioPlayer.current);
+    }
+  },[playCount])
+
+  // handle audio playing
+  useEffect(() => {
+    if(playing) {
+      audioPlayer.current.play();
+      setCurrentTime(formatTime(audioPlayer.current.currentTime));
+    } else {
+      audioPlayer.current.pause();
+    }
   }, [playing]);
 
   return (
@@ -131,11 +140,12 @@ const AudioPlayer = ({ trackData }) => {
           <p>&#x2022; {year}</p>
         </div>
       </div>
-      <div ref={containerRef} id="container" className="w-full"></div>
+      <div ref={containerRef} id="container" className="w-full min-h-[150px]"></div>
       <div className="w-full justify-center flex flex-col items-center gap-6">
         <div className="flex items-center gap-x-7">
           <div className="flex flex-col">
             <button
+              aria-label="skip-backward"
               id="backward"
               type="button"
               className="text-3xl text-redHover hover:text-primaryRed"
@@ -147,16 +157,18 @@ const AudioPlayer = ({ trackData }) => {
           </div>
           <div className="flex flex-col items-center justify-center">
             <button
+              //aria-label={!playing ? 'play' : 'pause'}
               type="button"
               className="text-5xl text-redHover hover:text-primaryRed"
               onClick={handlePlay}
             >
-              {!playing ? <BsPlayCircle /> : <BsPauseCircle />}
+              {!playing ? <BsPlayCircle data-testid='play-btn'/> : <BsPauseCircle data-testid='pause-btn'/>}
             </button>
             <span className="text-sm pt-1">{!playing ? "Play" : "Pause"}</span>
           </div>
           <div className="flex flex-col">
             <button
+              aria-label="skip-forward"
               id="forward"
               type="button"
               className="text-3xl text-redHover hover:text-primaryRed"
@@ -168,6 +180,7 @@ const AudioPlayer = ({ trackData }) => {
           </div>
           <div className="flex flex-col">
             <button
+              aria-label="reload"
               id="reload"
               type="button"
               className="text-3xl text-redHover hover:text-primaryRed"

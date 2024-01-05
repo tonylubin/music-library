@@ -59,6 +59,7 @@ const TrackCards = ({ trackData, isFavourite, setIsFavourite, playlistData, plac
       <div className="bg-primaryRed/80 w-[30rem] p-8 flex flex-col items-end justify-between">
         <button
           type="button"
+          aria-label="menu"
           className="rounded-full h-10 w-10 hover:scale-110"
           id="tooltip"
           onClick={() => setFlipOpen(!flipOpen)}
@@ -98,9 +99,9 @@ const TrackCards = ({ trackData, isFavourite, setIsFavourite, playlistData, plac
           </motion.div>
         </motion.div>
         {isFavourite ? (
-          <RiHeartFill className="text-4xl text-primaryGreen" />
+          <RiHeartFill aria-label="favourite" className="text-4xl text-primaryGreen" />
         ) : (
-          <RiHeartLine className="text-4xl text-neutral-200" />
+          <RiHeartLine aria-label="non-favourite"  className="text-4xl text-neutral-200" />
         )}
       </div>
       <Tooltip
