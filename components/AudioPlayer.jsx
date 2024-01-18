@@ -11,18 +11,18 @@ import { motion, useMotionValue, useTransform } from "framer-motion";
 
 const AudioPlayer = ({ trackData }) => {
   const { title, artist, album, genre, year, audio_url } = trackData;
-  
+
   // player state
   const [playing, setPlaying] = useState(false);
   const [currentTime, setCurrentTime] = useState();
   const [trackLength, setTrackLength] = useState();
   const [playCount, setPlayCount] = useState(0);
-  
+
   // useRef's - reference to html elements
   const audioPlayer = useRef(null);
   const containerRef = useRef(null);
   const progressBarRef = useRef(null);
-  
+
   // toggle button status - play/pause
   const handlePlay = () => {
     if (!playing) {
@@ -65,8 +65,8 @@ const AudioPlayer = ({ trackData }) => {
   const getDuration = useCallback(() => {
     const time = audioPlayer.current.duration;
     const duration = formatTime(time);
-    setTrackLength(duration)
-  },[]);
+    setTrackLength(duration);
+  }, []);
 
   // progress bar
   let progress = useMotionValue(0);
@@ -80,9 +80,9 @@ const AudioPlayer = ({ trackData }) => {
   useEffect(() => {
     getDuration();
     setCurrentTime(formatTime(audioPlayer.current.currentTime));
-  },[getDuration]);
-  
-    // setup EQ on pressing play button
+  }, [getDuration]);
+
+  // setup EQ on pressing play button
   const createAudioAnalyzer = (element, audioSource) => {
     return new AudioMotionAnalyzer(element, {
       source: audioSource,
@@ -92,22 +92,22 @@ const AudioPlayer = ({ trackData }) => {
       gradient: "prism",
       showScaleX: false,
       height: 150,
-      width:  element.offsetWidth,
+      width: element.offsetWidth,
       overlay: true,
       showBgColor: true,
       bgAlpha: 0,
     });
-  }
+  };
 
   useEffect(() => {
-    if(playCount === 1) {
-      createAudioAnalyzer(containerRef.current,audioPlayer.current);
+    if (playCount === 1) {
+      createAudioAnalyzer(containerRef.current, audioPlayer.current);
     }
-  },[playCount])
+  }, [playCount]);
 
   // handle audio playing
   useEffect(() => {
-    if(playing) {
+    if (playing) {
       audioPlayer.current.play();
       setCurrentTime(formatTime(audioPlayer.current.currentTime));
     } else {
@@ -140,12 +140,16 @@ const AudioPlayer = ({ trackData }) => {
           <p>&#x2022; {year}</p>
         </div>
       </div>
-      <div ref={containerRef} id="container" className="w-full min-h-[150px]"></div>
+      <div
+        ref={containerRef}
+        id="container"
+        className="w-full min-h-[150px]"
+      ></div>
       <div className="w-full justify-center flex flex-col items-center gap-6">
         <div className="flex items-center gap-x-7">
           <div className="flex flex-col">
             <button
-              aria-label="skip-backward"
+              aria-label="skip backward"
               id="backward"
               type="button"
               className="text-3xl text-redHover hover:text-primaryRed"
@@ -157,18 +161,22 @@ const AudioPlayer = ({ trackData }) => {
           </div>
           <div className="flex flex-col items-center justify-center">
             <button
-              //aria-label={!playing ? 'play' : 'pause'}
+              aria-label={!playing ? 'play' : 'pause'}
               type="button"
               className="text-5xl text-redHover hover:text-primaryRed"
               onClick={handlePlay}
             >
-              {!playing ? <BsPlayCircle data-testid='play-btn'/> : <BsPauseCircle data-testid='pause-btn'/>}
+              {!playing ? (
+                <BsPlayCircle />
+              ) : (
+                <BsPauseCircle />
+              )}
             </button>
             <span className="text-sm pt-1">{!playing ? "Play" : "Pause"}</span>
           </div>
           <div className="flex flex-col">
             <button
-              aria-label="skip-forward"
+              aria-label="skip forward"
               id="forward"
               type="button"
               className="text-3xl text-redHover hover:text-primaryRed"
@@ -193,6 +201,7 @@ const AudioPlayer = ({ trackData }) => {
         </div>
         <div className="w-full h-[2px] bg-slate-700 rounded-lg">
           <motion.div
+            aria-label="progress bar"
             ref={progressBarRef}
             className="h-full bg-redHover rounded-l-lg"
             style={{ width }}
@@ -201,10 +210,12 @@ const AudioPlayer = ({ trackData }) => {
         <div className="w-full flex gap-6 justify-between text-lg">
           <p>
             Playing:{" "}
-            <span className="ml-1 text-emerald-400">{currentTime}</span>
+            <span aria-label="time elapsed" className="ml-1 text-emerald-400">
+              {currentTime}
+            </span>
           </p>
           <p>
-            Duration: <span className="ml-1 text-redHover">{trackLength}</span>
+            Duration: <span aria-label="duration" className="ml-1 text-redHover">{trackLength}</span>
           </p>
         </div>
       </div>

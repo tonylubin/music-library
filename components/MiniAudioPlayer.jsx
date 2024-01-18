@@ -197,7 +197,7 @@ const MiniAudioPlayer = (props) => {
           <div className="flex flex-col items-center justify-center">
             <button
               type="button"
-              title="play/pause"
+              title={!playing ? 'Play' : 'Pause'}
               className="text-4xl text-primaryRed hover:text-redHover"
               onClick={() => setPlaying(!playing)}
             >

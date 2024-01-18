@@ -38,6 +38,7 @@ const Playlist = ({ trackData, placeHolders }) => {
   // added modulo operator for odd/even colour scheme
   const getPlaylistTracks = trackData.map((track, index) => (
     <div
+      data-testid='track'
       key={index}
       id={index}
       className={`grid grid-cols-playlistHeader  text-neutral-300 capitalize hover:bg-redHover rounded items-center ${

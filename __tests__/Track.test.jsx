@@ -83,3 +83,16 @@ describe("playlist menu", () => {
   });
 
 });
+
+describe("audio player", () => {
+
+  const setup = () => render(<Track trackData={trackInfo} placeHolders={mockPlaceholders[0]} playlistData={[]} />);
+
+  test("clicking on forward button updates progress bar accordingly", async () => {
+    setup();
+    const seekForward = screen.getByLabelText('skip-forward');
+    await user.click(seekForward);
+    const bar = await screen.findByLabelText('progress-bar');
+    expect(bar).toHaveStyle('width : 10%');
+  })
+})

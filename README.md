@@ -32,6 +32,8 @@ Created a full stack web app music player inspired by online streaming players l
 - react toastify - toast notification
 - NextCloudinary & Cloudinary- image/audio upload cloud server
 - SQL database - PostgreSql (cloud service - vercel postgres)
+- React testing Library & Vitest
+- Playwright (e2e)
 
 ## Functionality
 
@@ -56,12 +58,19 @@ e.g: `www.vinyl_lib.com?term=nikki`
     - with play, pause, seek and reload functions
     - Visual progress bar song duration
     - using *'audioMotion-analyzer'* to show EQ function of playing audio
+    - <font color='red'>**NOTE:**  analyzer doesn't work on safari/webkit browsers due to browser bug</font>
 
 8. BACKEND
     - Postgresql database for storing track information
     - used *sql template string* for making parameterized queries - easier readability - with joins & foreign keys
     - CRUD functionality with API routes
     - Asset (image/audio) storing & retrieval using Cloudinary service
+
+---
+
+Tested using React testing library with vitest for unit testing.<br>
+MSW for mocking server/api requests.<br>
+Playwright for e2e testing and dealing with web audio api.
 
 ---
 
