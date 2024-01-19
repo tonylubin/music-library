@@ -38,8 +38,7 @@ test("progress bar updates accordingly when forward seek button is clicked", asy
 test("time updates accordingly when forward button clicked", async ({ page }) => {
   await page.goto('/track/10');
   await page.getByLabel('skip forward').click();
-  const timer = page.getByLabel('time elapsed');
-  const currentTime = await timer.evaluate(el => el.innerText);
+  const currentTime = await page.getByLabel('time elapsed').evaluate(el => el.innerText);
   expect(currentTime).toMatch('00:10');
 });
 
@@ -48,8 +47,7 @@ test('time and progress bar resets to initial value when reload button is clicke
   await page.getByLabel('skip forward').click();
   await page.getByLabel('reload').click();
 
-  const timer = page.getByLabel('time elapsed');
-  const currentTime = await timer.evaluate(el => el.innerText);
+  const currentTime = await page.getByLabel('time elapsed').evaluate(el => el.innerText);
   expect(currentTime).toMatch('00:00');
 
   const bar = page.getByLabel('progress bar');

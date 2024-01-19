@@ -15,11 +15,10 @@ test('displays correct number of tracks in playlist', async ({ page }) => {
 });
 
 test('on hover track is highlighted red and displays play button', async ({ page }) => {
-  let trackArray = await page.getByTestId('track').all();
-  let track = trackArray[1];
+  let track = page.getByTestId('track').nth(0);
   await track.hover();
   await expect(track).toHaveCSS('background-color', 'rgb(214, 55, 74)');
-  await expect(page.getByRole('button', { name: 'Play', exact: true })).toBeVisible();
+  await expect(page.getByRole('button', { name: 'Play', exact: true }).nth(0)).toBeVisible();
 });
 
 test('clicking on track info play button displays pause button', async ({ page }) => {

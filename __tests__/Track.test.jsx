@@ -1,5 +1,5 @@
 import Track from "@/pages/track/[trackId]";
-import { render, screen } from "@testing-library/react";
+import { render, screen, waitForElementToBeRemoved } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { test, expect, describe, vi } from "vitest";
 import mockdata from '../database/mockdata.json';
@@ -16,6 +16,8 @@ describe("Individual track", () => {
   const setup = () => render(<Track trackData={trackInfo} placeHolders={mockPlaceholders[0]} playlistData={[]} />);
 
   test("renders track info", () => {
+    // mock htmlmediaelement 'pause' causing error
+    vi.spyOn(window.HTMLMediaElement.prototype, 'pause').mockImplementation(() => {})
     setup();
     const title = screen.getByText(trackInfo.title);
     expect(title).toBeInTheDocument();
@@ -43,12 +45,9 @@ describe("playlist menu", () => {
 
   test("click on 'add to playlist' displays playlist menu", async () => {
     setup();
-    const menuBtn = screen.getByRole("button", {name: 'menu'});
-    user.click(menuBtn);
-    const addPlaylist = await screen.findByText("Add to playlist");
-    await user.click(addPlaylist);
-    const playlists = await screen.findByRole("heading", {level: 3});
-    expect(playlists).toBeInTheDocument();
+    screen.getByRole("button", {name: 'menu'}).click();
+    (await screen.findByText("Add to playlist")).click();
+    expect(await screen.findByRole("heading", {level: 3})).toBeInTheDocument();
   });
 
   test("click on 'remove from playlist' displays playlist menu and available playlists", async () => {
@@ -83,16 +82,3 @@ describe("playlist menu", () => {
   });
 
 });
-
-describe("audio player", () => {
-
-  const setup = () => render(<Track trackData={trackInfo} placeHolders={mockPlaceholders[0]} playlistData={[]} />);
-
-  test("clicking on forward button updates progress bar accordingly", async () => {
-    setup();
-    const seekForward = screen.getByLabelText('skip-forward');
-    await user.click(seekForward);
-    const bar = await screen.findByLabelText('progress-bar');
-    expect(bar).toHaveStyle('width : 10%');
-  })
-})
