@@ -39,6 +39,7 @@ Click link to see demo of the project: &nbsp; &nbsp; **[The Vinyl Lib.](https://
 - plaiceholder pkg for generating image placholders
 - NextCloudinary & Cloudinary- image/audio upload cloud server
 - SQL database - PostgreSql (cloud service - vercel postgres)
+- React Testing Library, Vitest and Playwright
 
 ## Functionality
 
@@ -71,6 +72,10 @@ Click link to see demo of the project: &nbsp; &nbsp; **[The Vinyl Lib.](https://
     - used *sql template string* for making parameterized queries - easier readability - with joins & foreign keys
     - CRUD functionality with API routes
     - Asset (image/audio) storing & retrieval using Cloudinary service
+
+---
+
+TESTED - unit and e2e testing --> see main branch for tests
 
 ---
 
